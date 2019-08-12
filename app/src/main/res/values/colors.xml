@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorBackground">#30363D</color>
+    <color name="colorCardBackground">#3C444C</color>
+
+    <color name="colorBlack">#30363D</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorOrange">#FF5722</color>
+    <color name="colorYellow">#FFEB3B</color>
+    <color name="colorGray">#BDBDBD</color>
+    <color name="colorTransparent">#00BDBDBD</color>
+    <color name="colorGradientOrange">#F27A54</color>
+    <color name="colorGradientMagneta">#A154F2</color>
+
+
+</resources>
