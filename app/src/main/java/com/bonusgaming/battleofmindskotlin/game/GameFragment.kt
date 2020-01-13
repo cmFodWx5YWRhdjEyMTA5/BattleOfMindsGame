@@ -23,19 +23,16 @@ class GameFragment : Fragment() {
     lateinit var question: CardView
     val gameModelView: GameModelView = GameModelView()
 
-
     private val buttonClickListener = View.OnClickListener {
         val answer = ((it as ViewGroup).getChildAt(0) as TextView).text.toString()
         gameModelView.checkAnswer(answer)
-
-
     }
 
     private fun setAnswersClickable(value: Boolean) {
-        button1.isClickable = value;
-        button2.isClickable = value;
-        button3.isClickable = value;
-        button4.isClickable = value;
+        button1.isClickable = value
+        button2.isClickable = value
+        button3.isClickable = value
+        button4.isClickable = value
     }
 
     private fun setQuestionClickable(value: Boolean) {

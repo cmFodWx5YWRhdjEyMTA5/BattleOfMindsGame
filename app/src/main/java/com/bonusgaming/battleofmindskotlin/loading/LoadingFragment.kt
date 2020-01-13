@@ -23,18 +23,25 @@ class LoadingFragment : Fragment() {
         })
         loadingModelView.liveDataVisibleLoading.observe(this, Observer {
             if (!it) {
-                customLoading.startStopping()
+                customLoading.startStopping(object : CustomLoading.LoadingOnStop {
+                    override fun onStop() {
+                        loadingModelView.onStoppedLoading()
+                    }
+                })
             }
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view: View = inflater.inflate(R.layout.fragment_loading, container, false)
         customLoading = view.findViewById(R.id.custom_loading)
         enemyPhoto = view.findViewById(R.id.image_enemy)
         enemyText = view.findViewById(R.id.name_enemy)
         return view
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

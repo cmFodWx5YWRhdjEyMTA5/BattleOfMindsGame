@@ -3,136 +3,141 @@ package com.bonusgaming.battleofmindskotlin.custom_views
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import com.bonusgaming.battleofmindskotlin.R
 import com.google.android.material.math.MathUtils
 import com.google.android.material.math.MathUtils.dist
-import io.reactivex.disposables.Disposable
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
-const val sizeDpOne: Int = 5
-const val sizeOffsetDp: Int = 5
+const val SIZE_DP_ONE: Int = 5
+const val SIZE_OFFSET_DP: Int = 5
 
-const val sizeOne = 1
-const val sizeTwo = 1
-const val sizeThree = 1
-const val sizeFour = 1
+const val SIZE_ONE = 1
+const val SIZE_TWO = 1
+const val SIZE_THREE = 1
+const val SIZE_FOUR = 1
 
-const val centerDistance = 1.5F
- class CustomLoading : View {
-    constructor(context: Context) : super(context) {}
+const val CENTER_DISTANCE = 1.5F
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {}
 
-    lateinit var linearGradient: LinearGradient
-    var distanceCheck = 15
-    var offsetDelimeter = 5
-    var isStopped: Boolean = false
-    var isStopping: Boolean = false
-    var isDrawVS: Boolean = false
-    var deltaT: Int = 0
-    var lastT: Long = 0
+const val DIRECTION_RIGHT = 1
+const val DIRECTION_DOWN = 2
+const val DIRECTION_LEFT = 3
+const val DIRECTION_UP = 4
+const val COLOR_GRADIENT_1 = "#F27A54"
+const val COLOR_GRADIENT_2 = "#A154F2"
 
-    private var angle: Double = -8.05
-    var fps: Int = 0
-    var frames: Int = 0
+const val MAX_SIZE_TEXT_VS = 100
+
+
+class CustomLoading : View {
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+
+    private var linearGradient: LinearGradient
+    private lateinit var onStopCallback: LoadingOnStop
+    private var distanceCheck = 15
+    private var offsetDelimeter = 5
+    private var isStopped: Boolean = false
+    private var isStopping: Boolean = false
+    private var isDrawVS: Boolean = false
+    private var deltaT: Int = 0
+
+    private var lastT: Long = 0
+
+    private var angle: Double = -0.09
+    private var fps: Int = 0
+    private var frames: Int = 0
     private var _lastTime: Long = 0
-    var paintOne: Paint
-    var paintTwo: Paint
-    var paintThree: Paint
-    var paintFour: Paint
-    var paintFPS: Paint
-    var paintVS: Paint
+    private var paintOne: Paint
+    private var paintTwo: Paint
+    private var paintThree: Paint
+    private var paintFour: Paint
+    private var paintFPS: Paint
+    private var paintVS: Paint
 
-    var centerX: Int = 0
-    var centerY: Int = 0
-    var centerOneX: Float = 0.0F
-    var centerOneY: Float = 0.0F
-    var centerTwoX: Float = 0.0F
-    var centerTwoY: Float = 0.0F
-    var centerThreeX: Float = 0.0F
-    var centerThreeY: Float = 0.0F
+    private var centerX: Int = 0
+    private var centerY: Int = 0
+    private var centerOneX: Float = 0.0F
+    private var centerOneY: Float = 0.0F
+    private var centerTwoX: Float = 0.0F
+    private var centerTwoY: Float = 0.0F
+    private var centerThreeX: Float = 0.0F
+    private var centerThreeY: Float = 0.0F
+    private var centerFourX: Float = 0.0F
+    private var centerFourY: Float = 0.0F
 
-    var centerFourX: Float = 0.0F
-    var centerFourY: Float = 0.0F
 
+    private var rectOne: Path
+    private var rectHolderOne: RectHolder
 
-    var rectOne: Path
-    var rectHolderOne: RectHolder
+    private var rectTwo: Path
+    private var rectHolderTwo: RectHolder
 
-    var rectTwo: Path
-    var rectHolderTwo: RectHolder
+    private var rectThree: Path
+    private var rectHolderThree: RectHolder
 
-    var rectThree: Path
-    var rectHolderThree: RectHolder
+    private var rectFour: Path
+    private var rectHolderFour: RectHolder
 
-    var rectFour: Path
-    var rectHolderFour: RectHolder
+    private var offsetX: Float = 0.0F
+    private var offsetY: Float = 0.0F
 
-    var offsetX: Float = 0.0F
-    var offsetY: Float = 0.0F
-    lateinit var disposable: Disposable
+    private fun getPaintForSquare(color: Int): Paint {
+        val paint = Paint()
+        paint.color = color
+        paint.strokeWidth = 1F
+        paint.style = Paint.Style.FILL
+        return paint
+    }
 
     init {
-        paintOne = Paint()
-        paintOne.setColor(Color.RED)
-        paintOne.setStrokeWidth(1f);
-        paintOne.setStyle(Paint.Style.FILL);
-
-        paintTwo = Paint()
-        paintTwo.setColor(Color.YELLOW)
-        paintTwo.setStrokeWidth(1f);
-        paintTwo.setStyle(Paint.Style.FILL);
-
-        paintThree = Paint()
-        paintThree.setColor(Color.WHITE)
-        paintThree.setStrokeWidth(1f);
-        paintThree.setStyle(Paint.Style.FILL);
-
-        paintFour = Paint()
-        paintFour.setColor(Color.GREEN)
-        paintFour.setStrokeWidth(1f);
-        paintFour.setStyle(Paint.Style.FILL);
+        paintOne = getPaintForSquare(Color.RED)
+        paintTwo = getPaintForSquare(Color.YELLOW)
+        paintThree = getPaintForSquare(Color.WHITE)
+        paintFour = getPaintForSquare(Color.GREEN)
 
         paintFPS = Paint()
-        paintFPS.setColor(Color.YELLOW)
-        paintFPS.setStrokeWidth(2f);
-        paintFPS.setStyle(Paint.Style.FILL);
+        paintFPS.color = Color.YELLOW
+        paintFPS.strokeWidth = 2f
+        paintFPS.style = Paint.Style.FILL
         paintFPS.textSize = 60.0f
 
-        paintVS = Paint()
 
-        paintVS.setColor(Color.GRAY)
-        paintVS.setStrokeWidth(3f);
-        paintVS.setStyle(Paint.Style.FILL);
+        paintVS = Paint()
+        paintVS.color = Color.GRAY
+        paintVS.strokeWidth = 3f
+        paintVS.style = Paint.Style.FILL
         paintVS.typeface = ResourcesCompat.getFont(context, R.font.modak)
         paintVS.textSize = 0.0f
         paintVS.textAlign = Paint.Align.CENTER
+
         linearGradient = LinearGradient(
             0f,
             0f,
             dpToPx(75), dpToPx(75),
-            Color.parseColor("#F27A54"),
-            Color.parseColor("#A154F2"),
+            Color.parseColor(COLOR_GRADIENT_1),
+            Color.parseColor(COLOR_GRADIENT_2),
             Shader.TileMode.MIRROR
         )
-        paintVS.shader = linearGradient;
+        paintVS.shader = linearGradient
 
 
         rectOne = Path()
-        rectHolderOne = RectHolder(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1, 1)
+        rectHolderOne = RectHolder(direction = DIRECTION_RIGHT)
 
         rectTwo = Path()
-        rectHolderTwo = RectHolder(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 2, 2)
+        rectHolderTwo = RectHolder(direction = DIRECTION_DOWN)
 
         rectThree = Path()
-        rectHolderThree = RectHolder(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 3, 3)
+        rectHolderThree = RectHolder(direction = DIRECTION_LEFT)
+
         rectFour = Path()
-        rectHolderFour = RectHolder(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 4, 4)
+        rectHolderFour = RectHolder(direction = DIRECTION_UP)
 
     }
 
@@ -147,33 +152,34 @@ const val centerDistance = 1.5F
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        Log.e(
-            "Lifecycle",
-            "onMeasure(${MeasureSpec.getSize(widthMeasureSpec)}, ${MeasureSpec.getSize(heightMeasureSpec)})"
-        )
+
         lastT = System.currentTimeMillis()
         centerX = MeasureSpec.getSize(widthMeasureSpec) / 2
         centerY = MeasureSpec.getSize(heightMeasureSpec) / 2
 
-        centerOneX = MeasureSpec.getSize(widthMeasureSpec) / 2 - centerDistance * dpToPx(20)
-        centerOneY = MeasureSpec.getSize(heightMeasureSpec) / 2 - centerDistance * dpToPx(20)
+        centerOneX = MeasureSpec.getSize(widthMeasureSpec) / 2 - CENTER_DISTANCE * dpToPx(20)
+        centerOneY = MeasureSpec.getSize(heightMeasureSpec) / 2 - CENTER_DISTANCE * dpToPx(20)
 
-        centerTwoX = MeasureSpec.getSize(widthMeasureSpec) / 2 + centerDistance * dpToPx(20)
-        centerTwoY = MeasureSpec.getSize(heightMeasureSpec) / 2 - centerDistance * dpToPx(20)
-
-
-        centerThreeX = MeasureSpec.getSize(widthMeasureSpec) / 2 + centerDistance * dpToPx(20)
-        centerThreeY = MeasureSpec.getSize(heightMeasureSpec) / 2 + centerDistance * dpToPx(20)
-
-        centerFourX = MeasureSpec.getSize(widthMeasureSpec) / 2 - centerDistance * dpToPx(20)
-        centerFourY = MeasureSpec.getSize(heightMeasureSpec) / 2 + centerDistance * dpToPx(20)
+        centerTwoX = MeasureSpec.getSize(widthMeasureSpec) / 2 + CENTER_DISTANCE * dpToPx(20)
+        centerTwoY = MeasureSpec.getSize(heightMeasureSpec) / 2 - CENTER_DISTANCE * dpToPx(20)
 
 
-        var left: Float = (centerOneX - sizeOne * dpToPx(sizeOffsetDp) - dpToPx(sizeDpOne)).toFloat()
-        var top: Float = (centerOneY + sizeOne * dpToPx(sizeOffsetDp) + dpToPx(sizeDpOne)).toFloat()
+        centerThreeX = MeasureSpec.getSize(widthMeasureSpec) / 2 + CENTER_DISTANCE * dpToPx(20)
+        centerThreeY = MeasureSpec.getSize(heightMeasureSpec) / 2 + CENTER_DISTANCE * dpToPx(20)
 
-        var right: Float = (centerOneX + sizeOne * dpToPx(sizeOffsetDp) + dpToPx(sizeDpOne)).toFloat()
-        var bottom: Float = (centerOneY - sizeOne * dpToPx(sizeOffsetDp) - dpToPx(sizeDpOne)).toFloat()
+        centerFourX = MeasureSpec.getSize(widthMeasureSpec) / 2 - CENTER_DISTANCE * dpToPx(20)
+        centerFourY = MeasureSpec.getSize(heightMeasureSpec) / 2 + CENTER_DISTANCE * dpToPx(20)
+
+
+        var left: Float =
+            (centerOneX - SIZE_ONE * dpToPx(SIZE_OFFSET_DP) - dpToPx(SIZE_DP_ONE))
+        var top: Float =
+            (centerOneY + SIZE_ONE * dpToPx(SIZE_OFFSET_DP) + dpToPx(SIZE_DP_ONE))
+
+        var right: Float =
+            (centerOneX + SIZE_ONE * dpToPx(SIZE_OFFSET_DP) + dpToPx(SIZE_DP_ONE))
+        var bottom: Float =
+            (centerOneY - SIZE_ONE * dpToPx(SIZE_OFFSET_DP) - dpToPx(SIZE_DP_ONE))
 
         rectHolderOne.ltX = left
         rectHolderOne.ltY = top
@@ -186,11 +192,11 @@ const val centerDistance = 1.5F
         rectHolderOne.centerX = centerOneX
         rectHolderOne.centerY = centerOneY
 
-        left = (centerTwoX - sizeTwo * dpToPx(sizeOffsetDp) - dpToPx(sizeDpOne)).toFloat()
-        top = (centerTwoY + sizeTwo * dpToPx(sizeOffsetDp) + dpToPx(sizeDpOne)).toFloat()
+        left = centerTwoX - SIZE_TWO * dpToPx(SIZE_OFFSET_DP) - dpToPx(SIZE_DP_ONE)
+        top = centerTwoY + SIZE_TWO * dpToPx(SIZE_OFFSET_DP) + dpToPx(SIZE_DP_ONE)
 
-        right = (centerTwoX + sizeTwo * dpToPx(sizeOffsetDp) + dpToPx(sizeDpOne)).toFloat()
-        bottom = (centerTwoY - sizeTwo * dpToPx(sizeOffsetDp) - dpToPx(sizeDpOne)).toFloat()
+        right = centerTwoX + SIZE_TWO * dpToPx(SIZE_OFFSET_DP) + dpToPx(SIZE_DP_ONE)
+        bottom = centerTwoY - SIZE_TWO * dpToPx(SIZE_OFFSET_DP) - dpToPx(SIZE_DP_ONE)
 
         rectHolderTwo.ltX = left
         rectHolderTwo.ltY = top
@@ -203,11 +209,12 @@ const val centerDistance = 1.5F
         rectHolderTwo.centerX = centerTwoX
         rectHolderTwo.centerY = centerTwoY
 
-        left = (centerThreeX - sizeThree * dpToPx(sizeOffsetDp) - dpToPx(sizeDpOne)).toFloat()
-        top = (centerThreeY + sizeThree * dpToPx(sizeOffsetDp) + dpToPx(sizeDpOne)).toFloat()
+        left = (centerThreeX - SIZE_THREE * dpToPx(SIZE_OFFSET_DP) - dpToPx(SIZE_DP_ONE))
+        top = (centerThreeY + SIZE_THREE * dpToPx(SIZE_OFFSET_DP) + dpToPx(SIZE_DP_ONE))
 
-        right = (centerThreeX + sizeThree * dpToPx(sizeOffsetDp) + dpToPx(sizeDpOne)).toFloat()
-        bottom = (centerThreeY - sizeThree * dpToPx(sizeOffsetDp) - dpToPx(sizeDpOne)).toFloat()
+        right = (centerThreeX + SIZE_THREE * dpToPx(SIZE_OFFSET_DP) + dpToPx(SIZE_DP_ONE))
+        bottom =
+            (centerThreeY - SIZE_THREE * dpToPx(SIZE_OFFSET_DP) - dpToPx(SIZE_DP_ONE))
 
         rectHolderThree.ltX = left
         rectHolderThree.ltY = top
@@ -221,11 +228,11 @@ const val centerDistance = 1.5F
         rectHolderThree.centerX = centerThreeX
         rectHolderThree.centerY = centerThreeY
 
-        left = (centerFourX - sizeFour * dpToPx(sizeOffsetDp) - dpToPx(sizeDpOne)).toFloat()
-        top = (centerFourY + sizeFour * dpToPx(sizeOffsetDp) + dpToPx(sizeDpOne)).toFloat()
+        left = (centerFourX - SIZE_FOUR * dpToPx(SIZE_OFFSET_DP) - dpToPx(SIZE_DP_ONE))
+        top = (centerFourY + SIZE_FOUR * dpToPx(SIZE_OFFSET_DP) + dpToPx(SIZE_DP_ONE))
 
-        right = (centerFourX + sizeFour * dpToPx(sizeOffsetDp) + dpToPx(sizeDpOne)).toFloat()
-        bottom = (centerFourY - sizeFour * dpToPx(sizeOffsetDp) - dpToPx(sizeDpOne)).toFloat()
+        right = (centerFourX + SIZE_FOUR * dpToPx(SIZE_OFFSET_DP) + dpToPx(SIZE_DP_ONE))
+        bottom = (centerFourY - SIZE_FOUR * dpToPx(SIZE_OFFSET_DP) - dpToPx(SIZE_DP_ONE))
 
         rectHolderFour.ltX = left
         rectHolderFour.ltY = top
@@ -242,29 +249,22 @@ const val centerDistance = 1.5F
         offsetY = abs(rectHolderFour.rbY - centerFourY)
         rectToPath(rectHolderOne, rectOne)
         rectToPath(rectHolderFour, rectFour)
-
     }
 
-    public fun startStopping() {
+    interface LoadingOnStop {
+        fun onStop()
+    }
+
+    fun startStopping(callback: LoadingOnStop) {
+        onStopCallback = callback
         isStopping = true
-        offsetDelimeter /= 2
-        distanceCheck *= 2
     }
 
-    override fun requestLayout() {
-        super.requestLayout()
-        Log.e("Lifecycle", "requestLayout")
+    private fun dpToPx(size: Int): Float {
+        return (size * resources.displayMetrics.density)
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-        Log.e("Lifecycle", "onLayout")
-    }
-
-    fun dpToPx(size: Int): Float {
-        return (size * resources.displayMetrics.density);
-    }
-
+    //use for debug
     private fun computeFPS(canvas: Canvas) {
         frames++
         if ((System.currentTimeMillis() - _lastTime) > 1000) {
@@ -272,20 +272,21 @@ const val centerDistance = 1.5F
             frames = 0
             _lastTime = System.currentTimeMillis()
         }
-        canvas.drawText("FPS: $fps", 500.0f, 120.0f, paintFPS);
+        canvas.drawText("FPS: $fps", 500.0f, 120.0f, paintFPS)
     }
 
-    private fun drawVS(canvas: Canvas) {
-        canvas.drawText("VS", centerX.toFloat(), centerY.toFloat() + centerY.toFloat() / 15, paintVS);
-        paintVS.textSize = MathUtils.lerp(paintVS.textSize, 220F, 0.1F)
-        if (paintVS.textSize > 250) isStopped = true
-
+    private fun drawVersusText(canvas: Canvas) {
+        canvas.drawText(
+            "VS",
+            centerX.toFloat(),
+            centerY.toFloat() + centerY.toFloat() / 15,
+            paintVS
+        )
+        paintVS.textSize = MathUtils.lerp(paintVS.textSize, dpToPx(MAX_SIZE_TEXT_VS), 0.1F)
+        if (paintVS.textSize > dpToPx(MAX_SIZE_TEXT_VS)) isStopped = true
     }
-
 
     private fun rotateRectHolder(rect: RectHolder, angle: Double) {
-
-
         rect.ltX -= rect.centerX
         rect.ltY -= rect.centerY
         rect.rtX -= rect.centerX
@@ -307,7 +308,6 @@ const val centerDistance = 1.5F
         val newLBX: Float = (rect.lbX * cos(angle) - rect.lbY * sin(angle)).toFloat() + rect.centerX
         val newLBY: Float = (rect.lbX * sin(angle) + rect.lbY * cos(angle)).toFloat() + rect.centerY
 
-
         rect.ltX = newLTX
         rect.ltY = newLTY
         rect.rtX = newRTX
@@ -316,7 +316,6 @@ const val centerDistance = 1.5F
         rect.rbY = newRBY
         rect.lbX = newLBX
         rect.lbY = newLBY
-
     }
 
     //1 -right,2-down,3-left,4-up
@@ -324,28 +323,28 @@ const val centerDistance = 1.5F
         checkDirection(rect)
         val offset = deltaT / offsetDelimeter
         when (rect.direction) {
-            1 -> {
+            DIRECTION_RIGHT -> {
                 rect.ltX += offset
                 rect.rtX += offset
                 rect.rbX += offset
                 rect.lbX += offset
                 rect.centerX += offset
             }
-            2 -> {
+            DIRECTION_DOWN -> {
                 rect.ltY += offset
                 rect.rtY += offset
                 rect.rbY += offset
                 rect.lbY += offset
                 rect.centerY += offset
             }
-            3 -> {
+            DIRECTION_LEFT -> {
                 rect.ltX -= offset
                 rect.rtX -= offset
                 rect.rbX -= offset
                 rect.lbX -= offset
                 rect.centerX -= offset
             }
-            4 -> {
+            DIRECTION_UP -> {
                 rect.ltY -= offset
                 rect.rtY -= offset
                 rect.rbY -= offset
@@ -353,65 +352,32 @@ const val centerDistance = 1.5F
                 rect.centerY -= offset
             }
         }
-
-
     }
 
     private fun checkDirection(rect: RectHolder) {
-        if (dist(
-                rect.centerX,
-                rect.centerY,
-                centerTwoX,
-                centerTwoY
-            ) < distanceCheck
-        ) {
-            Log.e("DEF", "${rect.defaultDirection}")
-            Log.e("WAS", "${rect.direction}")
-            Log.e("SET", "${2}")
-            rect.direction = 2
-        } else if (dist(
-                rect.centerX,
-                rect.centerY,
-                centerThreeX,
-                centerThreeY
-            ) < distanceCheck
-        ) {
-            Log.e("DEF", "${rect.defaultDirection}")
-            Log.e("WAS", "${rect.direction}")
-            Log.e("SET", "${3}")
-            rect.direction = 3
-        } else if (dist(
-                rect.centerX,
-                rect.centerY,
-                centerFourX,
-                centerFourY
-            ) < distanceCheck
-        ) {
-            Log.e("DEF", "${rect.defaultDirection}")
-            Log.e("WAS", "${rect.direction}")
-            Log.e("SET", "${4}")
-            rect.direction = 4
-        } else if (dist(
-                rect.centerX,
-                rect.centerY,
-                centerOneX,
-                centerOneY
-            ) < distanceCheck
-        ) {
-            Log.e("DEF", "${rect.defaultDirection}")
-            Log.e("WAS", "${rect.direction}")
-            Log.e("SET", "${5}")
-            rect.direction = 1
+        when {
+            dist(rect.centerX, rect.centerY, centerTwoX, centerTwoY) < distanceCheck
+            -> {
+                rect.direction = DIRECTION_DOWN
+            }
+            dist(rect.centerX, rect.centerY, centerThreeX, centerThreeY) < distanceCheck
+            -> {
+                rect.direction = DIRECTION_LEFT
+            }
+            dist(rect.centerX, rect.centerY, centerFourX, centerFourY) < distanceCheck
+            -> {
+                rect.direction = DIRECTION_UP
+            }
+            dist(rect.centerX, rect.centerY, centerOneX, centerOneY) < distanceCheck
+            -> {
+                rect.direction = DIRECTION_RIGHT
+            }
         }
     }
 
-
     override fun onDraw(canvas: Canvas) {
-        // Log.e("Lifecycle", "onDraw $centerX, $centerY")
-
         deltaT = (System.currentTimeMillis() - lastT).toInt()
         lastT = System.currentTimeMillis()
-
 
         if (isStopping) {
             stopingAnimation(rectHolderOne)
@@ -420,13 +386,12 @@ const val centerDistance = 1.5F
             stopingAnimation(rectHolderFour)
         }
 
-        if (isDrawVS) drawVS(canvas)
+        if (isDrawVS) drawVersusText(canvas)
 
         rotateRectHolder(rectHolderOne, angle)
         translateRectHolder(rectHolderOne)
         rectToPath(rectHolderOne, rectOne)
         canvas.drawPath(rectOne, paintOne)
-
 
         rotateRectHolder(rectHolderTwo, angle)
         translateRectHolder(rectHolderTwo)
@@ -438,7 +403,6 @@ const val centerDistance = 1.5F
         rectToPath(rectHolderThree, rectThree)
         canvas.drawPath(rectThree, paintThree)
 
-
         rotateRectHolder(rectHolderFour, angle)
         translateRectHolder(rectHolderFour)
         rectToPath(rectHolderFour, rectFour)
@@ -446,11 +410,10 @@ const val centerDistance = 1.5F
 
         if (!isStopped)
             invalidate()
+        else if (::onStopCallback.isInitialized)
+            onStopCallback.onStop()
 
     }
-
-
-
 
     private fun stopingAnimation(rect: RectHolder) {
         if (dist(rect.rtX, rect.rtY, rect.centerX, rect.centerY) < 4) {
@@ -462,7 +425,6 @@ const val centerDistance = 1.5F
             rect.rbY = rect.centerY
             rect.lbX = rect.centerX
             rect.lbY = rect.centerY
-
             isDrawVS = true
         }
 
@@ -477,23 +439,20 @@ const val centerDistance = 1.5F
 
         rect.lbX = MathUtils.lerp(rect.lbX, rect.centerX, deltaT / 500F)
         rect.lbY = MathUtils.lerp(rect.lbY, rect.centerY, deltaT / 500F)
-
-
     }
 
     class RectHolder(
-        var ltX: Float,
-        var ltY: Float,
-        var rtX: Float,
-        var rtY: Float,
-        var rbX: Float,
-        var rbY: Float,
-        var lbX: Float,
-        var lbY: Float,
-        var centerX: Float,
-        var centerY: Float,
-        var direction: Int,
-        var defaultDirection: Int
+        var ltX: Float = 0F,
+        var ltY: Float = 0F,
+        var rtX: Float = 0F,
+        var rtY: Float = 0F,
+        var rbX: Float = 0F,
+        var rbY: Float = 0F,
+        var lbX: Float = 0F,
+        var lbY: Float = 0F,
+        var centerX: Float = 0F,
+        var centerY: Float = 0F,
+        var direction: Int
     )
 
 }
