@@ -8,35 +8,38 @@ import androidx.core.content.res.ResourcesCompat
 import com.bonusgaming.battleofmindskotlin.R
 import com.google.android.material.math.MathUtils
 import com.google.android.material.math.MathUtils.dist
+
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
-const val SIZE_DP_ONE: Int = 5
-const val SIZE_OFFSET_DP: Int = 5
+class CustomLoading @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null,
+    defAttrStyle: Int = 0,
+    defResStyle: Int = 0
+) : View(context, attributeSet, defAttrStyle, defResStyle) {
 
-const val SIZE_ONE = 1
-const val SIZE_TWO = 1
-const val SIZE_THREE = 1
-const val SIZE_FOUR = 1
+    companion object{
+        const val SIZE_DP_ONE: Int = 5
+        const val SIZE_OFFSET_DP: Int = 5
 
-const val CENTER_DISTANCE = 1.5F
+        const val SIZE_ONE = 1
+        const val SIZE_TWO = 1
+        const val SIZE_THREE = 1
+        const val SIZE_FOUR = 1
 
+        const val CENTER_DISTANCE = 1.5F
 
-const val DIRECTION_RIGHT = 1
-const val DIRECTION_DOWN = 2
-const val DIRECTION_LEFT = 3
-const val DIRECTION_UP = 4
-const val COLOR_GRADIENT_1 = "#F27A54"
-const val COLOR_GRADIENT_2 = "#A154F2"
+        const val DIRECTION_RIGHT = 1
+        const val DIRECTION_DOWN = 2
+        const val DIRECTION_LEFT = 3
+        const val DIRECTION_UP = 4
+        const val COLOR_GRADIENT_1 = "#F27A54"
+        const val COLOR_GRADIENT_2 = "#A154F2"
 
-const val MAX_SIZE_TEXT_VS = 100
-
-
-class CustomLoading : View {
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+        const val MAX_SIZE_TEXT_VS = 100
+    }
 
     private var linearGradient: LinearGradient
     private lateinit var onStopCallback: LoadingOnStop
@@ -140,7 +143,6 @@ class CustomLoading : View {
         rectHolderFour = RectHolder(direction = DIRECTION_UP)
 
     }
-
 
     private fun rectToPath(rect: RectHolder, path: Path) {
         path.rewind()
@@ -258,10 +260,6 @@ class CustomLoading : View {
     fun startStopping(callback: LoadingOnStop) {
         onStopCallback = callback
         isStopping = true
-    }
-
-    private fun dpToPx(size: Int): Float {
-        return (size * resources.displayMetrics.density)
     }
 
     //use for debug

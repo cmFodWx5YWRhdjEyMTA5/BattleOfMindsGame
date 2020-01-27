@@ -1,17 +1,19 @@
 package com.bonusgaming.battleofmindskotlin
 
+
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+
 import com.bonusgaming.battleofmindskotlin.game.GameFragment
 import com.bonusgaming.battleofmindskotlin.loading.LoadingFragment
 import com.bonusgaming.battleofmindskotlin.logo.HelloFragment
 import com.bonusgaming.battleofmindskotlin.main.MainFragment
 import com.bonusgaming.battleofmindskotlin.tools.ActivityUtils
-import com.google.firebase.storage.FirebaseStorage
+
 
 class MainActivityView : AppCompatActivity(), MainContract.View {
 

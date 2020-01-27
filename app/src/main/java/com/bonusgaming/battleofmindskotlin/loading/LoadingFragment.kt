@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bonusgaming.battleofmindskotlin.R
-import com.bonusgaming.battleofmindskotlin.custom_views.CustomLoading
+import com.bonusgaming.battleofmindskotlin.custom_views.CustomLoadingValueAnimator
 
 class LoadingFragment : Fragment() {
-    lateinit var customLoading: CustomLoading
+    lateinit var customLoading: CustomLoadingValueAnimator
 
     val loadingModelView = LoadingModelView()
     lateinit var enemyPhoto: View
@@ -23,7 +23,7 @@ class LoadingFragment : Fragment() {
         })
         loadingModelView.liveDataVisibleLoading.observe(this, Observer {
             if (!it) {
-                customLoading.startStopping(object : CustomLoading.LoadingOnStop {
+                customLoading.startStopping(object : CustomLoadingValueAnimator.LoadingOnStop {
                     override fun onStop() {
                         loadingModelView.onStoppedLoading()
                     }
