@@ -4,7 +4,6 @@ import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.shapes.RoundRectShape
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -17,6 +16,11 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     defAttrStyle: Int = 0,
     defResStyle: Int = 0
 ) : View(context, attributeSet, defAttrStyle, defResStyle) {
+
+
+    companion object {
+        const val sizeDesirable = 100
+    }
 
     private val paintFPS: Paint = Paint().apply {
         color = Color.RED
@@ -73,14 +77,61 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
         valueAnimator.interpolator = FastOutSlowInInterpolator()
         degreeAnimator.interpolator = FastOutSlowInInterpolator()
 
-        animatorSet.playTogether(valueAnimator, degreeAnimator,roundCornerAnimator)
+        animatorSet.playTogether(valueAnimator, degreeAnimator, roundCornerAnimator)
         animatorSet.start()
     }
 
 
+    fun cal
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        // setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec),MeasureSpec.getSize(heightMeasureSpec))
+        val widthExpected = MeasureSpec.getSize(widthMeasureSpec)
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+
+        val heightExpected = MeasureSpec.getSize(heightMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        Log.e("DBE", "widthSize $widthExpected")
+        Log.e("DBE", "heightSize $heightExpected")
+
+
+        var resultSize = 0
+
+        //resolveSize()
+
+        when (heightMode) {
+            MeasureSpec.UNSPECIFIED -> {
+                Log.e("DBE", "heightMode UNSPECIFIED")
+            }
+            MeasureSpec.AT_MOST -> {
+                Log.e("DBE", "heightMode AT_MOST")
+
+            }
+            MeasureSpec.EXACTLY -> {
+                Log.e("DBE", "heightMode EXACTLY")
+                resultSize = minOf(widthExpected, heightExpected)
+            }
+        }
+
+        when (widthMode) {
+            MeasureSpec.UNSPECIFIED -> {
+                Log.e("DBE", "widthMode UNSPECIFIED")
+            }
+            MeasureSpec.AT_MOST -> {
+                Log.e("DBE", "widthMode AT_MOST")
+
+            }
+            MeasureSpec.EXACTLY -> {
+                Log.e("DBE", "widthMode EXACTLY")
+                resultSize = minOf(widthExpected, heightExpected)
+            }
+        }
+
+        setMeasuredDimension(resultSize,resultSize)
+
+        Log.e("DBE", "measuredHeight m $measuredHeight")
+        Log.e("DBE", "measuredWidth m $measuredWidth")
+
     }
 
     interface LoadingOnStop {
@@ -95,6 +146,8 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     //use for debug
     private fun computeFPS(canvas: Canvas) {
         frames++
+
+
         //Log.d("PISHU","work")
         if ((System.currentTimeMillis() - _lastTime) > 1000) {
             Log.d("PISHU", "work")
@@ -113,6 +166,10 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
         //pathRect.transform(matrixRotate)
         //   pathRect.transform(matrixRotate)
         canvas.drawPath(pathRect, paintFPS)
+
+        Log.e("DBE", "measuredHeight m $measuredHeight")
+        Log.e("DBE", "measuredWidth m $measuredWidth")
+
 
         invalidate()
 
