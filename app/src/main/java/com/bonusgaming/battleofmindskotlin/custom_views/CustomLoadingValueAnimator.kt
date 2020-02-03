@@ -19,8 +19,15 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
 
 
     companion object {
-        const val sizeDesirable = 100
+        const val SIZE_DESIRABLE = 100
+        const val ONE_STEP_DURATION_MILLISECONDS = 1000L
+        const val ROUND_CORNER_VALUE = 30F
+        const val ROTATE_VALUE = 90F
     }
+
+    private var lengthWay: Float = -1F
+    private var diameterElem: Float = -1F
+    private var mainAnimatorSet = AnimatorSet()
 
     private val paintFPS: Paint = Paint().apply {
         color = Color.RED
@@ -36,16 +43,11 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
 
     private var rect1 = RectF(100F, 100F, 200F, 200F)
     private var matrixRotate = Matrix()
-    private var matrixTranslate = Matrix()
+
+    //  private var pathRect = Path().apply { addRect(rect1, Path.Direction.CW) }
 
 
-    private var pathRect = Path().apply { addRect(rect1, Path.Direction.CW) }
-    private var valueAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 200F)
-    private var degreeAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 90F)
-
-    var roundedCorners = floatArrayOf(20f, 20f, 20f, 20f, 20F, 20F, 20F, 20F)
-
-    private var roundCornerAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 30F)
+    //   var roundedCorners = floatArrayOf(20f, 20f, 20f, 20f, 20F, 20F, 20F, 20F)
 
 
     //   private var roundRectShape: RoundRectShape = RoundRectShape(roundedCorners, rect1, roundedCorners)
@@ -53,85 +55,73 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     init {
         // matrixRotate.set(100F, rect1.centerX(), rect1.centerY())
         //matrixRotate.setTranslate(0.1F, 0.1F)
+        var elem = Elem(RectF(100F, 100F, 200F, 200F),)
 
-        var animatorSet = AnimatorSet()
-
-        roundCornerAnimator.setDuration(1000).addUpdateListener {
-            roundedCorners.changeAll(it.animatedValue as Float)
-        }
-
-        valueAnimator.setDuration(1000).addUpdateListener {
-            rect1.left = 100 + it.animatedValue as Float
-            rect1.right = 200 + it.animatedValue as Float
-
-            pathRect.reset()
-            pathRect.addRoundRect(rect1, roundedCorners, Path.Direction.CW)
-        }
-
-        degreeAnimator.setDuration(1000).addUpdateListener {
-            matrixRotate.setRotate(it.animatedValue as Float, rect1.centerX(), rect1.centerY())
-            pathRect.transform(matrixRotate)
-        }
-
-        //valueAnimator.add
-        valueAnimator.interpolator = FastOutSlowInInterpolator()
-        degreeAnimator.interpolator = FastOutSlowInInterpolator()
-
-        animatorSet.playTogether(valueAnimator, degreeAnimator, roundCornerAnimator)
-        animatorSet.start()
     }
 
 
-    fun cal
+    private fun calculateSizes() {
+        diameterElem = measuredHeight / 5.0F
+        lengthWay = measuredHeight - diameterElem
+    }
+
+    private fun setAnimatorsFor(elem: Elem) {
+        val roundCornerAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, ROUND_CORNER_VALUE)
+        val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, lengthWay)
+        val degreeAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, ROTATE_VALUE)
+
+        valueAnimator.interpolator = FastOutSlowInInterpolator()
+        degreeAnimator.interpolator = FastOutSlowInInterpolator()
+        roundCornerAnimator.interpolator = FastOutSlowInInterpolator()
+
+
+        //сглаживаем углы
+        roundCornerAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
+            elem.corners.changeAllTo(it.animatedValue as Float)
+        }
+
+        valueAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
+            elem.apply {
+                rectF.left = elem.offsetLeft + it.animatedValue as Float
+                rectF.right = elem.offsetRight + it.animatedValue as Float
+
+                path.reset()
+                path.addRoundRect(elem.rectF, elem.corners, Path.Direction.CW)
+            }
+        }
+
+        degreeAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
+            matrixRotate.setRotate(it.animatedValue as Float, rect1.centerX(), rect1.centerY())
+            elem.path.transform(matrixRotate)
+        }
+
+        mainAnimatorSet.playTogether(valueAnimator, degreeAnimator, roundCornerAnimator)
+
+        // mainAnimatorSet.start()
+    }
+
+    private fun getExceptSize(measureSpec: Int): Int {
+
+        val mode = MeasureSpec.getMode(measureSpec)
+        val size = MeasureSpec.getSize(measureSpec)
+        return when (mode) {
+            MeasureSpec.AT_MOST -> {
+                minOf(size, SIZE_DESIRABLE)
+            }
+            MeasureSpec.EXACTLY -> {
+                size
+            }
+            else -> SIZE_DESIRABLE
+        }
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val widthExpected = MeasureSpec.getSize(widthMeasureSpec)
-        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
 
-        val heightExpected = MeasureSpec.getSize(heightMeasureSpec)
-        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
-        Log.e("DBE", "widthSize $widthExpected")
-        Log.e("DBE", "heightSize $heightExpected")
+        val mainSize = minOf(getExceptSize(widthMeasureSpec), getExceptSize(heightMeasureSpec))
 
-
-        var resultSize = 0
-
-        //resolveSize()
-
-        when (heightMode) {
-            MeasureSpec.UNSPECIFIED -> {
-                Log.e("DBE", "heightMode UNSPECIFIED")
-            }
-            MeasureSpec.AT_MOST -> {
-                Log.e("DBE", "heightMode AT_MOST")
-
-            }
-            MeasureSpec.EXACTLY -> {
-                Log.e("DBE", "heightMode EXACTLY")
-                resultSize = minOf(widthExpected, heightExpected)
-            }
-        }
-
-        when (widthMode) {
-            MeasureSpec.UNSPECIFIED -> {
-                Log.e("DBE", "widthMode UNSPECIFIED")
-            }
-            MeasureSpec.AT_MOST -> {
-                Log.e("DBE", "widthMode AT_MOST")
-
-            }
-            MeasureSpec.EXACTLY -> {
-                Log.e("DBE", "widthMode EXACTLY")
-                resultSize = minOf(widthExpected, heightExpected)
-            }
-        }
-
-        setMeasuredDimension(resultSize,resultSize)
-
-        Log.e("DBE", "measuredHeight m $measuredHeight")
-        Log.e("DBE", "measuredWidth m $measuredWidth")
-
+        setMeasuredDimension(mainSize, mainSize)
+        calculateSizes()
     }
 
     interface LoadingOnStop {
@@ -165,16 +155,50 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
         // pathRect.transform(matrixRotate)
         //pathRect.transform(matrixRotate)
         //   pathRect.transform(matrixRotate)
-        canvas.drawPath(pathRect, paintFPS)
-
-        Log.e("DBE", "measuredHeight m $measuredHeight")
-        Log.e("DBE", "measuredWidth m $measuredWidth")
+        //canvas.drawPath(pathRect, paintFPS)
 
 
-        invalidate()
+        //invalidate()
 
     }
 
+
+    data class Elem(
+        val rectF: RectF,
+        var offsetLeft: Int = 0,
+        var offsetRight: Int = 0,
+        var offsetTop: Int = 0,
+        var offsetBottom: Int = 0,
+        val corners: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0F, 0F, 0F, 0F)
+    ) {
+        val path: Path = Path().apply { addRect(rectF, Path.Direction.CW) }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Elem
+
+            if (rectF != other.rectF) return false
+            if (offsetLeft != other.offsetLeft) return false
+            if (offsetRight != other.offsetRight) return false
+            if (offsetTop != other.offsetTop) return false
+            if (offsetBottom != other.offsetBottom) return false
+            if (!corners.contentEquals(other.corners)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = rectF.hashCode()
+            result = 31 * result + offsetLeft
+            result = 31 * result + offsetRight
+            result = 31 * result + offsetTop
+            result = 31 * result + offsetBottom
+            result = 31 * result + corners.contentHashCode()
+            return result
+        }
+    }
 
 }
 
