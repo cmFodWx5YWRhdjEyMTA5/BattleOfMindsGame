@@ -7,8 +7,10 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.animation.*
 import androidx.core.animation.doOnEnd
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import kotlin.math.sqrt
 
 
 class CustomLoadingValueAnimator @JvmOverloads constructor(
@@ -23,7 +25,10 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
         const val SIZE_DESIRABLE = 100
         const val ONE_STEP_DURATION_MILLISECONDS = 1000L
         const val ROUND_CORNER_VALUE = 90F
-        const val ROTATE_VALUE = 270F
+        const val ROUND_CORNER_DEFAULT_VALUE = 10F
+        const val ROTATE_VALUE = 180F
+        const val SCALE_MIN_VALUE = 0.5F
+        const val SCALE_MAX_VALUE = 1.2F
     }
 
     private lateinit var elemLT: Elem
@@ -42,12 +47,30 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
-    private val paintTest: Paint = Paint().apply {
+    private val paintLT: Paint = Paint().apply {
         color = Color.YELLOW
         strokeWidth = 1F
-        textSize = 100F
         style = Paint.Style.FILL
     }
+
+    private val paintRT: Paint = Paint().apply {
+        color = Color.GREEN
+        strokeWidth = 1F
+        style = Paint.Style.FILL
+    }
+
+    private val paintRB: Paint = Paint().apply {
+        color = Color.WHITE
+        strokeWidth = 1F
+        style = Paint.Style.FILL_AND_STROKE
+    }
+
+    private val paintLB: Paint = Paint().apply {
+        color = Color.RED
+        strokeWidth = 1F
+        style = Paint.Style.FILL
+    }
+
     private var _lastTime: Long = 0
     private var frames = 0
     private var fps = 0
@@ -64,8 +87,9 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     //   private var roundRectShape: RoundRectShape = RoundRectShape(roundedCorners, rect1, roundedCorners)
 
     private fun calculateSizes() {
-        diameterElem = measuredHeight / 5.0f
-        lengthWay = measuredHeight - diameterElem
+        diameterElem = measuredHeight / 8.0f
+        lengthWay = measuredHeight - diameterElem * 6
+
 
         elemLT = Elem(Position.LT)
         elemLB = Elem(Position.LB)
@@ -87,27 +111,52 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     }
 
     private fun configureMainAnimatorSet() {
-        val roundCornerAnimator: ValueAnimator =
-            ValueAnimator.ofFloat(0f, ROUND_CORNER_VALUE)
-        //val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, lengthWay)
+        val roundCornerAnimatorGroupOne: ValueAnimator = ValueAnimator.ofFloat(
+            ROUND_CORNER_DEFAULT_VALUE,
+            ROUND_CORNER_VALUE,
+            ROUND_CORNER_DEFAULT_VALUE
+        )
+
+        val roundCornerAnimatorGroupTwo: ValueAnimator = ValueAnimator.ofFloat(
+            ROUND_CORNER_VALUE,
+            ROUND_CORNER_DEFAULT_VALUE,
+            ROUND_CORNER_VALUE
+        )
+
         val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, lengthWay)
         val degreeAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, ROTATE_VALUE)
-        roundCornerAnimator.repeatMode = ValueAnimator.REVERSE
-        roundCornerAnimator.repeatCount = 2
+        val scaleDownAnimator: ValueAnimator = ValueAnimator.ofFloat(1F, SCALE_MIN_VALUE, 1F)
+        val scaleUpAnimator: ValueAnimator =
+            ValueAnimator.ofFloat(1F, SCALE_MAX_VALUE, 1F)
 
+        valueAnimator.interpolator =  AccelerateDecelerateInterpolator()
+        degreeAnimator.interpolator =  AccelerateDecelerateInterpolator()
+        roundCornerAnimatorGroupOne.interpolator = DecelerateInterpolator()
+        roundCornerAnimatorGroupTwo.interpolator = AccelerateDecelerateInterpolator()
+        scaleUpAnimator.interpolator = DecelerateInterpolator()
 
-        valueAnimator.interpolator = FastOutSlowInInterpolator()
-        degreeAnimator.interpolator = FastOutSlowInInterpolator()
-        roundCornerAnimator.interpolator = FastOutSlowInInterpolator()
+        scaleDownAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
+            elemLT.scale(it.animatedValue as Float)
+            elemRB.scale(sqrt(it.animatedValue as Float))
+        }
+        scaleUpAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
+            elemRT.scale(it.animatedValue as Float)
+            elemLB.scale(it.animatedValue as Float)
+        }
 
         //сглаживаем углы
-        roundCornerAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
-            // elem.corners.changeAllTo(it.animatedValue as Float)
+        roundCornerAnimatorGroupOne.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
             Log.w("4444", "valui is ${it.animatedValue as Float}")
-            elemLT.corners.changeAllTo(it.animatedValue as Float)
-            elemRT.corners.changeAllTo(it.animatedValue as Float)
-            elemRB.corners.changeAllTo(it.animatedValue as Float)
-            elemLB.corners.changeAllTo(it.animatedValue as Float)
+            elemLT.changeCorners(it.animatedValue as Float)
+            elemRB.changeCorners(it.animatedValue as Float)
+
+        }
+        //сглаживаем углы
+        roundCornerAnimatorGroupTwo.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
+            Log.w("4444", "valui is ${it.animatedValue as Float}")
+            elemRT.changeCorners(it.animatedValue as Float)
+            elemLB.changeCorners(it.animatedValue as Float)
+
         }
         valueAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
             Log.w("workkk", "valui is ${it.animatedValue as Float}")
@@ -135,15 +184,17 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
             elemRB.changeDirection()
             elemLB.changeDirection()
 
-            //degreeAnimator.setFloatValues(elemLT.degree, (elemLT.degree + ROTATE_VALUE) % 360)
-
-            //degreeAnimator.
-            //mainAnimatorSet.playTogether(valueAnimator, degreeAnimator, roundCornerAnimator)
-
             it.start()
         }
 
-        mainAnimatorSet.playTogether(valueAnimator, degreeAnimator, roundCornerAnimator)
+        mainAnimatorSet.playTogether(
+            valueAnimator,
+            scaleUpAnimator,
+            scaleDownAnimator,
+            roundCornerAnimatorGroupOne,
+            roundCornerAnimatorGroupTwo,
+            degreeAnimator
+        )
     }
 
     private fun getExceptSize(measureSpec: Int): Int {
@@ -199,18 +250,10 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
 
-        // matrixRotate.setRotate(2F, 50F, 50F)
-        // matrixRotate.(rect1)
-        // pathRect.transform(matrixRotate)
-        //pathRect.transform(matrixRotate)
-        //   pathRect.transform(matrixRotate)
-//        canvas.drawPath(elemLT.path, paintFPS)
-        //canvas.drawPath(elemLT.path, paintFPS)
-        Log.e("4444", " preDraw ${elemLT.corners[0]}")
-        canvas.drawPath(elemLT.path, paintTest)
-        canvas.drawPath(elemRT.path, paintFPS)
-        canvas.drawPath(elemRB.path, paintFPS)
-        canvas.drawPath(elemLB.path, paintFPS)
+        canvas.drawPath(elemLT.path, paintLT)
+        canvas.drawPath(elemRT.path, paintRT)
+        canvas.drawPath(elemRB.path, paintRB)
+        canvas.drawPath(elemLB.path, paintLB)
 
 
         invalidate()
@@ -236,19 +279,21 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     }
 
     data class Elem(
-        var position: Position,
-        val corners: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0F, 0F, 0F, 0F)
+        var position: Position
     ) {
         init {
-
             Log.e("qwqw", "constructor $position")
         }
 
+        private val corners: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0F, 0F, 0F, 0F)
         val path: Path = Path()
 
         private lateinit var rectF: RectF
 
         private var matrixRotate = Matrix()
+        private var matrixScale = Matrix()
+
+        var isReverseCorners = false
 
         private var offsetLeft: Float = 0.0f
         private var offsetRight: Float = 0.0f
@@ -256,10 +301,21 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
         private var offsetBottom: Float = 0.0f
         internal var degree = 0f
 
+        fun changeCorners(value: Float) {
+            // val degree = if (isReverseCorners) ROUND_CORNER_VALUE - value else value
+
+            Log.e("wawa", "my degree $degree")
+
+            corners.changeAllTo(value)
+        }
+
+        fun scale(value: Float) {
+
+            matrixScale.setScale(value, value, rectF.centerX(), rectF.centerY())
+            path.transform(matrixScale)
+        }
 
         fun changeDirection() {
-            Log.w("qwqw", "----------------")
-            Log.w("qwqw", "was $position")
             position = when (position) {
                 Position.LT ->
                     Position.RT
@@ -269,11 +325,9 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
                     Position.LB
                 Position.LB ->
                     Position.LT
-
             }
             changeOffset()
-            Log.w("qwqw", "now $position")
-
+            isReverseCorners = !isReverseCorners
         }
 
         fun setRectF(newRect: RectF) {
