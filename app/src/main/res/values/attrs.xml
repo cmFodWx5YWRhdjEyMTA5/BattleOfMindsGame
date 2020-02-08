@@ -1,9 +1,5 @@
 <resources>
-    <declare-styleable name="CustomLoading">
-        <attr name="showText" format="boolean" />
-        <attr name="labelPosition" format="enum">
-            <enum name="left" value="0" />
-            <enum name="right" value="1" />
-        </attr>
+    <declare-styleable name="CustomLoadingValueAnimator">
+        <attr name="onEndText" format="string" />
     </declare-styleable>
 </resources>

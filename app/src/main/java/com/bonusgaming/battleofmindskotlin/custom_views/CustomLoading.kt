@@ -12,6 +12,7 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
+@Deprecated("Use CustomLoadingValueAnimator")
 class CustomLoading @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,

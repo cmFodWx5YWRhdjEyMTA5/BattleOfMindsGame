@@ -5,15 +5,13 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.view.animation.LinearInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.content.res.ResourcesCompat
 import com.bonusgaming.battleofmindskotlin.R
-
 
 class CustomLoadingValueAnimator @JvmOverloads constructor(
     context: Context,
@@ -21,38 +19,18 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     defAttrStyle: Int = 0,
     defResStyle: Int = 0
 ) : View(context, attributeSet, defAttrStyle, defResStyle) {
-
+    private var isNeedDrawText = false
+    private var isNoNeedInvalidate = false
+    private val endText: String
+    private lateinit var onStopCallback: LoadingOnStop
 
     companion object {
         const val SIZE_DESIRABLE = 100
         const val ONE_STEP_DURATION_MILLISECONDS = 800L
-        const val ROUND_CORNER_VALUE = 90F
         const val ROUND_CORNER_DEFAULT_VALUE = 10F
         const val ROTATE_VALUE = 180F
-        const val SCALE_MIN_VALUE = 0.5F
-        const val SCALE_MAX_VALUE = 1.2F
-
     }
 
-    private val paintEndText = Paint().apply {
-
-
-        color = Color.GRAY
-        strokeWidth = 3f
-        style = Paint.Style.FILL
-        typeface = ResourcesCompat.getFont(context, R.font.modak)
-        textSize = 30f
-        textAlign = Paint.Align.CENTER
-        shader = LinearGradient(
-            0f,
-            0f,
-            dpToPx(75), dpToPx(75),
-            colorLight,
-            colorDark,
-            Shader.TileMode.MIRROR
-        )
-    }
-    private lateinit var endText: String
     private lateinit var elemLT: Elem
     private lateinit var elemLB: Elem
     private lateinit var elemRT: Elem
@@ -62,16 +40,23 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     private val colorDark = Color.parseColor("#A154F2")
 
     private var lengthWay: Float = -1F
-    private var diameterElem: Float = -1F
     private var mainAnimatorSet = AnimatorSet()
-    private lateinit var center: Pair<Int, Int>
+    private var center = Point()
 
-
-    private val paintFPS: Paint = Paint().apply {
-        color = colorLight
-        strokeWidth = 1F
-        textSize = 100F
+    private val paintEndText = Paint().apply {
+        color = Color.GRAY
+        strokeWidth = 3f
         style = Paint.Style.FILL
+        typeface = ResourcesCompat.getFont(context, R.font.modak)
+        textAlign = Paint.Align.CENTER
+        shader = LinearGradient(
+            0f,
+            0f,
+            dpToPx(75), dpToPx(75),
+            colorLight,
+            colorDark,
+            Shader.TileMode.MIRROR
+        )
     }
 
     private val paintLT: Paint = Paint().apply {
@@ -89,7 +74,7 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     private val paintRB: Paint = Paint().apply {
         color = Color.WHITE
         strokeWidth = 1F
-        style = Paint.Style.FILL_AND_STROKE
+        style = Paint.Style.FILL
     }
 
     private val paintLB: Paint = Paint().apply {
@@ -98,27 +83,79 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
+    //use for debug
     private var _lastTime: Long = 0
     private var frames = 0
     private var fps = 0
-    private var isStopping = false
-    private var onStopCallback: CustomLoadingValueAnimator.LoadingOnStop? = null
+    private val paintFPS: Paint = Paint().apply {
+        color = colorLight
+        strokeWidth = 1F
+        textSize = 100F
+        style = Paint.Style.FILL
+    }
+    ////////////////////////////////////////////////
 
+    init {
+        val styledAttributes = context.obtainStyledAttributes(
+            attributeSet,
+            R.styleable.CustomLoadingValueAnimator,
+            defAttrStyle,
+            0
+        )
+        endText =
+            styledAttributes.getString(R.styleable.CustomLoadingValueAnimator_onEndText) ?: "VS"
+        styledAttributes.recycle()
 
-    //  private var pathRect = Path().apply { addRect(rect1, Path.Direction.CW) }
+        //масштабирование текста в зависимости от длины
+        paintEndText.textSize = dpToPx((75 + (2F - endText.length)).toInt())
+    }
 
+    private fun elemsOut() {
+        mainAnimatorSet.pause()
+        val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(1F, 0F).apply {
+            interpolator = DecelerateInterpolator()
+            duration = ONE_STEP_DURATION_MILLISECONDS
+            addUpdateListener {
+                elemLT.scale(it.animatedValue as Float)
+                elemRT.scale(it.animatedValue as Float)
+                elemRB.scale(it.animatedValue as Float)
+                elemLB.scale(it.animatedValue as Float)
+                invalidate()
+            }
+        }
+        valueAnimator.removeAllListeners()
+        valueAnimator.doOnEnd {
+            showText()
+        }
+        valueAnimator.start()
+    }
 
-    //   var roundedCorners = floatArrayOf(20f, 20f, 20f, 20f, 20F, 20F, 20F, 20F)
-
-
-    //   private var roundRectShape: RoundRectShape = RoundRectShape(roundedCorners, rect1, roundedCorners)
+    private fun showText() {
+        val targetSize = paintEndText.textSize
+        paintEndText.textSize = 0f
+        isNeedDrawText = true
+        val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, targetSize).apply {
+            interpolator = BounceInterpolator()
+            duration = ONE_STEP_DURATION_MILLISECONDS
+            addUpdateListener {
+                paintEndText.textSize = it.animatedValue as Float
+                invalidate()
+            }
+        }
+        valueAnimator.removeAllListeners()
+        valueAnimator.doOnEnd {
+            isNoNeedInvalidate = true
+            if (this::onStopCallback.isInitialized)
+                onStopCallback.onStop()
+        }
+        valueAnimator.start()
+    }
 
     private fun calculateSizes() {
-        endText="Jopa"
-        diameterElem = measuredHeight / 3.0f
+        val diameterElem = measuredHeight / 2.5f
         lengthWay = measuredHeight - diameterElem
-        val offsetLeft = center.first / 2f - lengthWay / 2f - diameterElem / 2F
-        val offsetTop = center.second / 2f - lengthWay / 2f - diameterElem / 2F
+        val offsetLeft = center.x - lengthWay / 2f - diameterElem / 2F
+        val offsetTop = center.y - lengthWay / 2f - diameterElem / 2F
 
         elemLT = Elem(Position.LT)
         elemLB = Elem(Position.LB)
@@ -157,45 +194,26 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
                 lengthWay + diameterElem * 3f / 4f + offsetTop
             )
         )
-
     }
 
     private fun configureMainAnimatorSet() {
-        val roundCornerAnimatorGroupOne: ValueAnimator = ValueAnimator.ofFloat(
-            ROUND_CORNER_DEFAULT_VALUE,
-            ROUND_CORNER_VALUE,
-            ROUND_CORNER_DEFAULT_VALUE
-        )
-
-        val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, lengthWay)
-        val valueAnimatorDown: ValueAnimator = ValueAnimator.ofFloat(0F, lengthWay)
+        val valueAnimator: ValueAnimator =
+            ValueAnimator.ofFloat(0F, lengthWay).apply {
+                duration = ONE_STEP_DURATION_MILLISECONDS
+                interpolator = AccelerateDecelerateInterpolator()
+            }
+        val valueAnimatorDown: ValueAnimator =
+            ValueAnimator.ofFloat(0F, lengthWay).apply {
+                duration = ONE_STEP_DURATION_MILLISECONDS
+                interpolator = BounceInterpolator()
+            }
         val degreeAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, ROTATE_VALUE)
-        val scaleDownAnimator: ValueAnimator = ValueAnimator.ofFloat(1F, SCALE_MIN_VALUE, 1F)
-
-        valueAnimator.interpolator = LinearInterpolator()
-        valueAnimatorDown.interpolator = BounceInterpolator()
-        degreeAnimator.interpolator = DecelerateInterpolator()
-        roundCornerAnimatorGroupOne.interpolator = DecelerateInterpolator()
-        scaleDownAnimator.interpolator = DecelerateInterpolator()
-
-        scaleDownAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
-            elemLT.scale(it.animatedValue as Float)
-            elemRB.scale(it.animatedValue as Float)
-        }
-
-        elemRT.changeCorners(ROUND_CORNER_DEFAULT_VALUE)
-        elemLB.changeCorners(ROUND_CORNER_DEFAULT_VALUE)
-        elemLT.changeCorners(ROUND_CORNER_DEFAULT_VALUE)
-        elemRB.changeCorners(ROUND_CORNER_DEFAULT_VALUE)
-
-        //сглаживаем углы
-        roundCornerAnimatorGroupOne.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
-            elemLT.changeCorners(it.animatedValue as Float)
-            elemRB.changeCorners(it.animatedValue as Float)
-
-        }
+            .apply {
+                duration = ONE_STEP_DURATION_MILLISECONDS
+                interpolator = DecelerateInterpolator()
+            }
+        //если елемент двигается НЕ вниз, то использует AccelerateDecelerateInterpolator
         valueAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
-            Log.w("workkk", "valui is ${it.animatedValue as Float}")
             if (elemLT.position != Position.RT)
                 elemLT.translate(it.animatedValue as Float)
             if (elemRT.position != Position.RT)
@@ -204,10 +222,10 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
                 elemRB.translate(it.animatedValue as Float)
             if (elemLB.position != Position.RT)
                 elemLB.translate(it.animatedValue as Float)
+            if (!isNeedDrawText) invalidate()
         }
-
+        //если елемент двигается вниз, то использует BounceInterpolator
         valueAnimatorDown.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
-            Log.w("workkk", "valui is ${it.animatedValue as Float}")
             if (elemLT.position == Position.RT)
                 elemLT.translate(it.animatedValue as Float)
             if (elemRT.position == Position.RT)
@@ -217,10 +235,7 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
             if (elemLB.position == Position.RT)
                 elemLB.translate(it.animatedValue as Float)
         }
-
-
         degreeAnimator.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
-
             elemLT.rotate(it.animatedValue as Float)
             elemRT.rotate(it.animatedValue as Float)
             elemRB.rotate(it.animatedValue as Float)
@@ -234,15 +249,12 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
             elemRT.changeDirection()
             elemRB.changeDirection()
             elemLB.changeDirection()
-
             it.start()
         }
 
         mainAnimatorSet.playTogether(
             valueAnimator,
             valueAnimatorDown,
-//            scaleDownAnimator,
-//            roundCornerAnimatorGroupOne,
             degreeAnimator
         )
     }
@@ -254,18 +266,12 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
 
         return when (mode) {
             MeasureSpec.AT_MOST -> {
-                Log.e("onMeasure", "mode AT_MOST")
-                Log.e("onMeasure", "size ${minOf(size, SIZE_DESIRABLE)}")
                 minOf(size, SIZE_DESIRABLE)
             }
             MeasureSpec.EXACTLY -> {
-                Log.e("onMeasure", "mode EXACTLY")
-                Log.e("onMeasure", "size $size")
                 size
             }
             else -> {
-                Log.e("onMeasure", "mode EXACTLY")
-                Log.e("onMeasure", "size $SIZE_DESIRABLE")
                 SIZE_DESIRABLE
             }
         }
@@ -273,17 +279,15 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        center = Pair(
-            MeasureSpec.getSize(widthMeasureSpec),
-            MeasureSpec.getSize(heightMeasureSpec)
-        )
+        center.x = MeasureSpec.getSize(widthMeasureSpec) / 2
+        center.y = MeasureSpec.getSize(heightMeasureSpec) / 2
+
         val mainSize = minOf(getExceptSize(widthMeasureSpec), getExceptSize(heightMeasureSpec))
 
         setMeasuredDimension(mainSize, mainSize)
         calculateSizes()
         configureMainAnimatorSet()
         mainAnimatorSet.start()
-
     }
 
     interface LoadingOnStop {
@@ -292,14 +296,16 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
 
     fun startStopping(callback: LoadingOnStop) {
         onStopCallback = callback
-        isStopping = true
+        elemsOut()
     }
 
     private fun drawEndText(canvas: Canvas) {
+        if (isNoNeedInvalidate) return
+        if (!isNeedDrawText) return
         canvas.drawText(
             endText,
-            center.first.toFloat(),
-            center.second + lengthWay / 2f,
+            center.x.toFloat(),
+            center.y + lengthWay / 2f,
             paintEndText
         )
     }
@@ -307,28 +313,24 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     //use for debug
     private fun computeFPS(canvas: Canvas) {
         frames++
-
-
-        //Log.d("PISHU","work")
         if ((System.currentTimeMillis() - _lastTime) > 1000) {
-            Log.d("PISHU", "work")
             fps = frames
             frames = 0
             _lastTime = System.currentTimeMillis()
         }
-        canvas.drawText("FPS: $fps", 50.0f, 50.0f, paintFPS)
+        canvas.drawText("FPS: $fps", 100.0f, 100.0f, paintFPS)
     }
 
-    override fun onDraw(canvas: Canvas) {
-
+    private fun drawAllElements(canvas: Canvas) {
         canvas.drawPath(elemLT.path, paintLT)
         canvas.drawPath(elemRT.path, paintRT)
         canvas.drawPath(elemRB.path, paintRB)
         canvas.drawPath(elemLB.path, paintLB)
+    }
 
+    override fun onDraw(canvas: Canvas) {
+        drawAllElements(canvas)
         drawEndText(canvas)
-        invalidate()
-
     }
 
     sealed class Position {
@@ -352,39 +354,24 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     data class Elem(
         var position: Position
     ) {
-        init {
-            Log.e("qwqw", "constructor $position")
-        }
-
-
-        private val corners: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0F, 0F, 0F, 0F)
         val path: Path = Path()
 
+        private val corners: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0F, 0F, 0F, 0F)
         private lateinit var rectF: RectF
-
-        private var matrixRotate = Matrix()
-        private var matrixScale = Matrix()
-
-        var isReverseCorners = false
-
+        private var matrix = Matrix()
         private var offsetLeft: Float = 0.0f
         private var offsetRight: Float = 0.0f
         private var offsetTop: Float = 0.0f
         private var offsetBottom: Float = 0.0f
-        internal var degree = 0f
+        private var degree = 0f
 
-        fun changeCorners(value: Float) {
-            // val degree = if (isReverseCorners) ROUND_CORNER_VALUE - value else value
-
-            Log.e("wawa", "my degree $degree")
-
-            corners.changeAllTo(value)
+        init {
+            corners.changeAllTo(ROUND_CORNER_DEFAULT_VALUE)
         }
 
         fun scale(value: Float) {
-
-            matrixScale.setScale(value, value, rectF.centerX(), rectF.centerY())
-            path.transform(matrixScale)
+            matrix.setScale(value, value, rectF.centerX(), rectF.centerY())
+            path.transform(matrix)
         }
 
         fun changeDirection() {
@@ -398,17 +385,16 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
                 Position.LB ->
                     Position.LT
             }
-            changeOffset()
-            isReverseCorners = !isReverseCorners
+            setOffset()
         }
 
         fun setRectF(newRect: RectF) {
             rectF = newRect
-            changeOffset()
+            setOffset()
             updatePath()
         }
 
-        private fun changeOffset() {
+        private fun setOffset() {
             offsetLeft = rectF.left
             offsetRight = rectF.right
             offsetTop = rectF.top
@@ -417,19 +403,18 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
 
         private fun updatePath() {
             path.reset()
-
             path.addRoundRect(rectF, corners, Path.Direction.CW)
-
+            path.transform(matrix)
         }
 
         fun rotate(degree: Float) {
             this.degree = degree
-            matrixRotate.setRotate(
+            matrix.setRotate(
                 degree,
                 rectF.centerX(),
                 rectF.centerY()
             )
-            path.transform(matrixRotate)
+            path.transform(matrix)
         }
 
         fun translate(value: Float) {
@@ -452,36 +437,6 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
                 }
             }
             updatePath()
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as Elem
-
-            if (rectF != other.rectF) return false
-            if (position != other.position) return false
-            if (!corners.contentEquals(other.corners)) return false
-            if (path != other.path) return false
-            if (offsetLeft != other.offsetLeft) return false
-            if (offsetRight != other.offsetRight) return false
-            if (offsetTop != other.offsetTop) return false
-            if (offsetBottom != other.offsetBottom) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = rectF.hashCode()
-            result = 31 * result + position.hashCode()
-            result = 31 * result + corners.contentHashCode()
-            result = 31 * result + path.hashCode()
-            result = 31 * result + offsetLeft.hashCode()
-            result = 31 * result + offsetRight.hashCode()
-            result = 31 * result + offsetTop.hashCode()
-            result = 31 * result + offsetBottom.hashCode()
-            return result
         }
     }
 }
