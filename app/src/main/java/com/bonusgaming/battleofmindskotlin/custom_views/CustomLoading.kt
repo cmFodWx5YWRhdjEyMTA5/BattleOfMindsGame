@@ -8,7 +8,6 @@ import androidx.core.content.res.ResourcesCompat
 import com.bonusgaming.battleofmindskotlin.R
 import com.google.android.material.math.MathUtils
 import com.google.android.material.math.MathUtils.dist
-
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
@@ -20,7 +19,7 @@ class CustomLoading @JvmOverloads constructor(
     defResStyle: Int = 0
 ) : View(context, attributeSet, defAttrStyle, defResStyle) {
 
-    companion object{
+    companion object {
         const val SIZE_DP_ONE: Int = 5
         const val SIZE_OFFSET_DP: Int = 5
 
