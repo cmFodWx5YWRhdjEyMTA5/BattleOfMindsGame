@@ -21,6 +21,7 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
 ) : View(context, attributeSet, defAttrStyle, defResStyle) {
     private var isNeedDrawText = false
     private var isNoNeedInvalidate = false
+    private var isInvisible = false
     private val endText: String
     private lateinit var onStopCallback: LoadingOnStop
 
@@ -110,8 +111,13 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
         paintEndText.textSize = dpToPx((75 + (2F - endText.length)).toInt())
     }
 
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        isInvisible = visibility == INVISIBLE
+    }
+
     private fun elemsOut() {
-        mainAnimatorSet.pause()
+        if (mainAnimatorSet.isRunning) mainAnimatorSet.pause()
         val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(1F, 0F).apply {
             interpolator = DecelerateInterpolator()
             duration = ONE_STEP_DURATION_MILLISECONDS
@@ -120,7 +126,7 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
                 elemRT.scale(it.animatedValue as Float)
                 elemRB.scale(it.animatedValue as Float)
                 elemLB.scale(it.animatedValue as Float)
-                invalidate()
+                if (!isInvisible) invalidate()
             }
         }
         valueAnimator.removeAllListeners()
@@ -139,7 +145,7 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
             duration = ONE_STEP_DURATION_MILLISECONDS
             addUpdateListener {
                 paintEndText.textSize = it.animatedValue as Float
-                invalidate()
+                if (!isInvisible) invalidate()
             }
         }
         valueAnimator.removeAllListeners()
@@ -222,7 +228,7 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
                 elemRB.translate(it.animatedValue as Float)
             if (elemLB.position != Position.RT)
                 elemLB.translate(it.animatedValue as Float)
-            if (!isNeedDrawText) invalidate()
+            if (!isNeedDrawText && !isInvisible) invalidate()
         }
         //если елемент двигается вниз, то использует BounceInterpolator
         valueAnimatorDown.setDuration(ONE_STEP_DURATION_MILLISECONDS).addUpdateListener {
@@ -311,6 +317,7 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     }
 
     //use for debug
+    @Suppress("unused")
     private fun computeFPS(canvas: Canvas) {
         frames++
         if ((System.currentTimeMillis() - _lastTime) > 1000) {
