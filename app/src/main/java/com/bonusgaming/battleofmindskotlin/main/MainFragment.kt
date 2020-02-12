@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bonusgaming.battleofmindskotlin.R
-import com.bonusgaming.battleofmindskotlin.loading.LoadingFragment
+import com.bonusgaming.battleofmindskotlin.loading_game.LoadingFragment
 import com.bonusgaming.battleofmindskotlin.tools.ActivityUtils
 import com.squareup.picasso.Picasso
 

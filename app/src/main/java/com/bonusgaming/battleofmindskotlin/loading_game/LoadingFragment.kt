@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.loading
+package com.bonusgaming.battleofmindskotlin.loading_game
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import com.bonusgaming.battleofmindskotlin.custom_views.CustomLoadingValueAnimat
 class LoadingFragment : Fragment() {
     lateinit var customLoading: CustomLoadingValueAnimator
 
-    val loadingModelView = LoadingModelView()
+    val loadingModelView = LoadingViewModel()
     lateinit var enemyPhoto: View
     lateinit var enemyText: View
 

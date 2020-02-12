@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">BattleOfMindsKotlin</string>
-    <string name="hello_image">Картинка приветствия</string>
-    <string name="bonus_text">BONUS</string>
-    <string name="gaming_text">Gaming</string>
-    <string name="contentdesc">contentDesc</string>
-    <string name="vs_text">VS</string>
-    <string name="tap_to_start_next_round">Нажмите, чтобы продолжить</string>
+    <string name="appName">BattleOfMindsKotlin</string>
+    <string name="helloImage">Картинка приветствия</string>
+    <string name="bonusText">BONUS</string>
+    <string name="gamingText">Gaming</string>
+    <string name="contentDesc">contentDesc</string>
+    <string name="vsText">VS</string>
+    <string name="tapToStartNextRound">Нажмите, чтобы продолжить</string>
     <!-- Шрифт поддерживает en только -->
     <string name="onEndTextLoading">VS</string>
+    <string name="nameGame">Battle\nOf\nMinds</string>
 </resources>

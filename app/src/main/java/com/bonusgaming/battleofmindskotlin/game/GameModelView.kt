@@ -7,7 +7,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.bonusgaming.battleofmindskotlin.FragmentState
 import com.bonusgaming.battleofmindskotlin.MainContract
-import com.bonusgaming.battleofmindskotlin.custom_views.ProgressBarAnimation
+import com.bonusgaming.battleofmindskotlin.custom_views.ProgressRoundBar
 import com.bonusgaming.battleofmindskotlin.db.BaseEntity
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -131,7 +131,7 @@ class GameModelView : MainContract.ViewModel() {
 
     @SuppressLint("CheckResult")
     fun checkAnswer(answer: String) {
-        progressBarState.value = ProgressBarAnimation.STOP_STATE
+        progressBarState.value = ProgressRoundBar.STOP_STATE
         answersClickable.value = false
         Log.e("1122", "checkanswer $answer")
         Log.e("1122", "checkanswer ${rightAnswers[answer]?.liveData}")

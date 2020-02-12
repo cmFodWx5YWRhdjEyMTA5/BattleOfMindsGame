@@ -37,8 +37,8 @@ class CustomLoadingValueAnimator @JvmOverloads constructor(
     private lateinit var elemRT: Elem
     private lateinit var elemRB: Elem
 
-    private val colorLight = Color.parseColor("#F27A54")
-    private val colorDark = Color.parseColor("#A154F2")
+    private val colorLight = Color.parseColor(COLOR_LIGHT_TEXT)
+    private val colorDark = Color.parseColor(COLOR_DARK_TEXT)
 
     private var lengthWay: Float = -1F
     private var mainAnimatorSet = AnimatorSet()

@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.View
 
 
-class ProgressBarAnimation : View {
+class ProgressRoundBar : View {
 
     companion object {
         const val STOP_STATE = 1

@@ -9,8 +9,8 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bonusgaming.battleofmindskotlin.R
-import com.bonusgaming.battleofmindskotlin.custom_views.ProgressBarAnimation
-import com.bonusgaming.battleofmindskotlin.custom_views.ProgressBarAnimation.TimeOffListener
+import com.bonusgaming.battleofmindskotlin.custom_views.ProgressRoundBar
+import com.bonusgaming.battleofmindskotlin.custom_views.ProgressRoundBar.TimeOffListener
 import kotlinx.android.synthetic.main.fragment_game.*
 
 
@@ -49,7 +49,7 @@ class GameFragment : Fragment() {
         val textAnswer4 = view.findViewById<TextView>(R.id.text_answer_4)
         val tapText = view.findViewById<TextView>(R.id.text_tap_to_next_round)
 
-        val progressBarAnimation = view.findViewById<ProgressBarAnimation>(R.id.progressBar)
+        val progressBarAnimation = view.findViewById<ProgressRoundBar>(R.id.progressBar)
         progressBarAnimation.timeOffListener = object : TimeOffListener {
             override fun timeOf() {
                 gameModelView.onTimeOff()
@@ -107,7 +107,7 @@ class GameFragment : Fragment() {
 
         gameModelView.progressBarState.observe(this, Observer {
             when (it) {
-                ProgressBarAnimation.STOP_STATE -> progressBar.stopAnimate()
+                ProgressRoundBar.STOP_STATE -> progressBar.stopAnimate()
             }
         })
 

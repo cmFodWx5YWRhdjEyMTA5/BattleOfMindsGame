@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom|center_horizontal"
-            android:text="@string/tap_to_start_next_round"
+            android:text="@string/tapToStartNextRound"
             android:visibility="invisible" />
 
     </androidx.cardview.widget.CardView>
@@ -102,7 +102,7 @@
             android:id="@+id/game_user_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/contentdesc"
+            android:contentDescription="@string/contentDesc"
             android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
 
@@ -127,7 +127,7 @@
             android:id="@+id/game_enemy_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/contentdesc"
+            android:contentDescription="@string/contentDesc"
             android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
 
@@ -141,7 +141,7 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/modak"
         android:gravity="center"
-        android:text="@string/vs_text"
+        android:text="@string/vsText"
         android:textSize="@dimen/vs_game_size"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -307,7 +307,7 @@
     </androidx.cardview.widget.CardView>
 
 
-    <com.bonusgaming.battleofmindskotlin.custom_views.ProgressBarAnimation
+    <com.bonusgaming.battleofmindskotlin.custom_views.ProgressRoundBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"

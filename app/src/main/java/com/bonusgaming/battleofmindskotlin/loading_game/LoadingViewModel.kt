@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.loading
+package com.bonusgaming.battleofmindskotlin.loading_game
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
-class LoadingModelView : MainContract.ViewModel() {
+class LoadingViewModel : MainContract.ViewModel() {
     override fun onViewCreated() {
     }
 

@@ -31,7 +31,7 @@ class MainModel : MainContract.Model() {
 
     override fun isAvatarCreated(): Boolean {
         // return prefs.getBoolean(KEY_AVATAR_CREATED) for debug
-        return true
+        return false
     }
 
     override fun setAvatarCreated() {

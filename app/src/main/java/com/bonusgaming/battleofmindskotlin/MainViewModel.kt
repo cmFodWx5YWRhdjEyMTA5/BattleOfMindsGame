@@ -8,9 +8,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 
-const val TAG: String = "MenuViewModel"
 
 class MainViewModel : MainContract.ViewModel() {
+    companion object {
+        const val TAG: String = "MainViewModel"
+
+    }
+
     private var liveFragmentState: MutableLiveData<FragmentState> = MutableLiveData()
     private val disposable: Disposable
 
@@ -37,13 +41,7 @@ class MainViewModel : MainContract.ViewModel() {
             .delay(1, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
-                if (model.isAvatarCreated()) {
-                    Log.e(TAG, "viewcreated MAIN")
-                    liveFragmentState.value = FragmentState.MAIN
-                } else {
-                    Log.e(TAG, "viewcreated AVATAR")
-                    liveFragmentState.value = FragmentState.AVATAR
-                }
+                liveFragmentState.value = FragmentState.DOWNLOAD_ASSETS
             }
             .subscribe()
     }
