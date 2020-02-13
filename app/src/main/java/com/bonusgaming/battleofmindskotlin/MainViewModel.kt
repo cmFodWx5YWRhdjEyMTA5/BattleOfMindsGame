@@ -38,7 +38,7 @@ class MainViewModel : MainContract.ViewModel() {
         liveFragmentState.value = FragmentState.LOGO
 
         Completable.complete()
-            .delay(1, TimeUnit.SECONDS)
+            .delay(3, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
                 liveFragmentState.value = FragmentState.DOWNLOAD_ASSETS
