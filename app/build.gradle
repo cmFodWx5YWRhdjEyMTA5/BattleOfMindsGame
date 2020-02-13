@@ -8,6 +8,10 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.google.gms.google-services'
 
+def apiPropertiesFile = rootProject.file("app/api.properties")
+def apiProperties = new Properties()
+apiProperties.load(new FileInputStream(apiPropertiesFile))
+
 android {
 
     compileOptions {
@@ -27,6 +31,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "STORAGE_API_KEY", apiProperties['STORAGE_API_KEY'])
+
     }
     buildTypes {
         release {
