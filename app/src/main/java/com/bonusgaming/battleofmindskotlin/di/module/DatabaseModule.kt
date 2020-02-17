@@ -8,16 +8,17 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-const val DB_NAME = "db"
-const val LOCAL_DB_NAME = "mainarenasqlite"
 
 @Module
 class DatabaseModule {
+
+    companion object {
+        const val DB_NAME = "maindb"
+    }
 
     @Singleton
     @Provides
     fun getDatabase(context: Context): Database {
         return Room.databaseBuilder(context, Database::class.java, DB_NAME).build()
     }
-
 }

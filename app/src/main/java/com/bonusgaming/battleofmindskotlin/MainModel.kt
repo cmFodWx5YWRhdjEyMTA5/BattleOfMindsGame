@@ -2,7 +2,6 @@ package com.bonusgaming.battleofmindskotlin
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import com.bonusgaming.battleofmindskotlin.db.HistoryEntity
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -22,9 +21,6 @@ class MainModel : MainContract.Model() {
 
     private lateinit var emitter: ObservableEmitter<FragmentState>
 
-    fun getHistoryQuestionFlowable(): Flowable<HistoryEntity> {
-        return database.historyDao().getRandom()
-    }
 
     val globalFragmentsState: Observable<FragmentState> =
         Observable.create { emitter = it }

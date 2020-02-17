@@ -15,10 +15,6 @@ import javax.inject.Singleton
 @Module
 class RetrofitModule {
 
-    companion object {
-        const val STORAGE_BASE_URL = "https://storage.googleapis.com/storage/v1/"
-    }
-
     //for debug
     private fun addLogging(clientBuilder: OkHttpClient.Builder) {
         val loggInterceptor = HttpLoggingInterceptor()
@@ -48,7 +44,7 @@ class RetrofitModule {
         val okHttpClientClient = okHttpClientClientBuilder.build()
 
         return Retrofit.Builder()
-            .baseUrl(STORAGE_BASE_URL)
+            .baseUrl(BuildConfig.STORAGE_BASE_URL)
             .client(okHttpClientClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
