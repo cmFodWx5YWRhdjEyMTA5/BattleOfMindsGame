@@ -13,6 +13,9 @@ root.child('images/uid').listAll()
  */
 
 object FirebaseImageImpl : FirebaseImageAdapter {
+    override fun getBodiesUrls(completable: DownloadCompletable<Pair<String, Uri>>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     const val PATH_FACES = "face"
     const val PATH_BODY_FLUFFY = "body/fluffy"
@@ -46,22 +49,22 @@ object FirebaseImageImpl : FirebaseImageAdapter {
             }
     }
 
-    override fun getBodiesUrls(completable: DownloadCompletable<Pair<String, Uri>>) {
-        val child = mStorageRef.root.child(PATH_FACES)
-        child.listAll().addOnSuccessListener { listResult ->
+    /* override fun getBodiesUrls(completable: DownloadCompletable<Pair<String, Uri>>) {
+         val child = mStorageRef.root.child(PATH_FACES)
+         child.listAll().addOnSuccessListener { listResult ->
 
-            val resultList = mutableListOf<Pair<String, Uri>>()
+             val resultList = mutableListOf<Pair<String, Uri>>()
 
-            //Ghosts
-            listResult.items.forEach { item ->
-                item.downloadUrl.addOnSuccessListener {
-                    resultList.add(Pair(it, ""))
-                }
-            }
-            completable.onComplete(resultList)
-        }
-            .addOnFailureListener {
-                completable.onFailure(it)
-            }
-    }
+             //Ghosts
+             listResult.items.forEach { item ->
+                 item.downloadUrl.addOnSuccessListener {
+                     resultList.add(Pair(it, ""))
+                 }
+             }
+             completable.onComplete(resultList)
+         }
+             .addOnFailureListener {
+                 completable.onFailure(it)
+             }
+     }*/
 }

@@ -32,7 +32,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "STORAGE_API_KEY", apiProperties['STORAGE_API_KEY'])
-        buildConfigField("String", "STORAGE_BASE_URL", apiProperties['STORAGE_BASE_URL'])
+        buildConfigField("String", "STORAGE_BUCKET", apiProperties['STORAGE_BUCKET'])
+        buildConfigField("String", "STORAGE_SERVICE", apiProperties['STORAGE_SERVICE'])
+        buildConfigField("String", "PREFIX_FACE", apiProperties['PREFIX_FACE'])
+        buildConfigField("String", "PREFIX_ALL", apiProperties['PREFIX_ALL'])
     }
     buildTypes {
         release {
@@ -82,12 +85,6 @@ dependencies {
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-
-    //rxjava2
-    implementation 'androidx.room:room-rxjava2:2.2.3'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-
-
     //firebase
     implementation 'com.google.firebase:firebase-core:17.2.2'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
@@ -99,8 +96,7 @@ dependencies {
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-
-    //you need this to use RxAndroid with retrofit.
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
 
     // RxAndroid
