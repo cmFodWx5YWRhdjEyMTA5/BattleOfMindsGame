@@ -2,12 +2,13 @@ package com.bonusgaming.battleofmindskotlin.loading_assets
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.R
 import com.bonusgaming.battleofmindskotlin.custom_views.LoadingAssetsBar
 
@@ -25,13 +26,14 @@ class LoadingAssetsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mainViewModel = ViewModelProviders.of(this).get(LoadingAssetsViewModel::class.java)
+        mainViewModel = ViewModelProvider(this).get(LoadingAssetsViewModel::class.java)
 
         mainViewModel.onViewCreated()
         val progressBar = view.findViewById<LoadingAssetsBar>(R.id.loading_assets_bar)
 
         mainViewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
             progressBar.progress = it
+            Log.e("FragmentAssets", "progress ${it.toInt()}")
 
         })
 
