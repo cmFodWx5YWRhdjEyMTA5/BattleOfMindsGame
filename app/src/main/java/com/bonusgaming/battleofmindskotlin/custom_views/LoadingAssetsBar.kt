@@ -91,7 +91,6 @@ class LoadingAssetsBar @JvmOverloads constructor(
 
     }
 
-
     init {
         // valueAnimator.removeAllListeners()
         valueAnimator.doOnEnd {
@@ -113,7 +112,9 @@ class LoadingAssetsBar @JvmOverloads constructor(
         val resultHeight = resolveSize(sizeHeightDesire.toInt(), heightMeasureSpec)
         setMeasuredDimension(resultWidth, resultHeight)
 
-        calculateSizes()
+        if (lastProgressInterpolation == 0f) {
+            calculateSizes()
+        }
     }
 
     private fun calculateSizes() {
@@ -121,6 +122,7 @@ class LoadingAssetsBar @JvmOverloads constructor(
         rectF.bottom = measuredHeight - sizeMargin
         rectF.left = sizeMargin
         rectF.right = sizeMargin
+
 
         lengthWay = measuredWidth - rectF.left - rectF.right
 
