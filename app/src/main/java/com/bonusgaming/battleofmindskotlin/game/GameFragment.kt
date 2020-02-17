@@ -96,14 +96,6 @@ class GameFragment : Fragment() {
             setQuestionClickable(it)
         })
 
-        gameModelView.historyEntityLiveData.observe(this, Observer {
-            textQuestion.text = it.question
-            textAnswer1.text = it.answer_1
-            textAnswer2.text = it.answer_2
-            textAnswer3.text = it.answer_3
-            textAnswer4.text = it.answer_4
-        })
-
 
         gameModelView.progressBarState.observe(this, Observer {
             when (it) {
