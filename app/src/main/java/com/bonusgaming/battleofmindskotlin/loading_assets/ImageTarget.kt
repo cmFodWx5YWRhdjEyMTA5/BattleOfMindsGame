@@ -10,7 +10,11 @@ import com.squareup.picasso.Target
 import java.io.FileOutputStream
 import javax.inject.Inject
 
-class ImageTarget(private val fileName: String, private val doOnDownload: () -> Unit) : Target {
+class ImageTarget(
+    private val fileName: String,
+    private val doOnDownload: () -> Unit,
+    private val doOnException: () -> Unit
+) : Target {
 
     @Inject
     lateinit var pathProvider: PathProvider
@@ -24,7 +28,8 @@ class ImageTarget(private val fileName: String, private val doOnDownload: () -> 
     }
 
     override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-        Log.e("ImageTarget", "onBitmapFailed")
+        Log.e("ImageTarget", "onBitmapFailed exception $e")
+        doOnException()
     }
 
     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {

@@ -40,5 +40,6 @@ class LoadingAssetsFragment : Fragment() {
         mainViewModel.textStatusLiveData.observe(viewLifecycleOwner, Observer {
             progressBar.textStatus = it
         })
+
     }
 }
