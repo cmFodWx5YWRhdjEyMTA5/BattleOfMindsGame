@@ -1,13 +1,15 @@
 package com.bonusgaming.battleofmindskotlin.loading_assets
 
 import android.content.Context
-import android.content.Intent
+import android.os.Handler
+import android.util.Log
 import com.bonusgaming.battleofmindskotlin.BuildConfig
 import com.bonusgaming.battleofmindskotlin.db.Database
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.bonusgaming.battleofmindskotlin.web.Item
 import com.bonusgaming.battleofmindskotlin.web.WebRepo
 import com.squareup.picasso.NetworkPolicy
+import com.squareup.picasso.Target
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,10 +18,7 @@ import javax.inject.Singleton
 class LoadingAssetsModel @Inject constructor() {
 
     //strong reference for ImageTarget
-    val listImageTarget = mutableListOf<ImageTarget>()
-
-    @Inject
-    lateinit var context: Context
+    val listImageTarget = mutableMapOf<String, ImageTarget>()
 
     @Inject
     lateinit var database: Database
@@ -49,18 +48,26 @@ class LoadingAssetsModel @Inject constructor() {
         url: String,
         fileName: String,
         onDownload: () -> Unit,
-        onException: () -> Unit
+        onException: (url: String) -> Unit
     ) {
 
         val imageTarget = ImageTarget(fileName, onDownload, onException)
-        listImageTarget.add(imageTarget)
+        listImageTarget[url] = imageTarget
         webRepo.picasso.load(url)
             .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
             .into(imageTarget)
     }
 
-    private fun postTaskToDownloadService() {
-        context.startService(Intent(context, DownloadService::class.java))
+    fun retryDownload(url: String, afterMilliseconds: Long) {
+        val handler = Handler()
+        handler.postDelayed({
+            Log.e("retry", "postDelayed")
+            listImageTarget[url]?.let {
+                Log.e("retry", "postDelayed let $url")
+                webRepo.picasso.load(url)
+                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                    .into(it)
+            }
+        }, afterMilliseconds)
     }
-
 }

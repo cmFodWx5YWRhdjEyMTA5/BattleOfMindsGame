@@ -23,25 +23,26 @@ class PicassoModule {
     fun getPicasso(context: Context): Picasso {
         val clientBuilder = OkHttpClient.Builder()
 
-        clientBuilder.retryOnConnectionFailure(true)
+        // clientBuilder.retryOnConnectionFailure(true)
 
-        clientBuilder.writeTimeout(RETRY_TIMEOUT_MILLS + 1000, TimeUnit.MILLISECONDS)
-        clientBuilder.readTimeout(RETRY_TIMEOUT_MILLS + 1000, TimeUnit.MILLISECONDS)
-        clientBuilder.callTimeout(RETRY_TIMEOUT_MILLS + 1000, TimeUnit.MILLISECONDS)
-        clientBuilder.connectTimeout(RETRY_TIMEOUT_MILLS + 1000, TimeUnit.MILLISECONDS)
-        clientBuilder.interceptors().add(Interceptor {
-            val request = it.request()
-            var response = it.proceed((request))
-            var count = 0
-            while (true) {
-                count++
-                Log.e("PICASSO", "while $count work ${Thread.currentThread().name}")
-                Thread.sleep(RETRY_TIMEOUT_MILLS)
-                response = it.proceed(request)
-                if (response.isSuccessful) break
-            }
-            response
-        })
+//        clientBuilder.writeTimeout(RETRY_TIMEOUT_MILLS + 1000000, TimeUnit.MILLISECONDS)
+//        clientBuilder.readTimeout(RETRY_TIMEOUT_MILLS + 1000000, TimeUnit.MILLISECONDS)
+//        clientBuilder.callTimeout(RETRY_TIMEOUT_MILLS + 1000000, TimeUnit.MILLISECONDS)
+//        clientBuilder.connectTimeout(RETRY_TIMEOUT_MILLS + 1000000, TimeUnit.MILLISECONDS)
+//        clientBuilder.interceptors().add(Interceptor {
+//            val request = it.request()
+//            var response = it.proceed((request))
+//            var count = 0
+//            count++
+//            response = it.proceed(request)
+//            if (!response.isSuccessful) {
+//                Log.e("PICASSO", "while $count work ${Thread.currentThread().name}")
+//                Thread.sleep(RETRY_TIMEOUT_MILLS)
+//                Log.e("PICASSO", "while after sleep")
+//                response = it.call().clone().execute()
+//            }
+//            response
+//        })
 
         val downloader = OkHttp3Downloader(clientBuilder.build())
 
