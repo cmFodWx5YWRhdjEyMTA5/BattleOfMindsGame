@@ -13,7 +13,7 @@ import javax.inject.Inject
 class ImageTarget(
     private val fileName: String,
     private val doOnDownload: () -> Unit,
-    private val doOnException: () -> Unit
+    private val doOnException: (fileName: String) -> Unit
 ) : Target {
 
     @Inject
@@ -29,7 +29,7 @@ class ImageTarget(
 
     override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
         Log.e("ImageTarget", "onBitmapFailed exception $e")
-        doOnException()
+        doOnException(fileName)
     }
 
     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {

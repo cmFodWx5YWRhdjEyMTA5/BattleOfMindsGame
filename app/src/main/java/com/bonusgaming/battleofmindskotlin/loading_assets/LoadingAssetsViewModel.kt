@@ -1,9 +1,12 @@
 package com.bonusgaming.battleofmindskotlin.loading_assets
 
+import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.App
 import com.bonusgaming.battleofmindskotlin.MainContract
+import com.bonusgaming.battleofmindskotlin.R
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.bonusgaming.battleofmindskotlin.web.Item
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,10 +24,13 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
     @Inject
     lateinit var modelLoadingAssets: LoadingAssetsModel
 
+    @Inject
+    lateinit var resources: Resources
 
     private var currentProgress = 0f
 
-    val textStatusLiveData = MutableLiveData<String>()
+    val textStatusLine2LiveData = MutableLiveData<String>()
+    val textStatusLine1LiveData = MutableLiveData<String>()
     val progressLiveData = MutableLiveData<Int>()
 
     private val compositeDisposable = CompositeDisposable()
@@ -42,10 +48,14 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError {
-                textStatusLiveData.value = "Пытаемся соединиться..."
+                textStatusLine1LiveData.value =
+                    resources.getString(R.string.desire_emotion_bad_connection_status)
+                textStatusLine2LiveData.value =
+                    resources.getString(R.string.desire_emotion_bad_connection_action)
             }
             .doOnSuccess {
-                textStatusLiveData.value = "Загрузка"
+                textStatusLine1LiveData.value = ""
+                textStatusLine2LiveData.value = resources.getString(R.string.download)
                 proceedResult(it)
             }
             .retryWhen { t -> t.delay(5, TimeUnit.SECONDS) }
@@ -54,7 +64,6 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
     }
 
     private fun proceedResult(list: List<Item>) {
-        //TODO check inet connection
         val perProgress = 100F / list.size
         fun saveToDb(sticker: StickerEntry) {
             viewModelScope.launch(Dispatchers.IO) {
@@ -66,10 +75,14 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
             currentProgress += perProgress
             val progressRounded = round(currentProgress).toInt()
             progressLiveData.value = progressRounded
-            if (progressRounded == 100)
-                textStatusLiveData.value = "Загрузка завершена"
-            else
-                textStatusLiveData.value = "Загрузка $progressRounded%"
+            if (progressRounded == 100) {
+                textStatusLine1LiveData.value = ""
+                textStatusLine2LiveData.value = resources.getString(R.string.download_complete)
+            } else {
+                textStatusLine1LiveData.value = ""
+                textStatusLine2LiveData.value =
+                    resources.getString(R.string.download) + " $progressRounded%"
+            }
         }
 
         fun checkItem(databaseHashList: List<String>) {
@@ -84,10 +97,14 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
                     val sticker = StickerEntry(item.md5Hash, name)
                     saveToDb(sticker)
                 }
-                val onException = {
-
+                val onException: (url: String) -> Unit = {
+                    Log.e("retry", "retry download")
+                    textStatusLine1LiveData.value =
+                        resources.getString(R.string.desire_emotion_bad_connection_status)
+                    textStatusLine2LiveData.value =
+                        resources.getString(R.string.desire_emotion_bad_connection_action)
+                    modelLoadingAssets.retryDownload(item.mediaLink, 5000)
                 }
-
                 modelLoadingAssets.downloadAndSaveImage(
                     item.mediaLink,
                     name,

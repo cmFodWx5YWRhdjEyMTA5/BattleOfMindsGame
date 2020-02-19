@@ -37,8 +37,12 @@ class LoadingAssetsFragment : Fragment() {
 
         })
 
-        mainViewModel.textStatusLiveData.observe(viewLifecycleOwner, Observer {
-            progressBar.textStatus = it
+        mainViewModel.textStatusLine1LiveData.observe(viewLifecycleOwner, Observer {
+            progressBar.textStatusLine1 = it
+        })
+
+        mainViewModel.textStatusLine2LiveData.observe(viewLifecycleOwner, Observer {
+            progressBar.textStatusLine2 = it
         })
 
     }

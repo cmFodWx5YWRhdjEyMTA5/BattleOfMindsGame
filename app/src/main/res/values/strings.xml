@@ -9,4 +9,8 @@
     <!-- Шрифт поддерживает en только -->
     <string name="onEndTextLoading">VS</string>
     <string name="nameGame">Battle\nOf\nMinds</string>
+    <string name="download_complete">загрузка завершена!</string>
+    <string name="desire_emotion_bad_connection_status">Плохое соединение…</string>
+    <string name="desire_emotion_bad_connection_action">Пытаемся соединиться…</string>
+    <string name="download">загрузка</string>
 </resources>

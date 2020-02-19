@@ -18,11 +18,18 @@ class LoadingAssetsBar @JvmOverloads constructor(
 ) : View(context, attributeSet, defAttrStyle, defResStyle) {
 
     @Size(max = 23)
-    var textStatus: String = "загрузка"
+    var textStatusLine2: String = "загрузка"
         set(value) {
             field = value
             invalidate()
         }
+    @Size(max = 23)
+    var textStatusLine1: String = ""
+        set(value) {
+            field = value
+            invalidate()
+        }
+
 
     private val paintText = Paint().apply {
         color = Color.GRAY
@@ -32,8 +39,11 @@ class LoadingAssetsBar @JvmOverloads constructor(
     }
 
 
-    private var textX = 0f
-    private var textY = 0f
+    private var textLine2X = 0f
+    private var textLine2Y = 0f
+
+    private var textLine1X = 0f
+    private var textLine1Y = 0f
 
     private var percentPx = 0f
 
@@ -131,14 +141,17 @@ class LoadingAssetsBar @JvmOverloads constructor(
         lengthWay = measuredWidth - rectF.left - rectF.right
 
         percentPx = lengthWay / 100F
-        textX = measuredWidth / 2f
-        textY = rectF.top - sizeMargin
+        textLine2X = measuredWidth / 2f
+        textLine2Y = rectF.top - sizeMargin
+        textLine1X = measuredWidth / 2f
+        textLine1Y = rectF.top - 3 * sizeMargin
         paintText.textSize = dpToPx(15)
 
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawText(textStatus, textX, textY, paintText)
+        canvas.drawText(textStatusLine1, textLine1X, textLine1Y, paintText)
+        canvas.drawText(textStatusLine2, textLine2X, textLine2Y, paintText)
         Log.e("ondraw", " sizes l ${rectF.left} t ${rectF.top} r ${rectF.right} b ${rectF.bottom}")
         canvas.drawRoundRect(rectF, CORNER_ROUND_VALUE, CORNER_ROUND_VALUE, paintProgress)
     }
