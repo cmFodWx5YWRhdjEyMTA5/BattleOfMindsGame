@@ -2,11 +2,8 @@ package com.bonusgaming.battleofmindskotlin.db
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.PrimaryKey
 import androidx.room.Query
-import io.reactivex.Flowable
 import io.reactivex.Observable
-import java.util.zip.CRC32
 
 
 @Dao

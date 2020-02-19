@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.annotation.Size
 import androidx.core.animation.doOnEnd
 
 class LoadingAssetsBar @JvmOverloads constructor(
@@ -16,6 +17,7 @@ class LoadingAssetsBar @JvmOverloads constructor(
     defResStyle: Int = 0
 ) : View(context, attributeSet, defAttrStyle, defResStyle) {
 
+    @Size(max = 23)
     var textStatus: String = "загрузка"
         set(value) {
             field = value
@@ -59,7 +61,7 @@ class LoadingAssetsBar @JvmOverloads constructor(
             field = newValue
             if (valueAnimator.isRunning) valueAnimator.cancel()
             else {
-                valueAnimator.setFloatValues(0f, newValue.toFloat())
+                valueAnimator.setFloatValues(lastProgressInterpolation, newValue.toFloat())
                 valueAnimator.start()
             }
         }
@@ -99,7 +101,9 @@ class LoadingAssetsBar @JvmOverloads constructor(
                 100f -> if (::downloadListener.isInitialized) downloadListener.onDownload()
                 else -> {
                     valueAnimator.setFloatValues(lastProgressInterpolation, progress.toFloat())
-                    valueAnimator.start()
+                    if (lastProgressInterpolation != progress.toFloat())
+                        valueAnimator.start()
+
                 }
             }
         }

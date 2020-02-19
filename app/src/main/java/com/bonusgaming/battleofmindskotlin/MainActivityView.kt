@@ -13,7 +13,6 @@ import com.bonusgaming.battleofmindskotlin.loading_game.LoadingFragment
 import com.bonusgaming.battleofmindskotlin.logo.HelloFragment
 import com.bonusgaming.battleofmindskotlin.main.MainFragment
 import com.bonusgaming.battleofmindskotlin.tools.ActivityUtils
-import com.bonusgaming.battleofmindskotlin.web.FirebaseImageImpl
 
 
 class MainActivityView : AppCompatActivity(), MainContract.View {

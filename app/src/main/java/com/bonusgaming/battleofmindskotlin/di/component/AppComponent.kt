@@ -15,7 +15,7 @@ import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [RetrofitModule::class, DatabaseModule::class, PrefsModule::class, ApplicationModule::class, AndroidInjectionModule::class, MainModelModule::class])
+@Component(modules = [PicassoModule::class,RetrofitModule::class, DatabaseModule::class, PrefsModule::class, ApplicationModule::class, AndroidInjectionModule::class, MainModelModule::class])
 interface AppComponent : AndroidInjector<App> {
 
     fun inject(imageTarget: ImageTarget)
