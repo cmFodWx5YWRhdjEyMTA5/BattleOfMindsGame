@@ -19,6 +19,10 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.round
 
+
+/*
+Реализуем ViewModel для MVVM,
+ */
 class LoadingAssetsViewModel : MainContract.ViewModel() {
 
     @Inject

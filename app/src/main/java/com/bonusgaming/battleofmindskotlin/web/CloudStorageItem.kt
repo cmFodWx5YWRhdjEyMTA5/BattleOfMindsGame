@@ -5,6 +5,7 @@ data class CloudStorageItem(
     val kind: String
 )
 
+//POJO класс для Retrofit через api Cloud Google Storage
 data class Item(
     val bucket: String,
     val contentDisposition: String,

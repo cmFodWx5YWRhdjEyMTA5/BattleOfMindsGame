@@ -10,6 +10,12 @@ import com.squareup.picasso.Target
 import java.io.FileOutputStream
 import javax.inject.Inject
 
+/*
+Класс, реализующий интерфейс Target для
+Picasso, где мы сохраняем картинку в нужное нам
+место и вызываем колбэки для ошибок и успеха:
+doOnException(fileName) и doOnDownload()
+ */
 class ImageTarget(
     private val fileName: String,
     private val doOnDownload: () -> Unit,

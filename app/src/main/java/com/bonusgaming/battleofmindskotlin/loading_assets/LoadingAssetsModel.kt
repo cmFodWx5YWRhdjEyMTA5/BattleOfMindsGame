@@ -1,19 +1,17 @@
 package com.bonusgaming.battleofmindskotlin.loading_assets
 
-import android.content.Context
 import android.os.Handler
-import android.util.Log
 import com.bonusgaming.battleofmindskotlin.BuildConfig
 import com.bonusgaming.battleofmindskotlin.db.Database
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.bonusgaming.battleofmindskotlin.web.Item
 import com.bonusgaming.battleofmindskotlin.web.WebRepo
 import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Target
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
+//Реализуем Model для MVVM, работа с бд и интернетом
 @Singleton
 class LoadingAssetsModel @Inject constructor() {
 
@@ -50,7 +48,6 @@ class LoadingAssetsModel @Inject constructor() {
         onDownload: () -> Unit,
         onException: (url: String) -> Unit
     ) {
-
         val imageTarget = ImageTarget(fileName, onDownload, onException)
         listImageTarget[url] = imageTarget
         webRepo.picasso.load(url)
@@ -58,12 +55,14 @@ class LoadingAssetsModel @Inject constructor() {
             .into(imageTarget)
     }
 
+    /*
+    повторить загрузку через afterMilliseconds
+    миллисекунд для url, для задержки используется Handler
+    */
     fun retryDownload(url: String, afterMilliseconds: Long) {
         val handler = Handler()
         handler.postDelayed({
-            Log.e("retry", "postDelayed")
             listImageTarget[url]?.let {
-                Log.e("retry", "postDelayed let $url")
                 webRepo.picasso.load(url)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                     .into(it)
