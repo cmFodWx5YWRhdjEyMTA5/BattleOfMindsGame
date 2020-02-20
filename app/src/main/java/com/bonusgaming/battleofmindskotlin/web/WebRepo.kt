@@ -20,6 +20,4 @@ class WebRepo @Inject constructor() {
         App.appComponent.inject(this)
         imagesUrlApi = retrofit.create(ImagesUrlApi::class.java)
     }
-
-
 }

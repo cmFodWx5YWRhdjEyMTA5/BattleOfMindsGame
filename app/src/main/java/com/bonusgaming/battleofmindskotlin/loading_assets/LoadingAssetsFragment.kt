@@ -12,10 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.R
 import com.bonusgaming.battleofmindskotlin.custom_views.LoadingAssetsBar
 
+//фрагмент для отображения состояния загрузки и приветствия
 class LoadingAssetsFragment : Fragment() {
 
     private lateinit var mainViewModel: LoadingAssetsViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,8 +33,6 @@ class LoadingAssetsFragment : Fragment() {
 
         mainViewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
             progressBar.progress = it
-            Log.e("FragmentAssets", "progress ${it.toInt()}")
-
         })
 
         mainViewModel.textStatusLine1LiveData.observe(viewLifecycleOwner, Observer {
@@ -44,6 +42,5 @@ class LoadingAssetsFragment : Fragment() {
         mainViewModel.textStatusLine2LiveData.observe(viewLifecycleOwner, Observer {
             progressBar.textStatusLine2 = it
         })
-
     }
 }
