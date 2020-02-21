@@ -15,56 +15,246 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.cardview.widget.CardView
         android:id="@+id/left_shape_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        style="@style/Card"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
-        android:background="@android:drawable/arrow_up_float"
-        android:rotation="-90"
+        android:layout_marginTop="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardPreventCornerOverlap="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline1" />
+        app:layout_constraintTop_toTopOf="@+id/guideline1">
 
-    <Button
-        android:id="@+id/left_shape_color__button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:rotation="-90"
+            android:src="@android:drawable/arrow_up_float"
+            tools:ignore="ContentDescription" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/left_shape_color_button"
+        style="@style/Card"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="104dp"
-        android:background="@android:drawable/arrow_up_float"
-        android:rotation="-90"
+        android:layout_marginTop="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardPreventCornerOverlap="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/left_shape_button" />
+        app:layout_constraintTop_toBottomOf="@+id/left_shape_button">
 
-    <Button
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:rotation="-90"
+            android:src="@android:drawable/arrow_up_float"
+            tools:ignore="ContentDescription" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/left_face_button"
+        style="@style/Card"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/left_shape_color_button">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:rotation="-90"
+            android:src="@android:drawable/arrow_up_float"
+            tools:ignore="ContentDescription" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/right_shape_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        style="@style/Card"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@android:drawable/arrow_up_float"
-        android:rotation="90"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline1" />
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
 
-    <Button
-        android:id="@+id/right_shape_color_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="20dp"
-        android:background="@android:drawable/arrow_up_float"
-        android:rotation="90"
+        app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/right_shape_button" />
+        app:layout_constraintTop_toTopOf="@+id/guideline1">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:rotation="90"
+            android:src="@android:drawable/arrow_up_float"
+            tools:ignore="ContentDescription" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/right_shape_color_button"
+        style="@style/Card"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/right_shape_button">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:rotation="90"
+            android:src="@android:drawable/arrow_up_float"
+            tools:ignore="ContentDescription" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/right_face_button"
+        style="@style/Card"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/right_shape_color_button">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:rotation="90"
+            android:src="@android:drawable/arrow_up_float"
+            tools:ignore="ContentDescription" />
+
+    </androidx.cardview.widget.CardView>
+
 
     <TextView
         android:id="@+id/shape_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="SHAPE"
-        android:textSize="30sp"
+        android:textColor="@color/colorGray"
+        android:textSize="40sp"
         app:layout_constraintEnd_toStartOf="@+id/right_shape_button"
         app:layout_constraintStart_toEndOf="@+id/left_shape_button"
-        app:layout_constraintTop_toTopOf="@+id/guideline1" />
+        app:layout_constraintTop_toTopOf="@+id/left_shape_button" />
+
+    <TextView
+        android:id="@+id/shape_color_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="SHAPE_COLOR"
+        android:textColor="@color/colorGray"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toStartOf="@+id/right_shape_button"
+        app:layout_constraintStart_toEndOf="@+id/left_shape_button"
+        app:layout_constraintTop_toTopOf="@+id/left_shape_color_button" />
+
+    <TextView
+        android:id="@+id/face_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="FACE"
+        android:textColor="@color/colorGray"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toStartOf="@+id/right_shape_button"
+        app:layout_constraintStart_toEndOf="@+id/left_shape_button"
+        app:layout_constraintTop_toTopOf="@+id/left_face_button" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/avatar"
+        style="@style/Card"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/face_text">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image_shape"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/image_face"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="ContentDescription" />
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/play_button"
+        style="@style/Card"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorGray"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:layout_gravity="center"
+            android:text="Начать" />
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -78,6 +268,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
+        app:layout_constraintGuide_percent="0.60" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

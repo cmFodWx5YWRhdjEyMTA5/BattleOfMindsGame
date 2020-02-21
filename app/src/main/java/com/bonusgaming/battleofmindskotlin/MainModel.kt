@@ -5,9 +5,11 @@ import android.graphics.Color
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import javax.inject.Singleton
 
 const val KEY_AVATAR_CREATED: String = "avatar_key"
 
+@Singleton
 class MainModel : MainContract.Model() {
 
     fun setCurrentState(state: FragmentState) {

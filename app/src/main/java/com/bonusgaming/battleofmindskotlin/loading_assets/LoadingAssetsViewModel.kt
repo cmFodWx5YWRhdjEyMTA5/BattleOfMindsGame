@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.App
+import com.bonusgaming.battleofmindskotlin.FragmentState
 import com.bonusgaming.battleofmindskotlin.MainContract
 import com.bonusgaming.battleofmindskotlin.R
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
@@ -34,6 +35,7 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
     private var currentProgress = 0f
 
     val textStatusLine2LiveData = MutableLiveData<String>()
+    val loadSceneLiveData = MutableLiveData<FragmentState>()
     val textStatusLine1LiveData = MutableLiveData<String>()
     val progressLiveData = MutableLiveData<Int>()
 
@@ -65,6 +67,10 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
             .retryWhen { t -> t.delay(5, TimeUnit.SECONDS) }
             .subscribe()
         compositeDisposable.add(disposable)
+    }
+
+    private fun nextScene(){
+
     }
 
     private fun proceedResult(list: List<Item>) {

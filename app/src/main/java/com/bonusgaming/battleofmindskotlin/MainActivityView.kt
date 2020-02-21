@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.bonusgaming.battleofmindskotlin.creating_avatar.CreatingAvatarFragment
 import com.bonusgaming.battleofmindskotlin.game.GameFragment
 import com.bonusgaming.battleofmindskotlin.loading_assets.LoadingAssetsFragment
 import com.bonusgaming.battleofmindskotlin.loading_game.LoadingFragment
@@ -24,7 +25,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View {
         val fr: Fragment = when (state) {
             FragmentState.LOGO -> HelloFragment()
             FragmentState.DOWNLOAD_ASSETS -> LoadingAssetsFragment()
-            FragmentState.AVATAR -> HelloFragment()//not implemented
+            FragmentState.AVATAR -> CreatingAvatarFragment()
             FragmentState.MAIN -> MainFragment()
             FragmentState.LOADING -> LoadingFragment()
             FragmentState.GAME -> GameFragment()
