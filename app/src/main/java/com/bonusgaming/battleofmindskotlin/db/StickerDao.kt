@@ -22,6 +22,12 @@ interface StickerDao {
     @Query("SELECT * FROM $stickers")
     fun getAll(): List<StickerEntry>
 
+    @Query("SELECT * FROM $stickers where path like '%face%'")
+    fun getAllFaces(): List<StickerEntry>
+
+    @Query("SELECT * FROM $stickers where path like '%' || :shape || '%' collate nocase")
+    fun getBodiesByShape(shape: String): List<StickerEntry>
+
     @Query("SELECT * FROM $stickers where usedForAvatar = 1")
     fun getUsedForAvatar(): List<StickerEntry>
 

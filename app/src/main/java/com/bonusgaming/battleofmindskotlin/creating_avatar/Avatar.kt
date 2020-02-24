@@ -1,8 +1,10 @@
 package com.bonusgaming.battleofmindskotlin.creating_avatar
 
-import androidx.annotation.IdRes
+import android.widget.ImageView
 
 data class Avatar(
-    @IdRes val bodyIdRes: Int, @IdRes val faceIdRes: Int,
-    var pathBody: String, var pathFace: String
-)
+    val bodyImageView: ImageView, val faceImageView: ImageView
+) {
+    lateinit var pathBody: String
+    lateinit var pathFace: String
+}
