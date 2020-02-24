@@ -37,10 +37,15 @@ class CreatingAvatarModel @Inject constructor() {
 
     fun getBodiesByShape(): Map<AvatarShape, List<StickerEntry>> {
         val map = mutableMapOf<AvatarShape, List<StickerEntry>>()
-        EnumSet.allOf(AvatarShape::class.java).forEach {
+       /* EnumSet.allOf(AvatarShape::class.java).forEach {
             val list = database.stickersDao().getBodiesByShape(it.name)
+            Log.e("getBodiesByShape","list size ${list.size}")
             map[it] = list
-        }
+        }*/
+
+        val list = database.stickersDao().getBodiesByShape(AvatarShape.FLUFFY.name)
+     //   Log.e("getBodiesByShape","list size ${list.size}")
+        map[AvatarShape.FLUFFY] = list
         return map
     }
 }

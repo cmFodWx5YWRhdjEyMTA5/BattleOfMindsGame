@@ -216,7 +216,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorGradientOrange">
 
             <ImageView
                 android:id="@+id/image_shape"
@@ -227,8 +228,9 @@
 
             <ImageView
                 android:id="@+id/image_face"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_gravity="top|center"
                 android:scaleType="centerInside"
                 tools:ignore="ContentDescription" />
 

@@ -38,10 +38,10 @@ class CreatingAvatarViewModel : ViewModel() {
 
     private fun getRandomBodyPath(): String {
         val shapeSize = AvatarShape.values().size
-        val randomShape = AvatarShape.values()[(0 until shapeSize).random()]
-        Log.e("avatar", "randomShape ${randomShape.name}")
+       // val randomShape = AvatarShape.values()[(0 until shapeSize).random()]
+        //Log.e("avatar", "randomShape ${randomShape.name}")
 
-        val listByShape = mapBodiesByShape[randomShape]
+        val listByShape = mapBodiesByShape[AvatarShape.FLUFFY]
         Log.e("avatar", "listShape size ${listByShape?.size}")
         var result = ""
         listByShape?.let {
