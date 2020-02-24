@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.google.gms.google-services'
+
 
 def apiPropertiesFile = rootProject.file("app/api.properties")
 def apiProperties = new Properties()

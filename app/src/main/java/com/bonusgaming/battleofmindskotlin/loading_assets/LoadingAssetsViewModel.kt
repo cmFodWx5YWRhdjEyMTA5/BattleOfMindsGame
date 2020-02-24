@@ -1,13 +1,11 @@
 package com.bonusgaming.battleofmindskotlin.loading_assets
 
+import android.content.Intent
 import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.bonusgaming.battleofmindskotlin.App
-import com.bonusgaming.battleofmindskotlin.FragmentState
-import com.bonusgaming.battleofmindskotlin.MainContract
-import com.bonusgaming.battleofmindskotlin.R
+import com.bonusgaming.battleofmindskotlin.*
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.bonusgaming.battleofmindskotlin.web.Item
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,6 +47,15 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
         startDownloadUrls()
     }
 
+    private fun nextFragmentState() {
+        viewModelScope.launch(Dispatchers.IO) {
+            Thread.sleep(2000)
+            withContext(Dispatchers.Main) {
+                loadSceneLiveData.value = FragmentState.AVATAR
+            }
+        }
+    }
+
     private fun startDownloadUrls() {
         val disposable = modelLoadingAssets.getFaceUrls()
             .subscribeOn(Schedulers.io())
@@ -69,7 +76,7 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
         compositeDisposable.add(disposable)
     }
 
-    private fun nextScene(){
+    private fun nextScene() {
 
     }
 
@@ -88,11 +95,13 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
             if (progressRounded == 100) {
                 textStatusLine1LiveData.value = ""
                 textStatusLine2LiveData.value = resources.getString(R.string.download_complete)
+                nextFragmentState()
             } else {
                 textStatusLine1LiveData.value = ""
                 textStatusLine2LiveData.value =
                     resources.getString(R.string.download) + " $progressRounded%"
             }
+            progressRounded
         }
 
         fun checkItem(databaseHashList: List<String>) {
@@ -103,9 +112,9 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
                 }
                 val name = item.name.replace('/', '_')
                 val onDownload = {
-                    updateProgress()
-                    val sticker = StickerEntry(item.md5Hash, name)
+                    val sticker = StickerEntry(item.md5Hash, name, 0)
                     saveToDb(sticker)
+                    updateProgress()
                 }
                 val onException: (url: String) -> Unit = {
                     Log.e("retry", "retry download")
@@ -136,6 +145,10 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
         super.onCleared()
         modelLoadingAssets.listImageTarget.clear()
         compositeDisposable.dispose()
+    }
+
+    fun getNextFragmentIntent() = Intent(MainModel.ACTION_CHANGE_FRAGMENT_STATE).also {
+        it.putExtra("FragmentState", FragmentState.AVATAR)
     }
 }
 

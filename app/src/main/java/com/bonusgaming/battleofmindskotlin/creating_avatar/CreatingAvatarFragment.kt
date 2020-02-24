@@ -13,7 +13,7 @@ class CreatingAvatarFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_download_assets, null)
+        return inflater.inflate(R.layout.fragment_creating_avatar, null)
     }
 
 }

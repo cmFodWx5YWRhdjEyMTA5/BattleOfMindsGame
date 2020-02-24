@@ -19,6 +19,12 @@ interface StickerDao {
     @Query("SELECT * FROM $stickers")
     fun getListStickers(): List<StickerEntry>
 
+    @Query("SELECT * FROM $stickers")
+    fun getAll(): List<StickerEntry>
+
+    @Query("SELECT * FROM $stickers where usedForAvatar = 1")
+    fun getUsedForAvatar(): List<StickerEntry>
+
     @Query("SELECT hashMD5 FROM $stickers")
     fun getHashStickersList(): List<String>
 

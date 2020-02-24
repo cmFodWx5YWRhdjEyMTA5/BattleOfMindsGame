@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bonusgaming.battleofmindskotlin.R
 import com.bonusgaming.battleofmindskotlin.custom_views.LoadingAssetsBar
 
@@ -39,8 +40,17 @@ class LoadingAssetsFragment : Fragment() {
             progressBar.textStatusLine1 = it
         })
 
+        mainViewModel.loadSceneLiveData.observe(viewLifecycleOwner, Observer {
+            Log.e("FrView", "on loadSceneLiveData")
+            LocalBroadcastManager.getInstance(requireContext())
+                .sendBroadcast(mainViewModel.getNextFragmentIntent())
+
+        })
+
         mainViewModel.textStatusLine2LiveData.observe(viewLifecycleOwner, Observer {
             progressBar.textStatusLine2 = it
         })
     }
+
+
 }

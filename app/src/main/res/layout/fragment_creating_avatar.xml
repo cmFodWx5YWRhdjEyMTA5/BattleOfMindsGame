@@ -7,10 +7,13 @@
 
     <EditText
         android:id="@+id/editNameText"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
+        android:textSize="30sp"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/guideline1"
+        android:gravity="center"
+        android:textColor="@color/colorGray"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +29,7 @@
         app:cardCornerRadius="20dp"
         app:cardPreventCornerOverlap="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline1">
+        app:layout_constraintTop_toTopOf="@+id/guideline">
 
         <ImageView
             android:layout_width="30dp"
@@ -99,7 +102,7 @@
 
         app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline1">
+        app:layout_constraintTop_toTopOf="@+id/guideline">
 
         <ImageView
             android:layout_width="30dp"
@@ -201,15 +204,15 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/avatar"
         style="@style/Card"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="100dp"
         app:cardPreventCornerOverlap="true"
+        app:layout_constraintBottom_toTopOf="@id/play_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/face_text">
+        app:layout_constraintTop_toBottomOf="@+id/barrier">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -234,41 +237,64 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/play_button"
         style="@style/Card"
-        android:layout_width="120dp"
+        android:layout_width="140dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="20dp"
         app:cardPreventCornerOverlap="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/colorGray"
-            android:gravity="center"
-            android:textSize="30sp"
             android:layout_gravity="center"
-            android:text="Начать" />
+            android:gravity="center"
+            android:text="Начать"
+            android:textColor="@color/colorGray"
+            android:textSize="30sp" />
     </androidx.cardview.widget.CardView>
 
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline1"
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.15" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/random_button"
+        style="@style/Card"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Случайно"
+            android:textColor="@color/colorGray"
+            android:textSize="30sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.60" />
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="left_face_button,right_face_button,face_text"
+        tools:layout_editor_absoluteY="731dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
