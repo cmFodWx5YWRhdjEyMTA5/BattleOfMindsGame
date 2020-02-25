@@ -26,17 +26,6 @@ class CreatingAvatarModel @Inject constructor() {
 
     }
 
-    fun getBodies(): List<StickerEntry> {
-        return database.stickersDao().getBodies()
-    }
-
-    fun getEyes(): List<StickerEntry> {
-        return database.stickersDao().getEyes()
-    }
-
-    fun getMouths(): List<StickerEntry> {
-        return database.stickersDao().getMouths()
-    }
     fun getMonsters(): List<StickerEntry> {
         return database.stickersDao().getMonsters()
     }

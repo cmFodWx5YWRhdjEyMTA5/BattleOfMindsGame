@@ -13,20 +13,15 @@ import javax.inject.Inject
 
 class CreatingAvatarViewModel : ViewModel() {
 
-    private lateinit var avatar: Avatar
+    private lateinit var currentAvatar: Avatar
 
     val initState = MutableLiveData<Boolean>()
 
     @Inject
     lateinit var creatingAvatarModel: CreatingAvatarModel
 
-    private var currentBody: String = ""
-    private var currentFace: String = ""
-
-    private val listBodies = mutableListOf<StickerEntry>()
-    private val listEyes = mutableListOf<StickerEntry>()
-    private val listMouths = mutableListOf<StickerEntry>()
     private val listMonsters = mutableListOf<StickerEntry>()
+    private var monsterPointer = 0
 
 
     init {
@@ -40,9 +35,7 @@ class CreatingAvatarViewModel : ViewModel() {
 
 
     fun fillAvatarRandom(avatar: Avatar) {
-        //avatar.pathBody = getRandomFrom(listBodies)
-        //avatar.pathMouth = getRandomFrom(listMouths)
-        //avatar.pathEye = getRandomFrom(listEyes)
+        currentAvatar = avatar
         avatar.pathMonster = getRandomFrom(listMonsters)
 
         creatingAvatarModel.inflateAvatar(avatar)
@@ -50,29 +43,36 @@ class CreatingAvatarViewModel : ViewModel() {
 
     private fun loadStickers() {
         viewModelScope.launch(Dispatchers.IO) {
-//            listBodies.clear()
-//            listBodies.addAll(creatingAvatarModel.getBodies())
-//            Log.e("loadstickers", "getbodies ${listBodies.size}")
-//
-//            listEyes.clear()
-//            listEyes.addAll(creatingAvatarModel.getEyes())
-//            Log.e("loadstickers", "listEyes ${listEyes.size}")
-//
-//            listMouths.clear()
-//            listMouths.addAll(creatingAvatarModel.getMouths())
-//            Log.e("loadstickers", "listMouths ${listMouths.size}")
-//
-//
             listMonsters.clear()
             listMonsters.addAll(creatingAvatarModel.getMonsters())
             Log.e("loadstickers", "listMouths ${listMonsters.size}")
-
-
-
             withContext(Dispatchers.Main) {
                 initState.value = true
             }
         }
+    }
+
+    fun onLeftButton() {
+
+        fillAvatarPrevious()
+    }
+
+    fun fillAvatarPrevious() {
+        monsterPointer--
+        if (monsterPointer <= 0) monsterPointer = listMonsters.size - 1
+        currentAvatar.pathMonster = listMonsters[monsterPointer].path
+        creatingAvatarModel.inflateAvatar(currentAvatar)
+    }
+
+    fun fillAvatarNext() {
+        monsterPointer++
+        if (monsterPointer > listMonsters.size - 1) monsterPointer = 0
+        currentAvatar.pathMonster = listMonsters[monsterPointer].path
+        creatingAvatarModel.inflateAvatar(currentAvatar)
+    }
+
+    fun onRightButton() {
+        fillAvatarNext()
     }
 
 }
