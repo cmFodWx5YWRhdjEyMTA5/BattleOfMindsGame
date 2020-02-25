@@ -15,6 +15,12 @@
         </item>
 
     </style>
+    <style name="CardGreen" parent="CardView.Dark">
+        <item name="cardBackgroundColor">
+            @color/colorCardBackgroundGreen
+        </item>
+
+    </style>
 
     <style name="TextAnswer" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/pattaya</item>

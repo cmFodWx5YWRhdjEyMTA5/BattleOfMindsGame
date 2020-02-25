@@ -24,13 +24,12 @@ class CreatingAvatarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bodyImageView = view.findViewById<ImageView>(R.id.image_shape)
-        val faceImageView = view.findViewById<ImageView>(R.id.image_face)
-        val avatar = Avatar(bodyImageView, faceImageView)
+        val bodyImageView = view.findViewById<ImageView>(R.id.image_body)
+        //  val eyeImageView = view.findViewById<ImageView>(R.id.image_eye)
+        //  val mouthImageView = view.findViewById<ImageView>(R.id.image_mouth)
+        val avatar = Avatar(bodyImageView)
 
         creatingAvatarViewModel = ViewModelProvider(this).get(CreatingAvatarViewModel::class.java)
-
-
 
         creatingAvatarViewModel.initState.observe(viewLifecycleOwner, Observer {
             if (it) {

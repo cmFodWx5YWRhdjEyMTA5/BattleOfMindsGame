@@ -34,9 +34,12 @@ android {
         buildConfigField("String", "STORAGE_API_KEY", apiProperties['STORAGE_API_KEY'])
         buildConfigField("String", "STORAGE_BUCKET", apiProperties['STORAGE_BUCKET'])
         buildConfigField("String", "STORAGE_SERVICE", apiProperties['STORAGE_SERVICE'])
-        buildConfigField("String", "PREFIX_FACE", apiProperties['PREFIX_FACE'])
+        buildConfigField("String", "PREFIX_EYE", apiProperties['PREFIX_EYE'])
+        buildConfigField("String", "PREFIX_MOUTH", apiProperties['PREFIX_MOUTH'])
+        buildConfigField("String", "PREFIX_BODY", apiProperties['PREFIX_BODY'])
         buildConfigField("String", "PREFIX_ALL", apiProperties['PREFIX_ALL'])
         buildConfigField("String", "STORAGE_BASE_URL", apiProperties['STORAGE_BASE_URL'])
+        buildConfigField("String", "PREFIX_MONSTER", apiProperties['PREFIX_MONSTER'])
     }
     buildTypes {
         release {

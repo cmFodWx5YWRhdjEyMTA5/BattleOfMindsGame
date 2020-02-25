@@ -3,8 +3,7 @@ package com.bonusgaming.battleofmindskotlin.creating_avatar
 import android.widget.ImageView
 
 data class Avatar(
-    val bodyImageView: ImageView, val faceImageView: ImageView
+    val monsterImageView: ImageView
 ) {
-    lateinit var pathBody: String
-    lateinit var pathFace: String
+    lateinit var pathMonster: String
 }

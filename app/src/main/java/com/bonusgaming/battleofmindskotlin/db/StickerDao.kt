@@ -3,6 +3,7 @@ package com.bonusgaming.battleofmindskotlin.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.bonusgaming.battleofmindskotlin.BuildConfig
 import io.reactivex.Observable
 
 
@@ -22,11 +23,17 @@ interface StickerDao {
     @Query("SELECT * FROM $stickers")
     fun getAll(): List<StickerEntry>
 
-    @Query("SELECT * FROM $stickers where path like '%face%'")
-    fun getAllFaces(): List<StickerEntry>
+    @Query("SELECT * FROM $stickers where path like '%${BuildConfig.PREFIX_EYE}%'")
+    fun getEyes(): List<StickerEntry>
 
-    @Query("SELECT * FROM $stickers where path like '%' || :shape || '%' collate nocase")
-    fun getBodiesByShape(shape: String): List<StickerEntry>
+    @Query("SELECT * FROM $stickers where path like '%${BuildConfig.PREFIX_BODY}%'")
+    fun getBodies(): List<StickerEntry>
+
+    @Query("SELECT * FROM $stickers where path like '%${BuildConfig.PREFIX_MOUTH}%'")
+    fun getMouths(): List<StickerEntry>
+
+    @Query("SELECT * FROM $stickers where path like '%${BuildConfig.PREFIX_MONSTER}%'")
+    fun getMonsters(): List<StickerEntry>
 
     @Query("SELECT * FROM $stickers where usedForAvatar = 1")
     fun getUsedForAvatar(): List<StickerEntry>

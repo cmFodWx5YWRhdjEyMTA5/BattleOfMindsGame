@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.App
-import com.bonusgaming.battleofmindskotlin.AvatarShape
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,45 +23,52 @@ class CreatingAvatarViewModel : ViewModel() {
     private var currentBody: String = ""
     private var currentFace: String = ""
 
-    private val listFaces = mutableListOf<StickerEntry>()
-    private val mapBodiesByShape = mutableMapOf<AvatarShape, List<StickerEntry>>()
+    private val listBodies = mutableListOf<StickerEntry>()
+    private val listEyes = mutableListOf<StickerEntry>()
+    private val listMouths = mutableListOf<StickerEntry>()
+    private val listMonsters = mutableListOf<StickerEntry>()
+
 
     init {
         App.appComponent.inject(this)
         loadStickers()
     }
 
-    private fun getRandomFacePath(): String {
-        return listFaces[(0 until listFaces.size).random()].path
+    private fun getRandomFrom(list: List<StickerEntry>): String {
+        return list[(list.indices).random()].path
     }
 
-    private fun getRandomBodyPath(): String {
-        val shapeSize = AvatarShape.values().size
-       // val randomShape = AvatarShape.values()[(0 until shapeSize).random()]
-        //Log.e("avatar", "randomShape ${randomShape.name}")
-
-        val listByShape = mapBodiesByShape[AvatarShape.FLUFFY]
-        Log.e("avatar", "listShape size ${listByShape?.size}")
-        var result = ""
-        listByShape?.let {
-            val randomListSize = it.size
-            val randomEntry = (0 until randomListSize).random()
-            result = it[randomEntry].path
-        }
-        return result
-    }
 
     fun fillAvatarRandom(avatar: Avatar) {
-        avatar.pathBody = getRandomBodyPath()
-        avatar.pathFace = getRandomFacePath()
+        //avatar.pathBody = getRandomFrom(listBodies)
+        //avatar.pathMouth = getRandomFrom(listMouths)
+        //avatar.pathEye = getRandomFrom(listEyes)
+        avatar.pathMonster = getRandomFrom(listMonsters)
+
         creatingAvatarModel.inflateAvatar(avatar)
     }
 
     private fun loadStickers() {
         viewModelScope.launch(Dispatchers.IO) {
-            listFaces.clear()
-            listFaces.addAll(creatingAvatarModel.getAllFaces())
-            mapBodiesByShape.putAll(creatingAvatarModel.getBodiesByShape())
+//            listBodies.clear()
+//            listBodies.addAll(creatingAvatarModel.getBodies())
+//            Log.e("loadstickers", "getbodies ${listBodies.size}")
+//
+//            listEyes.clear()
+//            listEyes.addAll(creatingAvatarModel.getEyes())
+//            Log.e("loadstickers", "listEyes ${listEyes.size}")
+//
+//            listMouths.clear()
+//            listMouths.addAll(creatingAvatarModel.getMouths())
+//            Log.e("loadstickers", "listMouths ${listMouths.size}")
+//
+//
+            listMonsters.clear()
+            listMonsters.addAll(creatingAvatarModel.getMonsters())
+            Log.e("loadstickers", "listMouths ${listMonsters.size}")
+
+
+
             withContext(Dispatchers.Main) {
                 initState.value = true
             }
