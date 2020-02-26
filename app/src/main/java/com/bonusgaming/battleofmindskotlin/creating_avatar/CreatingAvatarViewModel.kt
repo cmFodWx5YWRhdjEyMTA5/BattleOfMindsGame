@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.App
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
+import com.firebase.ui.auth.IdpResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,6 +28,7 @@ class CreatingAvatarViewModel : ViewModel() {
     init {
         App.appComponent.inject(this)
         loadStickers()
+        creatingAvatarModel.printTest()
     }
 
     private fun getRandomFrom(list: List<StickerEntry>): String {
@@ -53,8 +55,12 @@ class CreatingAvatarViewModel : ViewModel() {
     }
 
     fun onLeftButton() {
-
         fillAvatarPrevious()
+    }
+
+
+    fun onRightButton() {
+        fillAvatarNext()
     }
 
     fun fillAvatarPrevious() {
@@ -71,8 +77,13 @@ class CreatingAvatarViewModel : ViewModel() {
         creatingAvatarModel.inflateAvatar(currentAvatar)
     }
 
-    fun onRightButton() {
-        fillAvatarNext()
+
+    fun onLoginSuccess(response: IdpResponse?) {
+
+    }
+
+    fun onLoginFailed(response: IdpResponse?) {
+
     }
 
 }

@@ -6,13 +6,14 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.creating_avatar.CreatingAvatarFragment
 import com.bonusgaming.battleofmindskotlin.game.GameFragment
 import com.bonusgaming.battleofmindskotlin.loading_assets.LoadingAssetsFragment
 import com.bonusgaming.battleofmindskotlin.loading_game.LoadingFragment
 import com.bonusgaming.battleofmindskotlin.logo.HelloFragment
 import com.bonusgaming.battleofmindskotlin.main.MainFragment
+import com.bonusgaming.battleofmindskotlin.sign_in.SignInFragment
 import com.bonusgaming.battleofmindskotlin.tools.ActivityUtils
 
 
@@ -25,6 +26,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View {
         val fr: Fragment = when (state) {
             FragmentState.LOGO -> HelloFragment()
             FragmentState.DOWNLOAD_ASSETS -> LoadingAssetsFragment()
+            FragmentState.SIGN_IN -> SignInFragment()
             FragmentState.AVATAR -> CreatingAvatarFragment()
             FragmentState.MAIN -> MainFragment()
             FragmentState.LOADING -> LoadingFragment()
@@ -45,7 +47,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View {
     }
 
     private fun attachToViewModel() {
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         mainViewModel.getData().observe(this, Observer {
             changeFragment(it)
         })

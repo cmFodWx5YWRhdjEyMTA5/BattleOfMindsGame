@@ -4,11 +4,15 @@ import android.util.Log
 import com.bonusgaming.battleofmindskotlin.PathProvider
 import com.bonusgaming.battleofmindskotlin.db.Database
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
+import com.bonusgaming.battleofmindskotlin.web.FirestoreProvider
 import com.squareup.picasso.Picasso
 import java.io.File
 import javax.inject.Inject
 
 class CreatingAvatarModel @Inject constructor() {
+
+    @Inject
+    lateinit var firebaseDatabaseProvider: FirestoreProvider
 
     @Inject
     lateinit var database: Database
@@ -26,7 +30,13 @@ class CreatingAvatarModel @Inject constructor() {
 
     }
 
+    fun printTest() {
+        firebaseDatabaseProvider.printHelloWorld()
+    }
+
     fun getMonsters(): List<StickerEntry> {
         return database.stickersDao().getMonsters()
     }
+
+
 }
