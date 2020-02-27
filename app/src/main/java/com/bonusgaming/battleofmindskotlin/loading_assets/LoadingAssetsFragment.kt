@@ -43,13 +43,15 @@ class LoadingAssetsFragment : Fragment() {
         mainViewModel.loadSceneLiveData.observe(viewLifecycleOwner, Observer {
             Log.e("FrView", "on loadSceneLiveData")
             LocalBroadcastManager.getInstance(requireContext())
-                .sendBroadcast(mainViewModel.getNextFragmentIntent())
+                .sendBroadcast(it)
 
         })
 
         mainViewModel.textStatusLine2LiveData.observe(viewLifecycleOwner, Observer {
             progressBar.textStatusLine2 = it
         })
+
+
     }
 
 

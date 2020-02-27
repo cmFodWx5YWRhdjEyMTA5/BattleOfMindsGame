@@ -13,7 +13,6 @@ import com.bonusgaming.battleofmindskotlin.loading_assets.LoadingAssetsFragment
 import com.bonusgaming.battleofmindskotlin.loading_game.LoadingFragment
 import com.bonusgaming.battleofmindskotlin.logo.HelloFragment
 import com.bonusgaming.battleofmindskotlin.main.MainFragment
-import com.bonusgaming.battleofmindskotlin.sign_in.SignInFragment
 import com.bonusgaming.battleofmindskotlin.tools.ActivityUtils
 
 
@@ -26,7 +25,6 @@ class MainActivityView : AppCompatActivity(), MainContract.View {
         val fr: Fragment = when (state) {
             FragmentState.LOGO -> HelloFragment()
             FragmentState.DOWNLOAD_ASSETS -> LoadingAssetsFragment()
-            FragmentState.SIGN_IN -> SignInFragment()
             FragmentState.AVATAR -> CreatingAvatarFragment()
             FragmentState.MAIN -> MainFragment()
             FragmentState.LOADING -> LoadingFragment()

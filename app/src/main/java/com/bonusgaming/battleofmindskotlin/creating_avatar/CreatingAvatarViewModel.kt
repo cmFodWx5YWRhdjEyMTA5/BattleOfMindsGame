@@ -1,10 +1,13 @@
 package com.bonusgaming.battleofmindskotlin.creating_avatar
 
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.App
+import com.bonusgaming.battleofmindskotlin.FragmentState
+import com.bonusgaming.battleofmindskotlin.MainModel
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.firebase.ui.auth.IdpResponse
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +20,8 @@ class CreatingAvatarViewModel : ViewModel() {
     private lateinit var currentAvatar: Avatar
 
     val initState = MutableLiveData<Boolean>()
+
+    val fragmentIntentLiveData = MutableLiveData<Intent>()
 
     @Inject
     lateinit var creatingAvatarModel: CreatingAvatarModel
@@ -63,14 +68,14 @@ class CreatingAvatarViewModel : ViewModel() {
         fillAvatarNext()
     }
 
-    fun fillAvatarPrevious() {
+    private fun fillAvatarPrevious() {
         monsterPointer--
         if (monsterPointer <= 0) monsterPointer = listMonsters.size - 1
         currentAvatar.pathMonster = listMonsters[monsterPointer].path
         creatingAvatarModel.inflateAvatar(currentAvatar)
     }
 
-    fun fillAvatarNext() {
+    private fun fillAvatarNext() {
         monsterPointer++
         if (monsterPointer > listMonsters.size - 1) monsterPointer = 0
         currentAvatar.pathMonster = listMonsters[monsterPointer].path
@@ -79,11 +84,18 @@ class CreatingAvatarViewModel : ViewModel() {
 
 
     fun onLoginSuccess(response: IdpResponse?) {
+        Log.e("login", "success ${response?.email}")
+        fragmentIntentLiveData.value = getNextFragmentIntent()
 
     }
 
     fun onLoginFailed(response: IdpResponse?) {
+        Log.e("login", "failed ${response?.error?.message}")
 
+    }
+
+    private fun getNextFragmentIntent() = Intent(MainModel.ACTION_CHANGE_FRAGMENT_STATE).also {
+        it.putExtra("FragmentState", FragmentState.MAIN)
     }
 
 }

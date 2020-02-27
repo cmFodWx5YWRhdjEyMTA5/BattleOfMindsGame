@@ -9,7 +9,6 @@ import com.bonusgaming.battleofmindskotlin.creating_avatar.CreatingAvatarViewMod
 import com.bonusgaming.battleofmindskotlin.di.module.*
 import com.bonusgaming.battleofmindskotlin.loading_assets.ImageTarget
 import com.bonusgaming.battleofmindskotlin.loading_assets.LoadingAssetsViewModel
-import com.bonusgaming.battleofmindskotlin.sign_in.SignInViewModel
 import com.bonusgaming.battleofmindskotlin.web.WebRepo
 import dagger.BindsInstance
 import dagger.Component
@@ -24,7 +23,6 @@ interface AppComponent : AndroidInjector<App> {
 
     fun inject(imageTarget: ImageTarget)
     fun inject(pathProvider: PathProvider)
-    fun inject(sign: SignInViewModel)
     fun inject(model: MainContract.ViewModel)
     fun inject(model: MainContract.Model)
     fun inject(webRepo: WebRepo)

@@ -33,7 +33,7 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
     private var currentProgress = 0f
 
     val textStatusLine2LiveData = MutableLiveData<String>()
-    val loadSceneLiveData = MutableLiveData<FragmentState>()
+    val loadSceneLiveData = MutableLiveData<Intent>()
     val textStatusLine1LiveData = MutableLiveData<String>()
     val progressLiveData = MutableLiveData<Int>()
 
@@ -51,7 +51,7 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             Thread.sleep(2000)
             withContext(Dispatchers.Main) {
-                loadSceneLiveData.value = FragmentState.AVATAR
+                loadSceneLiveData.value = getNextFragmentIntent()
             }
         }
     }
@@ -76,10 +76,6 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
         compositeDisposable.add(disposable)
     }
 
-    private fun nextScene() {
-
-    }
-
     private fun proceedResult(list: List<Item>) {
         val perProgress = 100F / list.size
         fun saveToDb(sticker: StickerEntry) {
@@ -101,7 +97,6 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
                 textStatusLine2LiveData.value =
                     resources.getString(R.string.download) + " $progressRounded%"
             }
-            progressRounded
         }
 
         fun checkItem(databaseHashList: List<String>) {
@@ -147,7 +142,7 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
         compositeDisposable.dispose()
     }
 
-    fun getNextFragmentIntent() = Intent(MainModel.ACTION_CHANGE_FRAGMENT_STATE).also {
+    private fun getNextFragmentIntent() = Intent(MainModel.ACTION_CHANGE_FRAGMENT_STATE).also {
         it.putExtra("FragmentState", FragmentState.AVATAR)
     }
 }

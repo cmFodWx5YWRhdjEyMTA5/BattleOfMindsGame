@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bonusgaming.battleofmindskotlin.R
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -37,6 +38,10 @@ class CreatingAvatarFragment : Fragment() {
         val bodyImageView = view.findViewById<ImageView>(R.id.image_body)
         val leftButton = view.findViewById<CardView>(R.id.arrow_left)
         val rightButton = view.findViewById<CardView>(R.id.arrow_right)
+        val playButton = view.findViewById<CardView>(R.id.play_button)
+        playButton.setOnClickListener {
+            startFirebaseAuth()
+        }
 
         val avatar = Avatar(bodyImageView)
 
@@ -58,6 +63,11 @@ class CreatingAvatarFragment : Fragment() {
             }
         })
 
+
+        creatingAvatarViewModel.fragmentIntentLiveData.observe(viewLifecycleOwner, Observer {
+            LocalBroadcastManager.getInstance(requireContext())
+                .sendBroadcast(it)
+        })
     }
 
     private fun startFirebaseAuth() {
