@@ -58,21 +58,23 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
 
     private fun startDownloadUrls() {
         val disposable = modelLoadingAssets.getFaceUrls()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError {
-                textStatusLine1LiveData.value =
-                    resources.getString(R.string.desire_emotion_bad_connection_status)
-                textStatusLine2LiveData.value =
-                    resources.getString(R.string.desire_emotion_bad_connection_action)
-            }
-            .doOnSuccess {
-                textStatusLine1LiveData.value = ""
-                textStatusLine2LiveData.value = resources.getString(R.string.download)
-                proceedResult(it)
-            }
-            .retryWhen { t -> t.delay(5, TimeUnit.SECONDS) }
-            .subscribe()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError {
+                    Log.e("startDownloadUrls", "error ${it.printStackTrace()}")
+                    textStatusLine1LiveData.value =
+                            resources.getString(R.string.desire_emotion_bad_connection_status)
+                    textStatusLine2LiveData.value =
+                            resources.getString(R.string.desire_emotion_bad_connection_action)
+                    throw it
+                }
+                .doOnSuccess {
+                    textStatusLine1LiveData.value = ""
+                    textStatusLine2LiveData.value = resources.getString(R.string.download)
+                    proceedResult(it)
+                }
+                .retryWhen { t -> t.delay(5, TimeUnit.SECONDS) }
+                .subscribe()
         compositeDisposable.add(disposable)
     }
 
@@ -95,7 +97,7 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
             } else {
                 textStatusLine1LiveData.value = ""
                 textStatusLine2LiveData.value =
-                    resources.getString(R.string.download) + " $progressRounded%"
+                        resources.getString(R.string.download) + " $progressRounded%"
             }
         }
 
@@ -107,23 +109,23 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
                 }
                 val name = item.name.replace('/', '_')
                 val onDownload = {
-                    val sticker = StickerEntry(item.md5Hash, name, 0)
+                    val sticker = StickerEntry(item.md5Hash, name)
                     saveToDb(sticker)
                     updateProgress()
                 }
                 val onException: (url: String) -> Unit = {
                     Log.e("retry", "retry download")
                     textStatusLine1LiveData.value =
-                        resources.getString(R.string.desire_emotion_bad_connection_status)
+                            resources.getString(R.string.desire_emotion_bad_connection_status)
                     textStatusLine2LiveData.value =
-                        resources.getString(R.string.desire_emotion_bad_connection_action)
+                            resources.getString(R.string.desire_emotion_bad_connection_action)
                     modelLoadingAssets.retryDownload(item.mediaLink, 5000)
                 }
                 modelLoadingAssets.downloadAndSaveImage(
-                    item.mediaLink,
-                    name,
-                    onDownload,
-                    onException
+                        item.mediaLink,
+                        name,
+                        onDownload,
+                        onException
                 )
             }
         }
@@ -143,7 +145,10 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
     }
 
     private fun getNextFragmentIntent() = Intent(MainModel.ACTION_CHANGE_FRAGMENT_STATE).also {
-        it.putExtra("FragmentState", FragmentState.AVATAR)
+        when (modelLoadingAssets.isAvatarCreated()) {
+            true -> it.putExtra("FragmentState", FragmentState.MAIN)
+            false -> it.putExtra("FragmentState", FragmentState.AVATAR)
+        }
     }
 }
 

@@ -6,6 +6,7 @@ import com.bonusgaming.battleofmindskotlin.db.Database
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.bonusgaming.battleofmindskotlin.web.Item
 import com.bonusgaming.battleofmindskotlin.web.WebRepo
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.NetworkPolicy
 import io.reactivex.Single
 import javax.inject.Inject
@@ -43,16 +44,16 @@ class LoadingAssetsModel @Inject constructor() {
 
     //скачиваем картинку через Picasso
     fun downloadAndSaveImage(
-        url: String,
-        fileName: String,
-        onDownload: () -> Unit,
-        onException: (url: String) -> Unit
+            url: String,
+            fileName: String,
+            onDownload: () -> Unit,
+            onException: (url: String) -> Unit
     ) {
         val imageTarget = ImageTarget(fileName, onDownload, onException)
         listImageTarget[url] = imageTarget
         webRepo.picasso.load(url)
-            .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
-            .into(imageTarget)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                .into(imageTarget)
     }
 
     /*
@@ -64,9 +65,11 @@ class LoadingAssetsModel @Inject constructor() {
         handler.postDelayed({
             listImageTarget[url]?.let {
                 webRepo.picasso.load(url)
-                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
-                    .into(it)
+                        .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                        .into(it)
             }
         }, afterMilliseconds)
     }
+
+    fun isAvatarCreated() = FirebaseAuth.getInstance().currentUser != null
 }

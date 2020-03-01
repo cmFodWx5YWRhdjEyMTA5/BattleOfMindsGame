@@ -5,47 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/editNameText"
-        style="@style/Card"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editNameTextLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="@dimen/width_avatar_create"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:hint="@string/nickname"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
         app:cardCornerRadius="20dp"
         app:cardPreventCornerOverlap="true"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:helperText="Введите Ваш никнэйм"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="@color/colorYellowLight"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent">
 
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/editNameText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:inputType="textVisiblePassword"
-            android:maxLength="15"
             android:textColor="@color/colorWhite"
-            android:textCursorDrawable="@drawable/cursor"
             android:textSize="20sp" />
-    </androidx.cardview.widget.CardView>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/avatar"
         style="@style/Card"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/width_avatar_create"
+        android:layout_height="@dimen/width_avatar_create"
         android:layout_marginTop="32dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="100dp"
+        app:cardCornerRadius="@dimen/radius_avatar_create"
         app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/random_button">
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -78,7 +87,7 @@
         app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toStartOf="@+id/avatar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/random_button">
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -86,9 +95,10 @@
 
             <ImageView
                 android:id="@+id/image_arrow_left"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="14dp"
                 android:rotation="90"
                 android:scaleType="fitCenter"
                 app:srcCompat="@android:drawable/arrow_down_float"
@@ -111,7 +121,7 @@
         app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/avatar"
-        app:layout_constraintTop_toBottomOf="@+id/random_button">
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -119,8 +129,9 @@
 
             <ImageView
                 android:id="@+id/image_arrow_right"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:rotation="-90"
                 android:scaleType="fitCenter"
@@ -135,7 +146,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/play_button"
         style="@style/Card"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/width_avatar_create"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -155,7 +166,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/modak"
             android:gravity="center"
-            android:text="CREATE"
+            android:text="@string/avatar_create_button"
             android:textColor="@color/colorGray"
             android:textSize="20sp" />
     </androidx.cardview.widget.CardView>
@@ -171,7 +182,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/random_button"
         style="@style/Card"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/width_avatar_create"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
@@ -181,33 +192,17 @@
         app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline">
+        app:layout_constraintTop_toBottomOf="@+id/avatar">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:fontFamily="@font/modak"
             android:gravity="center"
-            android:text="RANDOM"
+            android:text="@string/avatar_random_button_text"
             android:textColor="@color/colorWhite"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/gradientText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:fontFamily="@font/modak"
-        android:text="NICKNAME"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-
-        app:layout_constraintBottom_toTopOf="@+id/editNameText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

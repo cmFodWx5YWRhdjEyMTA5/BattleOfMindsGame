@@ -26,9 +26,6 @@ interface StickerDao {
     @Query("SELECT * FROM $stickers where path like '%${BuildConfig.PREFIX_MONSTER}%'")
     fun getMonsters(): List<StickerEntry>
 
-    @Query("SELECT * FROM $stickers where usedForAvatar = 1")
-    fun getUsedForAvatar(): List<StickerEntry>
-
     @Query("SELECT hashMD5 FROM $stickers")
     fun getHashStickersList(): List<String>
 

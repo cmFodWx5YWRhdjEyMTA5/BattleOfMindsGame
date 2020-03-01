@@ -8,8 +8,7 @@ import androidx.room.TypeConverters
 @Entity(tableName = "stickers")
 data class StickerEntry(
     val hashMD5: String,
-    val path: String,
-    val usedForAvatar: Int
+    val path: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

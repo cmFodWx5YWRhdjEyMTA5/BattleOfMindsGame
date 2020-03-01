@@ -9,6 +9,7 @@
 
     <com.bonusgaming.battleofmindskotlin.custom_views.GradientText
         android:id="@+id/name_game"
+        style="@style/TextLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/modak"

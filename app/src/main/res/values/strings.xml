@@ -13,4 +13,8 @@
     <string name="desire_emotion_bad_connection_status">Плохое соединение…</string>
     <string name="desire_emotion_bad_connection_action">Пытаемся соединиться…</string>
     <string name="download">загрузка</string>
+    <string name="nickname">никнэйм</string>
+    <string name="avatar_random_button_text">Выбрать любую</string>
+    <string name="avatar_create_button">Создать</string>
+    <string name="error_short_nickname">Нужно больше 5 символов!</string>
 </resources>

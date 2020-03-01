@@ -4,4 +4,6 @@
     <dimen name="gaming_size">40sp</dimen>
     <dimen name="vs_game_size">30sp</dimen>
     <dimen name="sizeNameGameDownloadingFragment">60sp</dimen>
+    <dimen name="width_avatar_create">200dp</dimen>
+    <dimen name="radius_avatar_create">100dp</dimen>
 </resources>

@@ -36,9 +36,6 @@ interface MainContract {
             Log.e("Model", "contract model created")
             App.appComponent.inject(this)
         }
-
-        abstract fun isAvatarCreated(): Boolean
-        abstract fun setAvatarCreated()
     }
 
 }

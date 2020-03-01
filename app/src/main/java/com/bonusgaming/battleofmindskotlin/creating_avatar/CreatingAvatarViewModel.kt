@@ -8,18 +8,34 @@ import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.App
 import com.bonusgaming.battleofmindskotlin.FragmentState
 import com.bonusgaming.battleofmindskotlin.MainModel
+import com.bonusgaming.battleofmindskotlin.db.AvatarEntry
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.firebase.ui.auth.IdpResponse
+import com.google.firebase.auth.FirebaseAuth
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.random.Random
 
+/*Класс отвечает за создания аватара*/
 class CreatingAvatarViewModel : ViewModel() {
+
+    private var nickName = generateRandomNickName()
+
+    private fun generateRandomNickName(): String {
+        return "player_" + Random.nextInt(10000)
+    }
 
     private lateinit var currentAvatar: Avatar
 
     val initState = MutableLiveData<Boolean>()
+    val nickNameLiveData = MutableLiveData<String>()
+    val isShortNameState = MutableLiveData<Boolean>()
+    val allowCreateAvatar = MutableLiveData<Boolean>()
 
     val fragmentIntentLiveData = MutableLiveData<Intent>()
 
@@ -33,13 +49,27 @@ class CreatingAvatarViewModel : ViewModel() {
     init {
         App.appComponent.inject(this)
         loadStickers()
-        creatingAvatarModel.printTest()
+        nickNameLiveData.value = nickName
     }
+
+    fun onCorrectText(oldChar: CharSequence): CharSequence {
+        return when {
+            nickName.length <= 11 -> oldChar.replace(Regex("\\W"), "")
+            else -> ""
+        }
+
+    }
+
+    fun onTextChanged(oldText: CharSequence) {
+        nickName = oldText.toString()
+        isShortNameState.value = oldText.length < 5
+    }
+
 
     private fun getRandomFrom(list: List<StickerEntry>): String {
-        return list[(list.indices).random()].path
+        monsterPointer = (list.indices).random()
+        return list[monsterPointer].path
     }
-
 
     fun fillAvatarRandom(avatar: Avatar) {
         currentAvatar = avatar
@@ -63,9 +93,17 @@ class CreatingAvatarViewModel : ViewModel() {
         fillAvatarPrevious()
     }
 
+    fun onRandomButton() {
+        fillAvatarRandom(currentAvatar)
+    }
+
 
     fun onRightButton() {
         fillAvatarNext()
+    }
+
+    fun onCreateButton() {
+        allowCreateAvatar.value = nickName.length >= 5
     }
 
     private fun fillAvatarPrevious() {
@@ -84,9 +122,26 @@ class CreatingAvatarViewModel : ViewModel() {
 
 
     fun onLoginSuccess(response: IdpResponse?) {
-        Log.e("login", "success ${response?.email}")
-        fragmentIntentLiveData.value = getNextFragmentIntent()
 
+        creatingAvatarModel.getAvatar()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError {
+                    Log.e("login", "error ${it}")
+                }
+                .doAfterNext {
+                    fragmentIntentLiveData.value = getNextFragmentIntent()
+                }.subscribe()
+
+        viewModelScope.launch(Dispatchers.IO)
+        {
+            val uid = creatingAvatarModel.getUserUid()
+            uid?.let {
+                val avatarEntry = AvatarEntry(nickName, listMonsters[monsterPointer].id, uid)
+                creatingAvatarModel.saveAvatar(avatarEntry)
+            }
+
+        }
     }
 
     fun onLoginFailed(response: IdpResponse?) {

@@ -19,3 +19,13 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-optimizationpasses 5
+-verbose
+-printseeds obfuscation/seeds.txt
+-printusage obfuscation/unused.txt
+-printmapping obfuscation/mapping.txt
+
+# The variable names are POJO key values and should not be obfuscated
+-keepclassmembers class com.bonusgaming.battleofmindskotlin.web.CloudStorageItem { <fields>; }
+-keepclassmembers class com.bonusgaming.battleofmindskotlin.web.Item { <fields>; }

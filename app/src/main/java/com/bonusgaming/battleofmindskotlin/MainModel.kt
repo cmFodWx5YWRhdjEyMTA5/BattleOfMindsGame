@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -54,15 +55,5 @@ class MainModel : MainContract.Model() {
 
 
     val globalFragmentsState: Observable<FragmentState> =
-        Observable.create { emitter = it }
-
-    override fun isAvatarCreated(): Boolean {
-        // return prefs.getBoolean(KEY_AVATAR_CREATED) for debug
-        return false
-    }
-
-    override fun setAvatarCreated() {
-        prefs.putBoolean(KEY_AVATAR_CREATED, true)
-    }
-
+            Observable.create { emitter = it }
 }

@@ -15,6 +15,14 @@ apiProperties.load(new FileInputStream(apiPropertiesFile))
 
 android {
 
+    signingConfigs {
+        proguard_test {
+            storeFile file('C:\\Android\\keystore.jks')
+            storePassword 'svsvaeaeK3'
+            keyAlias = 'minds'
+            keyPassword 'svsvaeaeM3'
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -41,8 +49,15 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        proguard_test {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.proguard_test
         }
     }
 }
