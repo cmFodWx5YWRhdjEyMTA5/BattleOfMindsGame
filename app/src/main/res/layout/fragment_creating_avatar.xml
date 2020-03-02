@@ -45,13 +45,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/avatar"
-        style="@style/Card"
+        style="@style/CardImage"
         android:layout_width="@dimen/width_avatar_create"
         android:layout_height="@dimen/width_avatar_create"
         android:layout_marginTop="32dp"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/radius_avatar_create"
-        app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline">
@@ -188,7 +185,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="@dimen/radius_card_button"
         app:cardPreventCornerOverlap="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -198,6 +195,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:fontFamily="@font/cormorant_infant_light_italic"
             android:gravity="center"
             android:text="@string/avatar_random_button_text"
             android:textColor="@color/colorWhite"
