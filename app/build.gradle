@@ -10,19 +10,94 @@ apply plugin: 'com.google.gms.google-services'
 
 
 def apiPropertiesFile = rootProject.file("app/api.properties")
+
+//check app/api.properties, чтобы у проверяющих OTUS собирался проект
+if (!apiPropertiesFile.exists()) {
+    String info =
+            "STORAGE_API_KEY=\"fake\"\n" +
+                    "STORAGE_BUCKET=\"fake\"\n" +
+                    "STORAGE_SERVICE=\"fake\"\n" +
+                    "PREFIX_ALL=\"fake\"\n" +
+                    "STORAGE_BASE_URL=\"fake\"\n" +
+                    "PREFIX_MONSTER=\"fake\"\n"
+    apiPropertiesFile << info
+}
+
 def apiProperties = new Properties()
 apiProperties.load(new FileInputStream(apiPropertiesFile))
 
+//check google-services.json, чтобы у проверяющих OTUS собирался проект
+def googleServicesFile = rootProject.file("app/google-services.json")
+if (!googleServicesFile.exists()) {
+    String info = "{\n" +
+            "  \"project_info\": {\n" +
+            "    \"project_number\": \"fake\",\n" +
+            "    \"firebase_url\": \"fake\",\n" +
+            "    \"project_id\": \"fake\",\n" +
+            "    \"storage_bucket\": \"fake\"\n" +
+            "  },\n" +
+            "  \"client\": [\n" +
+            "    {\n" +
+            "      \"client_info\": {\n" +
+            "        \"mobilesdk_app_id\": \"fake\",\n" +
+            "        \"android_client_info\": {\n" +
+            "          \"package_name\": \"fake\"\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"oauth_client\": [\n" +
+            "        {\n" +
+            "          \"client_id\": \"fake\",\n" +
+            "          \"client_type\": 0,\n" +
+            "          \"android_info\": {\n" +
+            "            \"package_name\": \"fake\",\n" +
+            "            \"certificate_hash\": \"fake\"\n" +
+            "          }\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"client_id\": \"fake\",\n" +
+            "          \"client_type\": 0,\n" +
+            "          \"android_info\": {\n" +
+            "            \"package_name\": \"fake\",\n" +
+            "            \"certificate_hash\": \"fake\"\n" +
+            "          }\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"client_id\": \"fake\",\n" +
+            "          \"client_type\": 0,\n" +
+            "          \"android_info\": {\n" +
+            "            \"package_name\": \"fake\",\n" +
+            "            \"certificate_hash\": \"fake\"\n" +
+            "          }\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"client_id\": \"fake\",\n" +
+            "          \"client_type\": 0\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"api_key\": [\n" +
+            "        {\n" +
+            "          \"current_key\": \"fake\"\n" +
+            "        }\n" +
+            "      ],\n" +
+            "      \"services\": {\n" +
+            "        \"appinvite_service\": {\n" +
+            "          \"other_platform_oauth_client\": [\n" +
+            "            {\n" +
+            "              \"client_id\": \"fake\",\n" +
+            "              \"client_type\": 0\n" +
+            "            }\n" +
+            "          ]\n" +
+            "        }\n" +
+            "      }\n" +
+            "    }\n" +
+            "  ],\n" +
+            "  \"configuration_version\": \"fake\"\n" +
+            "}"
+    googleServicesFile << info
+}
+
 android {
 
-    signingConfigs {
-        proguard_test {
-            storeFile file('C:\\Android\\keystore.jks')
-            storePassword 'svsvaeaeK3'
-            keyAlias = 'minds'
-            keyPassword 'svsvaeaeM3'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -57,7 +132,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.proguard_test
         }
     }
 }
