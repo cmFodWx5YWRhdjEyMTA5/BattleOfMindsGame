@@ -45,8 +45,8 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
     private val _inflateAvatar = MutableLiveData<File>()
     val inflateAvatar: LiveData<File> get() = _inflateAvatar
 
-    private val _fragmentIntentLiveData = MutableLiveData<Intent>()
-    val fragmentIntentLiveData: LiveData<Intent> get() = _fragmentIntentLiveData
+    private val _fragmentIntentLiveData = MutableLiveData<FragmentState>()
+    val fragmentIntentLiveData: LiveData<FragmentState> get() = _fragmentIntentLiveData
 
     init {
         loadStickers()
@@ -90,9 +90,7 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
         return list[monsterPointer].path
     }
 
-    private fun getNextFragmentIntent() = Intent(MainModel.ACTION_CHANGE_FRAGMENT_STATE).also {
-        it.putExtra("FragmentState", FragmentState.MAIN)
-    }
+    private fun getNextFragmentState() = FragmentState.MAIN
 
     fun onCorrectText(oldChar: CharSequence): CharSequence {
         return when {
@@ -136,7 +134,7 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
                     //TODO something toast error
                 }
                 withContext(Dispatchers.Main) {
-                    _fragmentIntentLiveData.value = getNextFragmentIntent()
+                    _fragmentIntentLiveData.value = getNextFragmentState()
                 }
             }
         }

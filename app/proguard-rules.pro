@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--optimizationpasses 5
+-optimizationpasses 3
 -verbose
 -printseeds obfuscation/seeds.txt
 -printusage obfuscation/unused.txt

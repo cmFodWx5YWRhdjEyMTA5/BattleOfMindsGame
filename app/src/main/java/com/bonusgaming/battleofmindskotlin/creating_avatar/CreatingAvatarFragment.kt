@@ -16,10 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.bonusgaming.battleofmindskotlin.App
-import com.bonusgaming.battleofmindskotlin.PathProvider
-import com.bonusgaming.battleofmindskotlin.R
-import com.bonusgaming.battleofmindskotlin.ViewModelFactory
+import com.bonusgaming.battleofmindskotlin.*
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.textfield.TextInputEditText
@@ -27,6 +24,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
+private const val FRAGMENT_STATE_KEY = "FragmentState"
 
 class CreatingAvatarFragment : Fragment() {
 
@@ -131,8 +129,10 @@ class CreatingAvatarFragment : Fragment() {
             })
 
             creatingAvatarViewModel.fragmentIntentLiveData.observe(viewLifecycleOwner, Observer {
+                val intent = Intent()
+                intent.putExtra(FRAGMENT_STATE_KEY, it)
                 LocalBroadcastManager.getInstance(requireContext())
-                        .sendBroadcast(it)
+                        .sendBroadcast(intent)
             })
 
             creatingAvatarViewModel.allowCreateAvatar.observe(viewLifecycleOwner, Observer {
