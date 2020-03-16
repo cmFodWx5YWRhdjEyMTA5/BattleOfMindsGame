@@ -144,7 +144,6 @@ class CreatingAvatarFragment : Fragment() {
                 }
             })
         }
-
         setViewListeners()
         setObservers()
     }
