@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
-import android.text.Spanned
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,17 +14,20 @@ import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.bonusgaming.battleofmindskotlin.App
 import com.bonusgaming.battleofmindskotlin.R
+import com.bonusgaming.battleofmindskotlin.di.module.ViewModelModule
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import javax.inject.Inject
 
 
 class CreatingAvatarFragment : Fragment() {
 
+    @Inject
     lateinit var creatingAvatarViewModel: CreatingAvatarViewModel
 
     override fun onCreateView(
@@ -40,6 +42,10 @@ class CreatingAvatarFragment : Fragment() {
         private const val RC_SIGN_IN = 22
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.getCreatingAvatarComponent(ViewModelModule(this)).inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +66,7 @@ class CreatingAvatarFragment : Fragment() {
 
         val avatar = Avatar(bodyImageView)
 
-        creatingAvatarViewModel = ViewModelProvider(this).get(CreatingAvatarViewModel::class.java)
+        // creatingAvatarViewModel = ViewModelProvider(this).get(CreatingAvatarViewModel::class.java)
 
         nicknameEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -76,7 +82,6 @@ class CreatingAvatarFragment : Fragment() {
                     creatingAvatarViewModel.onTextChanged(s)
                 }
             }
-
         })
 
         playButton.setOnClickListener {

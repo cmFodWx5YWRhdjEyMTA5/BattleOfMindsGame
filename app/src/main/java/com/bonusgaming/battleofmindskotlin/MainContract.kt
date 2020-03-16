@@ -29,13 +29,9 @@ interface MainContract {
         @Inject
         lateinit var appContext: Context
 
-        @Inject
-        lateinit var database: Database
-
         init {
             Log.e("Model", "contract model created")
             App.appComponent.inject(this)
         }
     }
-
 }

@@ -11,9 +11,7 @@ import com.bonusgaming.battleofmindskotlin.MainModel
 import com.bonusgaming.battleofmindskotlin.db.AvatarEntry
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,10 +23,6 @@ import kotlin.random.Random
 class CreatingAvatarViewModel : ViewModel() {
 
     private var nickName = generateRandomNickName()
-
-    private fun generateRandomNickName(): String {
-        return "player_" + Random.nextInt(10000)
-    }
 
     private lateinit var currentAvatar: Avatar
 
@@ -47,9 +41,12 @@ class CreatingAvatarViewModel : ViewModel() {
 
 
     init {
-        App.appComponent.inject(this)
         loadStickers()
         nickNameLiveData.value = nickName
+    }
+
+    private fun generateRandomNickName(): String {
+        return "player_" + Random.nextInt(10000)
     }
 
     fun onCorrectText(oldChar: CharSequence): CharSequence {
@@ -57,7 +54,6 @@ class CreatingAvatarViewModel : ViewModel() {
             nickName.length <= 11 -> oldChar.replace(Regex("\\W"), "")
             else -> ""
         }
-
     }
 
     fun onTextChanged(oldText: CharSequence) {

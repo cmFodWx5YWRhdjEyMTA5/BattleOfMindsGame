@@ -2,7 +2,7 @@ package com.bonusgaming.battleofmindskotlin.loading_assets
 
 import android.os.Handler
 import com.bonusgaming.battleofmindskotlin.BuildConfig
-import com.bonusgaming.battleofmindskotlin.db.Database
+import com.bonusgaming.battleofmindskotlin.db.StickerDao
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
 import com.bonusgaming.battleofmindskotlin.web.Item
 import com.bonusgaming.battleofmindskotlin.web.WebRepo
@@ -20,7 +20,7 @@ class LoadingAssetsModel @Inject constructor() {
     val listImageTarget = mutableMapOf<String, ImageTarget>()
 
     @Inject
-    lateinit var database: Database
+    lateinit var stickersDao: StickerDao
 
     @Inject
     lateinit var webRepo: WebRepo
@@ -37,10 +37,10 @@ class LoadingAssetsModel @Inject constructor() {
     }
 
     fun addStickerToDb(sticker: StickerEntry) {
-        database.stickersDao().insertAll(sticker)
+        stickersDao.insertAll(sticker)
     }
 
-    fun getHashStickersList() = database.stickersDao().getHashStickersList()
+    fun getHashStickersList() = stickersDao.getHashStickersList()
 
     //скачиваем картинку через Picasso
     fun downloadAndSaveImage(

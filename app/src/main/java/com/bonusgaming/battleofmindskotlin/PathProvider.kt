@@ -6,13 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PathProvider @Inject constructor() {
-    @Inject
-    lateinit var context: Context
-
-    init {
-        App.appComponent.inject(this)
-    }
+class PathProvider @Inject constructor(val context: Context) {
 
     fun getImagesPath(): String {
         val result = context.filesDir.path + "/images/"
@@ -21,5 +15,4 @@ class PathProvider @Inject constructor() {
         if (!directory.exists()) directory.mkdirs()
         return result
     }
-
 }
