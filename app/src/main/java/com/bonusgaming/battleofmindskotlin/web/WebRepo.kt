@@ -10,9 +10,6 @@ import javax.inject.Singleton
 class WebRepo @Inject constructor() {
 
     @Inject
-    lateinit var picasso: Picasso
-
-    @Inject
     lateinit var retrofit: Retrofit
     var imagesUrlApi: ImagesUrlApi
 

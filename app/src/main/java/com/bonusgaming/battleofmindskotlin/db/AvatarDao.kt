@@ -18,6 +18,6 @@ interface AvatarDao {
     fun insert(avatar: AvatarEntry)
 
     @Query("SELECT * FROM $avatarTable")
-    fun getAvatar(): Observable<AvatarEntry>
+    fun getAvatar(): AvatarEntry
 
 }

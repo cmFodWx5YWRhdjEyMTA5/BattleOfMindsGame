@@ -13,4 +13,5 @@
 /captures
 .externalNativeBuild
 app/api.properties
-app/google-services.json
+app/release
+app/obfuscation

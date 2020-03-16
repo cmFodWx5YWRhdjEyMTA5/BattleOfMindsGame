@@ -8,22 +8,18 @@ import com.bonusgaming.battleofmindskotlin.web.Item
 import com.bonusgaming.battleofmindskotlin.web.WebRepo
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.NetworkPolicy
+import com.squareup.picasso.Picasso
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 //Реализуем Model для MVVM, работа с бд и интернетом
 @Singleton
-class LoadingAssetsModel @Inject constructor() {
+class LoadingAssetsModel @Inject constructor(val stickersDao: StickerDao,
+                                             val webRepo: WebRepo) {
 
     //strong reference for ImageTarget
     val listImageTarget = mutableMapOf<String, ImageTarget>()
-
-    @Inject
-    lateinit var stickersDao: StickerDao
-
-    @Inject
-    lateinit var webRepo: WebRepo
 
     //получаем список url через rest api
     fun getFaceUrls(): Single<List<Item>> {
@@ -51,7 +47,7 @@ class LoadingAssetsModel @Inject constructor() {
     ) {
         val imageTarget = ImageTarget(fileName, onDownload, onException)
         listImageTarget[url] = imageTarget
-        webRepo.picasso.load(url)
+        Picasso.get().load(url)
                 .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .into(imageTarget)
     }
@@ -64,7 +60,7 @@ class LoadingAssetsModel @Inject constructor() {
         val handler = Handler()
         handler.postDelayed({
             listImageTarget[url]?.let {
-                webRepo.picasso.load(url)
+                Picasso.get().load(url)
                         .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                         .into(it)
             }

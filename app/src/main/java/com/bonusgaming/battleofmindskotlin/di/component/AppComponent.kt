@@ -15,7 +15,7 @@ import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ResourcesModule::class, PicassoModule::class, RetrofitModule::class, DatabaseModule::class, PrefsModule::class, ApplicationModule::class, AndroidInjectionModule::class, MainModelModule::class])
+@Component(modules = [ResourcesModule::class, RetrofitModule::class, DatabaseModule::class, PrefsModule::class, ApplicationModule::class, AndroidInjectionModule::class, MainModelModule::class])
 interface AppComponent : AndroidInjector<App> {
 
     fun inject(imageTarget: ImageTarget)
@@ -25,8 +25,7 @@ interface AppComponent : AndroidInjector<App> {
     fun inject(webRepo: WebRepo)
     fun inject(viewModel: LoadingAssetsViewModel)
 
-   // val creatingAvatarComponent(viewModelModule: ViewModelModule): CreatingAvatarComponent
-    fun getCreatingAvatarComponent(viewModelModule: ViewModelModule):CreatingAvatarComponent
+    fun getCreatingAvatarComponent():CreatingAvatarComponent
 
     @Component.Builder
     interface Builder {
@@ -35,4 +34,6 @@ interface AppComponent : AndroidInjector<App> {
 
         fun build(): AppComponent
     }
+
+
 }
