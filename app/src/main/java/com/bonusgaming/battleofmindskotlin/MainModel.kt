@@ -20,7 +20,6 @@ class MainModel : MainContract.Model() {
 
     companion object {
         const val KEY_AVATAR_CREATED: String = "avatar_key"
-        const val ACTION_CHANGE_FRAGMENT_STATE: String = "bonusgaming.change_fragment_state"
     }
 
     fun setCurrentState(state: FragmentState) {

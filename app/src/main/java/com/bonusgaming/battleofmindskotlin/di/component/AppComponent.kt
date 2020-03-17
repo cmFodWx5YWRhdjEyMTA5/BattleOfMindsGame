@@ -25,7 +25,9 @@ interface AppComponent : AndroidInjector<App> {
     fun inject(webRepo: WebRepo)
     fun inject(viewModel: LoadingAssetsViewModel)
 
-    fun getCreatingAvatarComponent():CreatingAvatarComponent
+    fun getCreatingAvatarComponent(): CreatingAvatarComponent
+
+    fun getMenuComponent(): MenuComponent
 
     @Component.Builder
     interface Builder {

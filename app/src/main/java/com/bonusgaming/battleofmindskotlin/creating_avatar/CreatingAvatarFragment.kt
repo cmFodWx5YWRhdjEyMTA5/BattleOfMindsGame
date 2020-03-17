@@ -24,7 +24,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-private const val FRAGMENT_STATE_KEY = "FragmentState"
 
 class CreatingAvatarFragment : Fragment() {
 
@@ -50,10 +49,9 @@ class CreatingAvatarFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.getCreatingAvatarComponent().inject(this)
+        super.onCreate(savedInstanceState)
 
         creatingAvatarViewModel = ViewModelProvider(this, viewModelFactory)[CreatingAvatarViewModel::class.java]
-
-        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -129,7 +127,8 @@ class CreatingAvatarFragment : Fragment() {
             })
 
             creatingAvatarViewModel.fragmentIntentLiveData.observe(viewLifecycleOwner, Observer {
-                val intent = Intent()
+                val intent = Intent(ACTION_CHANGE_FRAGMENT_STATE)
+                Log.e("lala22", "fragmentIntentLiveData")
                 intent.putExtra(FRAGMENT_STATE_KEY, it)
                 LocalBroadcastManager.getInstance(requireContext())
                         .sendBroadcast(intent)

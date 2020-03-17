@@ -144,7 +144,7 @@ class LoadingAssetsViewModel : MainContract.ViewModel() {
         compositeDisposable.dispose()
     }
 
-    private fun getNextFragmentIntent() = Intent(MainModel.ACTION_CHANGE_FRAGMENT_STATE).also {
+    private fun getNextFragmentIntent() = Intent(ACTION_CHANGE_FRAGMENT_STATE).also {
         when (modelLoadingAssets.isAvatarCreated()) {
             true -> it.putExtra("FragmentState", FragmentState.MAIN)
             false -> it.putExtra("FragmentState", FragmentState.AVATAR)
