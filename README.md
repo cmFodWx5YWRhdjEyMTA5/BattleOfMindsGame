@@ -30,4 +30,10 @@ POJO классы [CloudStorageItem и Item](https://github.com/bonusdev/BattleO
 Создание аватара отображается во фрагементе [(CreatingAvatarFragment.kt)](https://github.com/bonusdev/BattleOfMindsGame/blob/master/app/src/main/java/com/bonusgaming/battleofmindskotlin/creating_avatar/CreatingAvatarFragment.kt), который взаимодействует с [CreatingAvatarViewModel.kt](https://github.com/bonusdev/BattleOfMindsGame/blob/master/app/src/main/java/com/bonusgaming/battleofmindskotlin/creating_avatar/CreatingAvatarViewModel.kt), а последний взаимодействует с [CreatingAvatarModel.kt](https://github.com/bonusdev/BattleOfMindsGame/blob/master/app/src/main/java/com/bonusgaming/battleofmindskotlin/creating_avatar/CreatingAvatarModel.kt)
 
 
+# ДЗ №6. Clean Architecture.
+Разбил на Presentation, Domain и Data слои фичу-экран главное меню [Main Menu Feature](https://github.com/bonusdev/BattleOfMindsGame/tree/master/app/src/main/java/com/bonusgaming/battleofmindskotlin/main)
+
+![](dz6example.png)
+
+
 
