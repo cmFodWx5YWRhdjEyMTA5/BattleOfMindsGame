@@ -41,7 +41,7 @@ if (!googleServicesFile.exists()) {
             "      \"client_info\": {\n" +
             "        \"mobilesdk_app_id\": \"fake\",\n" +
             "        \"android_client_info\": {\n" +
-            "          \"package_name\": \"fake\"\n" +
+            "          \"package_name\": \"com.bonusgaming.battleofmindskotlin\"\n" +
             "        }\n" +
             "      },\n" +
             "      \"oauth_client\": [\n" +
@@ -49,7 +49,7 @@ if (!googleServicesFile.exists()) {
             "          \"client_id\": \"fake\",\n" +
             "          \"client_type\": 0,\n" +
             "          \"android_info\": {\n" +
-            "            \"package_name\": \"fake\",\n" +
+            "            \"package_name\": \"com.bonusgaming.battleofmindskotlin\",\n" +
             "            \"certificate_hash\": \"fake\"\n" +
             "          }\n" +
             "        },\n" +
@@ -57,7 +57,7 @@ if (!googleServicesFile.exists()) {
             "          \"client_id\": \"fake\",\n" +
             "          \"client_type\": 0,\n" +
             "          \"android_info\": {\n" +
-            "            \"package_name\": \"fake\",\n" +
+            "            \"package_name\": \"com.bonusgaming.battleofmindskotlin\",\n" +
             "            \"certificate_hash\": \"fake\"\n" +
             "          }\n" +
             "        },\n" +
@@ -65,7 +65,7 @@ if (!googleServicesFile.exists()) {
             "          \"client_id\": \"fake\",\n" +
             "          \"client_type\": 0,\n" +
             "          \"android_info\": {\n" +
-            "            \"package_name\": \"fake\",\n" +
+            "            \"package_name\": \"com.bonusgaming.battleofmindskotlin\",\n" +
             "            \"certificate_hash\": \"fake\"\n" +
             "          }\n" +
             "        },\n" +
