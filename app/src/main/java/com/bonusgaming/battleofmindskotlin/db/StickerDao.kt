@@ -34,4 +34,7 @@ interface StickerDao {
 
     @Query("SELECT * FROM $stickers where hashMD5=:hashMD5")
     fun getStickersByHash(hashMD5: String): Observable<List<StickerEntry>>
+
+    @Query("SELECT * FROM $stickers where id=:id")
+    fun getStickersById(id: Int): StickerEntry
 }

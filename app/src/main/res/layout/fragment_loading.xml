@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/id_name"
+        android:id="@+id/menu_avatar_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -57,7 +57,7 @@
         tools:srcCompat="@tools:sample/avatars">
 
         <ImageView
-            android:id="@+id/image_view_logo_main"
+            android:id="@+id/menu_avatar_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
@@ -75,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/id_name" />
+        app:layout_constraintTop_toBottomOf="@id/menu_avatar_name" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/image_enemy"

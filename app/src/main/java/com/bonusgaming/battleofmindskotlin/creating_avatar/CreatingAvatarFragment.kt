@@ -15,8 +15,8 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bonusgaming.battleofmindskotlin.*
+import com.bonusgaming.battleofmindskotlin.tools.sendIntentForNextState
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.textfield.TextInputEditText
@@ -50,12 +50,12 @@ class CreatingAvatarFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.getCreatingAvatarComponent().inject(this)
         super.onCreate(savedInstanceState)
-
-        creatingAvatarViewModel = ViewModelProvider(this, viewModelFactory)[CreatingAvatarViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        creatingAvatarViewModel = ViewModelProvider(this, viewModelFactory)[CreatingAvatarViewModel::class.java]
 
         val bodyImageView = view.findViewById<ImageView>(R.id.image_body)
         val leftButton = view.findViewById<CardView>(R.id.arrow_left)
@@ -127,11 +127,7 @@ class CreatingAvatarFragment : Fragment() {
             })
 
             creatingAvatarViewModel.fragmentIntentLiveData.observe(viewLifecycleOwner, Observer {
-                val intent = Intent(ACTION_CHANGE_FRAGMENT_STATE)
-                Log.e("lala22", "fragmentIntentLiveData")
-                intent.putExtra(FRAGMENT_STATE_KEY, it)
-                LocalBroadcastManager.getInstance(requireContext())
-                        .sendBroadcast(intent)
+                sendIntentForNextState(it)
             })
 
             creatingAvatarViewModel.allowCreateAvatar.observe(viewLifecycleOwner, Observer {

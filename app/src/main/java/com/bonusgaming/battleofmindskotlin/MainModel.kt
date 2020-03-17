@@ -8,8 +8,7 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.google.firebase.auth.FirebaseAuth
-import io.reactivex.Flowable
+import com.bonusgaming.battleofmindskotlin.tools.ACTION_CHANGE_FRAGMENT_STATE
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import javax.inject.Singleton

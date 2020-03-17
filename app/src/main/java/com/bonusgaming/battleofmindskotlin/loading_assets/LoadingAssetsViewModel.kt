@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.*
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
+import com.bonusgaming.battleofmindskotlin.tools.ACTION_CHANGE_FRAGMENT_STATE
 import com.bonusgaming.battleofmindskotlin.web.Item
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

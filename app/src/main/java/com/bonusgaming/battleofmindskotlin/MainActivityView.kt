@@ -22,7 +22,6 @@ class MainActivityView : AppCompatActivity(), MainContract.View {
     private lateinit var mainViewModel: MainViewModel
 
     override fun changeFragment(state: FragmentState) {
-        Log.e("123231", "MainActivityView changeFragment " + state)
         val fr: Fragment = when (state) {
             FragmentState.LOGO -> HelloFragment()
             FragmentState.DOWNLOAD_ASSETS -> LoadingAssetsFragment()
@@ -32,7 +31,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View {
             FragmentState.GAME -> GameFragment()
             FragmentState.RESULT -> GameFragment()//not implemented
             FragmentState.SETTINGS -> GameFragment()//not implemented
-            FragmentState.STATISTICS -> GameFragment()//not implemented
+            FragmentState.STATISTICS -> LoadingFragment()//not implemented
         }
 
         ActivityUtils.replaceFragment(supportFragmentManager, fr)
