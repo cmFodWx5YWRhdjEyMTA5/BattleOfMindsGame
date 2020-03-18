@@ -39,4 +39,6 @@ POJO классы [CloudStorageItem и Item](https://github.com/bonusdev/BattleO
 На каждый фрагмент создаю по Subcomponent(в каждом фрагменте создаю собственную фабирку ViewModel`ей [ViewModelFactory](https://github.com/bonusdev/BattleOfMindsGame/blob/master/app/src/main/java/com/bonusgaming/battleofmindskotlin/ViewModelFactory.kt)), выполняю inject() в Activity/Fragment, а далее используется constructor injection.
 [com.bonusgaming.battleofmindskotlin.di](https://github.com/bonusdev/BattleOfMindsGame/tree/master/app/src/main/java/com/bonusgaming/battleofmindskotlin/di)
 
+![](dz7example.png)
+
 
