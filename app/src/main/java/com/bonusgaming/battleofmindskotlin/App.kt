@@ -15,9 +15,11 @@ class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.e("poryadok","oncreate")
-      //  FirebaseApp.initializeApp(this)
+        Log.e("poryadok", "oncreate")
+        //  FirebaseApp.initializeApp(this)
+
     }
+
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         appComponent = DaggerAppComponent.builder().application(this).build()

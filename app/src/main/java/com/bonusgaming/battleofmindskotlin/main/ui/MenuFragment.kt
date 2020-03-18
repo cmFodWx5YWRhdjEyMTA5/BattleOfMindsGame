@@ -23,10 +23,13 @@ class MenuFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var picasso: Picasso
+
     private lateinit var menuViewModel: MenuViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_memu, container, false)
+        return inflater.inflate(R.layout.fragment_menu, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,6 +38,7 @@ class MenuFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+      //  App.appComponent.getMenuComponent().inject(this)
         App.appComponent.getMenuComponent().inject(this)
         super.onCreate(savedInstanceState)
     }
@@ -55,7 +59,7 @@ class MenuFragment : Fragment() {
         })
 
         menuViewModel.avatarChanged.observe(viewLifecycleOwner, Observer {
-            Picasso.get().load(File(it.imageFullPath)).into(avatarImageView)
+            picasso.load(File(it.imageFullPath)).into(avatarImageView)
             avatarTextView.text = it.avatarNickname
         })
 

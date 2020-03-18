@@ -15,13 +15,43 @@ import com.bonusgaming.battleofmindskotlin.loading_game.LoadingFragment
 import com.bonusgaming.battleofmindskotlin.logo.HelloFragment
 import com.bonusgaming.battleofmindskotlin.main.ui.MenuFragment
 import com.bonusgaming.battleofmindskotlin.tools.ActivityUtils
+import javax.inject.Inject
 
 
-class MainActivityView : AppCompatActivity(), MainContract.View {
+class MainActivityView : AppCompatActivity() {
 
-    private lateinit var mainViewModel: MainViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
-    override fun changeFragment(state: FragmentState) {
+    lateinit var mainViewModel: MainViewModel
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("9789","-----------------MainActivityView onDestroy")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        App.appComponent.inject(this)
+        Log.e("9789","-----------------MainActivityView onCreate $viewModelFactory")
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+
+        mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
+        Log.e("9789","-----------------mainViewModel ${mainViewModel}")
+
+        mainViewModel.getData().observe(this, Observer {
+            Log.e("9789","mutable data $it")
+            changeFragment(it)
+        })
+
+        mainViewModel.onViewCreated()
+    }
+
+
+    fun changeFragment(state: FragmentState) {
         val fr: Fragment = when (state) {
             FragmentState.LOGO -> HelloFragment()
             FragmentState.DOWNLOAD_ASSETS -> LoadingAssetsFragment()
@@ -34,20 +64,9 @@ class MainActivityView : AppCompatActivity(), MainContract.View {
             FragmentState.STATISTICS -> LoadingFragment()//not implemented
         }
 
+        Log.e("9789"," ch fr $state $supportFragmentManager")
         ActivityUtils.replaceFragment(supportFragmentManager, fr)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        attachToViewModel()
-        mainViewModel.onViewCreated()
-    }
 
-    private fun attachToViewModel() {
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        mainViewModel.getData().observe(this, Observer {
-            changeFragment(it)
-        })
-    }
 }

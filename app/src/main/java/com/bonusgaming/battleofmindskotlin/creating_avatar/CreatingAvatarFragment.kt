@@ -33,6 +33,9 @@ class CreatingAvatarFragment : Fragment() {
     @Inject
     lateinit var pathProvider: PathProvider
 
+    @Inject
+    lateinit var picasso: Picasso
+
     lateinit var creatingAvatarViewModel: CreatingAvatarViewModel
 
     override fun onCreateView(
@@ -48,13 +51,14 @@ class CreatingAvatarFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+       // App.appComponent.getCreatingAvatarComponent().inject(this)
         App.appComponent.getCreatingAvatarComponent().inject(this)
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.e("9789","-----------------CreatingAvatarFragment onViewCreated $viewModelFactory")
         creatingAvatarViewModel = ViewModelProvider(this, viewModelFactory)[CreatingAvatarViewModel::class.java]
 
         val bodyImageView = view.findViewById<ImageView>(R.id.image_body)
@@ -112,7 +116,7 @@ class CreatingAvatarFragment : Fragment() {
             })
 
             creatingAvatarViewModel.inflateAvatar.observe(viewLifecycleOwner, Observer {
-                Picasso.get().load(it)
+                picasso.load(it)
                         .into(bodyImageView)
             })
 

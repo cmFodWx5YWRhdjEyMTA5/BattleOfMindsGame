@@ -94,7 +94,7 @@
             android:layout_height="150dp"
             android:layout_gravity="center"
             android:contentDescription="@string/content_desc"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
 
     </androidx.cardview.widget.CardView>

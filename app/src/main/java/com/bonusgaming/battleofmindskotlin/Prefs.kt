@@ -1,10 +1,11 @@
 package com.bonusgaming.battleofmindskotlin
 
 import android.content.Context
+import javax.inject.Inject
 
 private const val NAME_PREFS = "app.settings"
 
-class Prefs(context: Context) {
+class Prefs @Inject constructor(context: Context) {
 
     private val prefs = context.getSharedPreferences(NAME_PREFS, Context.MODE_PRIVATE)
 

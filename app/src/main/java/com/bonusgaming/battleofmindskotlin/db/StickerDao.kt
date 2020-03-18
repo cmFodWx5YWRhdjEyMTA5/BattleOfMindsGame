@@ -15,7 +15,7 @@ interface StickerDao {
     }
 
     @Insert
-    fun insertAll(vararg users: StickerEntry)
+    fun insertAll(vararg stickers: StickerEntry)
 
     @Query("SELECT * FROM $stickers")
     fun getListStickers(): List<StickerEntry>

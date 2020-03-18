@@ -2,6 +2,7 @@ package com.bonusgaming.battleofmindskotlin.di.module
 
 import com.bonusgaming.battleofmindskotlin.BuildConfig
 import com.google.gson.GsonBuilder
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -13,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class RetrofitModule {
+class WebModule {
 
     //for debug
     private fun addLogging(clientBuilder: OkHttpClient.Builder) {
@@ -33,9 +34,9 @@ class RetrofitModule {
         okHttpClientClientBuilder.interceptors().add(Interceptor {
             val request = it.request()
             val url =
-                request.url().newBuilder()
-                    .addQueryParameter("key", BuildConfig.STORAGE_API_KEY)
-                    .build()
+                    request.url().newBuilder()
+                            .addQueryParameter("key", BuildConfig.STORAGE_API_KEY)
+                            .build()
 
             val newRequest = request.newBuilder().url(url).build()
 
@@ -44,10 +45,17 @@ class RetrofitModule {
         val okHttpClientClient = okHttpClientClientBuilder.build()
 
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.STORAGE_BASE_URL)
-            .client(okHttpClientClient)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .build()
+                .baseUrl(BuildConfig.STORAGE_BASE_URL)
+                .client(okHttpClientClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+                .build()
+    }
+
+    //провайдим Picasso на слуйчай изменения конфигурации Picasso, да и классы не должны знать о способе создания Picasso
+    @Provides
+    @Singleton
+    fun getPicasso(): Picasso {
+        return Picasso.get()
     }
 }

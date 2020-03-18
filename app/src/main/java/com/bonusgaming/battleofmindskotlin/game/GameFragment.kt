@@ -21,11 +21,13 @@ class GameFragment : Fragment() {
     lateinit var button3: CardView
     lateinit var button4: CardView
     lateinit var question: CardView
-    val gameModelView: GameModelView = GameModelView()
+
+
+    lateinit var gameViewModel: GameViewModel
 
     private val buttonClickListener = View.OnClickListener {
         val answer = ((it as ViewGroup).getChildAt(0) as TextView).text.toString()
-        gameModelView.checkAnswer(answer)
+        gameViewModel.checkAnswer(answer)
     }
 
     private fun setAnswersClickable(value: Boolean) {
@@ -52,7 +54,7 @@ class GameFragment : Fragment() {
         val progressBarAnimation = view.findViewById<ProgressRoundBar>(R.id.progressBar)
         progressBarAnimation.timeOffListener = object : TimeOffListener {
             override fun timeOf() {
-                gameModelView.onTimeOff()
+                gameViewModel.onTimeOff()
             }
         }
 
@@ -70,40 +72,40 @@ class GameFragment : Fragment() {
         button3.setOnClickListener(buttonClickListener)
         button4.setOnClickListener(buttonClickListener)
         question.setOnClickListener {
-            gameModelView.onQuestionClick()
+            gameViewModel.onQuestionClick()
         }
 
 
-        gameModelView.buttonLiveData1.observe(this, Observer {
+        gameViewModel.buttonLiveData1.observe(viewLifecycleOwner, Observer {
             button1.setCardBackgroundColor(it)
         })
-        gameModelView.buttonLiveData2.observe(this, Observer {
+        gameViewModel.buttonLiveData2.observe(viewLifecycleOwner, Observer {
 
             button2.setCardBackgroundColor(it)
         })
-        gameModelView.buttonLiveData3.observe(this, Observer {
+        gameViewModel.buttonLiveData3.observe(viewLifecycleOwner, Observer {
             button3.setCardBackgroundColor(it)
         })
-        gameModelView.buttonLiveData4.observe(this, Observer {
+        gameViewModel.buttonLiveData4.observe(viewLifecycleOwner, Observer {
             button4.setCardBackgroundColor(it)
         })
 
-        gameModelView.answersClickable.observe(this, Observer {
+        gameViewModel.answersClickable.observe(viewLifecycleOwner, Observer {
             setAnswersClickable(it)
         })
 
-        gameModelView.questionClickable.observe(this, Observer {
+        gameViewModel.questionClickable.observe(viewLifecycleOwner, Observer {
             setQuestionClickable(it)
         })
 
 
-        gameModelView.progressBarState.observe(this, Observer {
+        gameViewModel.progressBarState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 ProgressRoundBar.STOP_STATE -> progressBar.stopAnimate()
             }
         })
 
-        gameModelView.tapTextVisibility.observe(this, Observer {
+        gameViewModel.tapTextVisibility.observe(viewLifecycleOwner, Observer {
             tapText.visibility = it
         })
 
@@ -113,7 +115,7 @@ class GameFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        gameModelView.onViewCreated()
+        gameViewModel.onViewCreated()
     }
 
 

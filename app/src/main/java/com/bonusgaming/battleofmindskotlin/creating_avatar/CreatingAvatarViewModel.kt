@@ -49,17 +49,20 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
     val fragmentIntentLiveData: LiveData<FragmentState> get() = _fragmentIntentLiveData
 
     init {
-        loadStickers()
+        Log.e("9977", "init CreatingAvatarVM")
+        loadStickers {
+            _initState.value = true
+            onRandomButton()
+        }
         _nickNameLiveData.value = nickName
-        onRandomButton()
     }
 
-    private fun loadStickers() {
+    private fun loadStickers(onLoad: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             listMonsters.clear()
             listMonsters.addAll(creatingAvatarModel.getMonsters())
             withContext(Dispatchers.Main) {
-                _initState.value = true
+                onLoad()
             }
         }
     }
@@ -88,6 +91,11 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
     private fun getRandomFrom(list: List<StickerEntry>): String {
         monsterPointer = (list.indices).random()
         return list[monsterPointer].path
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.e("9977", "creatingavatar onCleared }")
     }
 
     private fun getNextFragmentState() = FragmentState.MAIN

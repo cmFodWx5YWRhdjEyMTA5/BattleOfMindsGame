@@ -10,24 +10,38 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.bonusgaming.battleofmindskotlin.App
 import com.bonusgaming.battleofmindskotlin.R
+import com.bonusgaming.battleofmindskotlin.ViewModelFactory
 import com.bonusgaming.battleofmindskotlin.custom_views.LoadingAssetsBar
+import com.bonusgaming.battleofmindskotlin.tools.sendIntentForNextState
+import javax.inject.Inject
 
-//фрагмент для отображения состояния загрузки и приветствия
+//фрагмент для отображения состояния загрузки
 class LoadingAssetsFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var mainViewModel: LoadingAssetsViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        //App.appComponent.getLoadingAssetsComponent().inject(this)
+        App.appComponent.getLoadingAssetsComponent().inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_download_assets, null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mainViewModel = ViewModelProvider(this).get(LoadingAssetsViewModel::class.java)
+        Log.e("9789","-----------------LoadingAssets onViewCreated $viewModelFactory")
+        mainViewModel = ViewModelProvider(this, viewModelFactory).get(LoadingAssetsViewModel::class.java)
 
         mainViewModel.onViewCreated()
         val progressBar = view.findViewById<LoadingAssetsBar>(R.id.loading_assets_bar)
@@ -41,18 +55,11 @@ class LoadingAssetsFragment : Fragment() {
         })
 
         mainViewModel.loadSceneLiveData.observe(viewLifecycleOwner, Observer {
-            Log.e("FrView", "on loadSceneLiveData")
-            LocalBroadcastManager.getInstance(requireContext())
-                .sendBroadcast(it)
-
+            sendIntentForNextState(it)
         })
 
         mainViewModel.textStatusLine2LiveData.observe(viewLifecycleOwner, Observer {
             progressBar.textStatusLine2 = it
         })
-
-
     }
-
-
 }

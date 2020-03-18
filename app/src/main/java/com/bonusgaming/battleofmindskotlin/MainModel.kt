@@ -11,27 +11,28 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bonusgaming.battleofmindskotlin.tools.ACTION_CHANGE_FRAGMENT_STATE
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
-class MainModel : MainContract.Model() {
+class MainModel @Inject constructor(private val appContext: Context) {
 
-    companion object {
-        const val KEY_AVATAR_CREATED: String = "avatar_key"
-    }
+    private lateinit var emitter: ObservableEmitter<FragmentState>
 
-    fun setCurrentState(state: FragmentState) {
-        emitter.onNext(state)
+    val globalFragmentsState: Observable<FragmentState> = Observable.create { emitter = it }
+
+    init{
+        Log.e("9789", " ------------------- MainModel init")
     }
 
     private val receiverFragmentState = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
+        override fun onReceive(context: Context, intent: Intent?) {
             Log.e("FrView", "on receiverFragmentState")
 
             intent?.let {
                 Log.e("FrView", "on intent not null")
                 val fragmentState = intent.getSerializableExtra("FragmentState") as FragmentState
+                Log.e("FrView", "state is ${fragmentState}")
                 setCurrentState(fragmentState)
             }
         }
@@ -44,14 +45,13 @@ class MainModel : MainContract.Model() {
         }
     }
 
+    fun setCurrentState(state: FragmentState) {
+        Log.e("9789"," scs $state")
+        emitter.onNext(state)
+    }
+
     @SuppressLint("ResourceType")
     fun getCardColor(): Int {
         return Color.parseColor(appContext.getString(R.color.colorCardBackground))
     }
-
-    private lateinit var emitter: ObservableEmitter<FragmentState>
-
-
-    val globalFragmentsState: Observable<FragmentState> =
-            Observable.create { emitter = it }
 }

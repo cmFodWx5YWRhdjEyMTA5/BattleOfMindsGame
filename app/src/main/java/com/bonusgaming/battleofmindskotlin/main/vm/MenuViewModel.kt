@@ -1,5 +1,6 @@
 package com.bonusgaming.battleofmindskotlin.main.vm
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,7 @@ class MenuViewModel @Inject constructor(private val getAvatarUseCase: GetAvatarI
     val avatarChanged: LiveData<AvatarInfo> get() = _avatarChanged
 
     init {
+        Log.e("9977","init MenuViewModel")
         viewModelScope.launch(Dispatchers.IO) {
             avatarInfo = getAvatarUseCase.execute()
             withContext(Dispatchers.Main) {
@@ -43,5 +45,10 @@ class MenuViewModel @Inject constructor(private val getAvatarUseCase: GetAvatarI
     fun onStatisticsClick() {
         _liveFragmentState.value = getFragmentStateUseCase.execute(ClickType.STATISTICS)
         //TODO show histograms for statistics
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.e("9977", "menu onCleared }")
     }
 }

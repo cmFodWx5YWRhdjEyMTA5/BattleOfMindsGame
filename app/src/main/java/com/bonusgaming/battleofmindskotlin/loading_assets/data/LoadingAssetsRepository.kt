@@ -1,22 +1,30 @@
-package com.bonusgaming.battleofmindskotlin.loading_assets
+package com.bonusgaming.battleofmindskotlin.loading_assets.data
 
+import android.graphics.Bitmap
 import android.os.Handler
 import com.bonusgaming.battleofmindskotlin.BuildConfig
+import com.bonusgaming.battleofmindskotlin.PathProvider
 import com.bonusgaming.battleofmindskotlin.db.StickerDao
 import com.bonusgaming.battleofmindskotlin.db.StickerEntry
+import com.bonusgaming.battleofmindskotlin.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.loading_assets.domain.model.ImageTarget
 import com.bonusgaming.battleofmindskotlin.web.Item
 import com.bonusgaming.battleofmindskotlin.web.WebRepo
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import io.reactivex.Single
+import java.io.FileOutputStream
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 //Реализуем Model для MVVM, работа с бд и интернетом
-@Singleton
-class LoadingAssetsModel @Inject constructor(val stickersDao: StickerDao,
-                                             val webRepo: WebRepo) {
+@PerFragment
+class LoadingAssetsRepository @Inject constructor(private val stickersDao: StickerDao,
+                                                  private val webRepo: WebRepo,
+                                                  private val picasso: Picasso,
+                                                  private val pathProvider: PathProvider) {
 
     //strong reference for ImageTarget
     val listImageTarget = mutableMapOf<String, ImageTarget>()
@@ -36,18 +44,23 @@ class LoadingAssetsModel @Inject constructor(val stickersDao: StickerDao,
         stickersDao.insertAll(sticker)
     }
 
+    fun saveBitmapToDisk(fileName: String, bitmap: Bitmap) {
+        val outputStream = FileOutputStream(pathProvider.getImagesPath() + fileName)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+    }
+
     fun getHashStickersList() = stickersDao.getHashStickersList()
 
     //скачиваем картинку через Picasso
-    fun downloadAndSaveImage(
+    fun downloadBitmapToDisk(
             url: String,
             fileName: String,
-            onDownload: () -> Unit,
+            onDownload: (fileName: String, bitmap: Bitmap) -> Unit,
             onException: (url: String) -> Unit
     ) {
         val imageTarget = ImageTarget(fileName, onDownload, onException)
         listImageTarget[url] = imageTarget
-        Picasso.get().load(url)
+        picasso.load(url)
                 .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .into(imageTarget)
     }
@@ -60,7 +73,7 @@ class LoadingAssetsModel @Inject constructor(val stickersDao: StickerDao,
         val handler = Handler()
         handler.postDelayed({
             listImageTarget[url]?.let {
-                Picasso.get().load(url)
+                picasso.load(url)
                         .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                         .into(it)
             }
