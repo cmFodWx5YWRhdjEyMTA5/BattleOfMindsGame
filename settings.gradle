@@ -1,2 +1,9 @@
 include ':app'
-
+include ':features:login'
+include ':core:ui'
+include ':core:main'
+include ':features:menu'
+include ':base:db_api'
+include ':base:db_impl'
+include ':base:web_api'
+include ':base:web_impl'

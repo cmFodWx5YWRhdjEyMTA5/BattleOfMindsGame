@@ -1,7 +1,7 @@
 package com.bonusgaming.battleofmindskotlin.di.module
 
 import androidx.lifecycle.ViewModel
-import com.bonusgaming.battleofmindskotlin.creating_avatar.CreatingAvatarViewModel
+import com.bonusgaming.battleofmindskotlin.login.creating_avatar.CreatingAvatarViewModel
 import com.bonusgaming.battleofmindskotlin.di.ViewModelKey
 import com.bonusgaming.battleofmindskotlin.di.scope.PerFragment
 import dagger.Binds

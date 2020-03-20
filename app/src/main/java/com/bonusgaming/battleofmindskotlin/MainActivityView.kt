@@ -3,14 +3,13 @@ package com.bonusgaming.battleofmindskotlin
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bonusgaming.battleofmindskotlin.creating_avatar.CreatingAvatarFragment
+import com.bonusgaming.battleofmindskotlin.login.creating_avatar.CreatingAvatarFragment
 import com.bonusgaming.battleofmindskotlin.game.GameFragment
-import com.bonusgaming.battleofmindskotlin.loading_assets.LoadingAssetsFragment
+import com.bonusgaming.battleofmindskotlin.login.loading_assets.LoadingAssetsFragment
 import com.bonusgaming.battleofmindskotlin.loading_game.LoadingFragment
 import com.bonusgaming.battleofmindskotlin.logo.HelloFragment
 import com.bonusgaming.battleofmindskotlin.main.ui.MenuFragment
