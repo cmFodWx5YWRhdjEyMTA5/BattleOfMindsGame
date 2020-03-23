@@ -1,16 +1,15 @@
-package com.bonusgaming.battleofmindskotlin.login.creating_avatar
+package com.bonusgaming.battleofmindskotlin.features.login.creating_avatar
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bonusgaming.battleofmindskotlin.FragmentState
-import com.bonusgaming.battleofmindskotlin.MainModel
-import com.bonusgaming.battleofmindskotlin.PathProvider
-import com.bonusgaming.battleofmindskotlin.db.AvatarEntry
-import com.bonusgaming.battleofmindskotlin.db.StickerEntry
-import com.bonusgaming.battleofmindskotlin.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
+import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.core.main.dto.Avatar
+import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import com.firebase.ui.auth.IdpResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +25,7 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
 
     private lateinit var currentAvatarPath: String
     private var nickName = generateRandomNickName()
-    private val listMonsters = mutableListOf<StickerEntry>()
+    private val listMonsters = mutableListOf<Sticker>()
     private var monsterPointer = 0
 
     private val _initState = MutableLiveData<Boolean>()
@@ -87,7 +86,7 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
         return "player_" + Random.nextInt(10000)
     }
 
-    private fun getRandomFrom(list: List<StickerEntry>): String {
+    private fun getRandomFrom(list: List<Sticker>): String {
         monsterPointer = (list.indices).random()
         return list[monsterPointer].path
     }
@@ -132,7 +131,7 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
         viewModelScope.launch(Dispatchers.IO) {
             val uid = creatingAvatarModel.getUserUid()
             uid?.let {
-                val avatarEntry = AvatarEntry(nickName, listMonsters[monsterPointer].id, uid)
+                val avatarEntry = Avatar(nickName, listMonsters[monsterPointer].id, uid)
                 creatingAvatarModel.saveAvatar(avatarEntry)
                 val savedAvatar = creatingAvatarModel.getAvatar()
 

@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Reusable
 class ActivityUtils @Inject constructor() {
 
-    fun replaceFragment(@IdRes container: Int, fragmentManager: FragmentManager, fragment: Fragment) {
+    public fun replaceFragment(container: Int, fragmentManager: FragmentManager, fragment: Fragment) {
         val transaction = fragmentManager.beginTransaction()
         transaction.replace(container, fragment)
         transaction.commit()

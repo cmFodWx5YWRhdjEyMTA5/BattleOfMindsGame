@@ -1,14 +1,11 @@
-package com.bonusgaming.battleofmindskotlin.login.creating_avatar
+package com.bonusgaming.battleofmindskotlin.features.login.creating_avatar
 
-import com.bonusgaming.battleofmindskotlin.PathProvider
-import com.bonusgaming.battleofmindskotlin.db.AvatarDao
-import com.bonusgaming.battleofmindskotlin.db.AvatarEntry
-import com.bonusgaming.battleofmindskotlin.db.StickerDao
-import com.bonusgaming.battleofmindskotlin.db.StickerEntry
-import com.bonusgaming.battleofmindskotlin.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.base_db_api.AvatarDao
+import com.bonusgaming.battleofmindskotlin.base_db_api.StickerDao
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.core.main.dto.Avatar
+import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import com.google.firebase.auth.FirebaseAuth
-import com.squareup.picasso.Picasso
-import io.reactivex.Observable
 import javax.inject.Inject
 
 @PerFragment
@@ -16,11 +13,11 @@ class CreatingAvatarModel @Inject constructor(
         private val avatarDao: AvatarDao,
         private val stickersDao: StickerDao) {
 
-    fun saveAvatar(avatar: AvatarEntry) {
+    fun saveAvatar(avatar: Avatar) {
         avatarDao.insert(avatar)
     }
 
-    fun getAvatar(): AvatarEntry = avatarDao.getAvatar()
-    fun getMonsters(): List<StickerEntry> = stickersDao.getMonsters()
+    fun getAvatar(): Avatar = avatarDao.getAvatar()
+    fun getMonsters(): List<Sticker> = stickersDao.getMonsters()
     fun getUserUid() = FirebaseAuth.getInstance().currentUser?.uid
 }

@@ -7,8 +7,6 @@ import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 
 @Entity(tableName = "stickers")
 data class StickerEntry(
+        @PrimaryKey
         @Embedded val sticker: Sticker
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-}
+)

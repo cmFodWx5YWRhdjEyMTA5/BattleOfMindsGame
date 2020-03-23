@@ -5,7 +5,7 @@ import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+
 class PathProvider @Inject constructor(private val context: Context) {
 
     fun getImagesPath(): String {

@@ -1,5 +1,5 @@
 package com.bonusgaming.battleofmindskotlin.game
-
+/*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -119,4 +119,4 @@ class GameFragment : Fragment() {
     }
 
 
-}
+}*/

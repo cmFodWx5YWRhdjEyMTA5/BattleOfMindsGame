@@ -1,5 +1,5 @@
 package com.bonusgaming.battleofmindskotlin.loading_game
-
+/*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,3 +66,4 @@ class LoadingFragment : Fragment() {
         loadingViewModel.onCreated()
     }
 }
+*/

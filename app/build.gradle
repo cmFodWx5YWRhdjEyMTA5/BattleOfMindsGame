@@ -6,97 +6,16 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.google.gms.google-services'
 
-
-def apiPropertiesFile = rootProject.file("app/api.properties")
-
-//check app/api.properties, чтобы у проверяющих OTUS собирался проект
-if (!apiPropertiesFile.exists()) {
-    String info =
-            "STORAGE_API_KEY=\"fake\"\n" +
-                    "STORAGE_BUCKET=\"fake\"\n" +
-                    "STORAGE_SERVICE=\"fake\"\n" +
-                    "PREFIX_ALL=\"fake\"\n" +
-                    "STORAGE_BASE_URL=\"fake\"\n" +
-                    "PREFIX_MONSTER=\"fake\"\n"
-    apiPropertiesFile << info
+repositories {
+    mavenCentral()
 }
 
-def apiProperties = new Properties()
-apiProperties.load(new FileInputStream(apiPropertiesFile))
-
-//check google-services.json, чтобы у проверяющих OTUS собирался проект
-def googleServicesFile = rootProject.file("app/google-services.json")
-if (!googleServicesFile.exists()) {
-    String info = "{\n" +
-            "  \"project_info\": {\n" +
-            "    \"project_number\": \"fake\",\n" +
-            "    \"firebase_url\": \"fake\",\n" +
-            "    \"project_id\": \"fake\",\n" +
-            "    \"storage_bucket\": \"fake\"\n" +
-            "  },\n" +
-            "  \"client\": [\n" +
-            "    {\n" +
-            "      \"client_info\": {\n" +
-            "        \"mobilesdk_app_id\": \"fake\",\n" +
-            "        \"android_client_info\": {\n" +
-            "          \"package_name\": \"com.bonusgaming.battleofmindskotlin\"\n" +
-            "        }\n" +
-            "      },\n" +
-            "      \"oauth_client\": [\n" +
-            "        {\n" +
-            "          \"client_id\": \"fake\",\n" +
-            "          \"client_type\": 0,\n" +
-            "          \"android_info\": {\n" +
-            "            \"package_name\": \"com.bonusgaming.battleofmindskotlin\",\n" +
-            "            \"certificate_hash\": \"fake\"\n" +
-            "          }\n" +
-            "        },\n" +
-            "        {\n" +
-            "          \"client_id\": \"fake\",\n" +
-            "          \"client_type\": 0,\n" +
-            "          \"android_info\": {\n" +
-            "            \"package_name\": \"com.bonusgaming.battleofmindskotlin\",\n" +
-            "            \"certificate_hash\": \"fake\"\n" +
-            "          }\n" +
-            "        },\n" +
-            "        {\n" +
-            "          \"client_id\": \"fake\",\n" +
-            "          \"client_type\": 0,\n" +
-            "          \"android_info\": {\n" +
-            "            \"package_name\": \"com.bonusgaming.battleofmindskotlin\",\n" +
-            "            \"certificate_hash\": \"fake\"\n" +
-            "          }\n" +
-            "        },\n" +
-            "        {\n" +
-            "          \"client_id\": \"fake\",\n" +
-            "          \"client_type\": 0\n" +
-            "        }\n" +
-            "      ],\n" +
-            "      \"api_key\": [\n" +
-            "        {\n" +
-            "          \"current_key\": \"fake\"\n" +
-            "        }\n" +
-            "      ],\n" +
-            "      \"services\": {\n" +
-            "        \"appinvite_service\": {\n" +
-            "          \"other_platform_oauth_client\": [\n" +
-            "            {\n" +
-            "              \"client_id\": \"fake\",\n" +
-            "              \"client_type\": 0\n" +
-            "            }\n" +
-            "          ]\n" +
-            "        }\n" +
-            "      }\n" +
-            "    }\n" +
-            "  ],\n" +
-            "  \"configuration_version\": \"fake\"\n" +
-            "}"
-    googleServicesFile << info
-}
 
 android {
+
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -114,12 +33,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "STORAGE_API_KEY", apiProperties['STORAGE_API_KEY'])
-        buildConfigField("String", "STORAGE_BUCKET", apiProperties['STORAGE_BUCKET'])
-        buildConfigField("String", "STORAGE_SERVICE", apiProperties['STORAGE_SERVICE'])
-        buildConfigField("String", "PREFIX_ALL", apiProperties['PREFIX_ALL'])
-        buildConfigField("String", "STORAGE_BASE_URL", apiProperties['STORAGE_BASE_URL'])
-        buildConfigField("String", "PREFIX_MONSTER", apiProperties['PREFIX_MONSTER'])
+
     }
     buildTypes {
         release {
@@ -140,58 +54,37 @@ dependencies {
 
 
     //Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    //AndroidX
+//    //AndroidX
+//    implementation 'androidx.appcompat:appcompat:1.1.0'
+//    implementation 'androidx.core:core-ktx:1.2.0'
+//    implementation 'com.google.android.material:material:1.1.0'
+//    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    //androidx
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     // Dagger dependencies
     kapt "com.google.dagger:dagger-compiler:2.25.2"
-    implementation "com.google.dagger:dagger:2.25.2"
+    implementation "com.google.dagger:dagger:2.26"
     implementation "com.google.dagger:dagger-android:2.22.1"
-    implementation "com.google.dagger:dagger-android-support:2.22.1"
     kapt "com.google.dagger:dagger-android-processor:2.22.1"
 
+    //fix some bug
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
-    // Dependencies for Android unit tests
-    androidTestImplementation "junit:junit:4.12"
-    androidTestImplementation "org.mockito:mockito-core:1.10.19"
+    //module
+    implementation project(":features:login")
+    implementation project(":core:main")
+    implementation project(":base:ui")
+    implementation project(":base:web_impl")
+    implementation project(":base:web_api")
+    implementation project(":base:db_impl")
+    implementation project(":base:db_api")
 
-    //picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
-    //firebase
-    implementation 'com.google.firebase:firebase-core:17.2.2'
-    implementation 'com.google.firebase:firebase-storage:19.1.1'
-    implementation 'com.google.firebase:firebase-firestore:21.4.0'
-
-    //coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3'
-
-    //retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
-
-    // RxAndroid
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
-
-    // RxJava
-    implementation "io.reactivex.rxjava2:rxjava:2.2.9"
-
-    //auth
-    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
-
-}
-repositories {
-    mavenCentral()
 }

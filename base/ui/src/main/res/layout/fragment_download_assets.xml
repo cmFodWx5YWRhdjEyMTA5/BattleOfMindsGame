@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hello_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <com.bonusgaming.battleofmindskotlin.base_ui.GradientText
+        android:id="@+id/name_game"
+        style="@style/TextLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/modak"
+        android:gravity="center"
+        android:text="@string/name_game"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sizeNameGameDownloadingFragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
+        android:id="@+id/loading_assets_bar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/barrier_right"
+        app:layout_constraintStart_toStartOf="@id/barrier_left"
+        app:layout_constraintTop_toBottomOf="@+id/name_game">
+
+    </com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left"
+        app:constraint_referenced_ids="name_game"
+        tools:layout_editor_absoluteX="411dp" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="name_game" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

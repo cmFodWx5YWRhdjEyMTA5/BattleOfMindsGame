@@ -15,11 +15,11 @@
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/base/db_api" />
             <option value="$PROJECT_DIR$/base/db_impl" />
+            <option value="$PROJECT_DIR$/base/ui" />
             <option value="$PROJECT_DIR$/base/web_api" />
             <option value="$PROJECT_DIR$/base/web_impl" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/main" />
-            <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/login" />
             <option value="$PROJECT_DIR$/features/menu" />

@@ -1,27 +1,25 @@
-package com.bonusgaming.battleofmindskotlin.login.loading_assets.data
+package com.bonusgaming.battleofmindskotlin.features.login.loading_assets.data
 
+import android.content.ClipData
 import android.graphics.Bitmap
 import android.os.Handler
-import com.bonusgaming.battleofmindskotlin.BuildConfig
-import com.bonusgaming.battleofmindskotlin.PathProvider
-import com.bonusgaming.battleofmindskotlin.db.StickerDao
-import com.bonusgaming.battleofmindskotlin.db.StickerEntry
-import com.bonusgaming.battleofmindskotlin.di.scope.PerFragment
-import com.bonusgaming.battleofmindskotlin.login.loading_assets.domain.model.ImageTarget
-import com.bonusgaming.battleofmindskotlin.web.Item
-import com.bonusgaming.battleofmindskotlin.web.WebRepo
+import com.bonusgaming.battleofmindskotlin.base_db_api.StickerDao
+import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
+import com.bonusgaming.battleofmindskotlin.base_web_api.dto.ImageTarget
+import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
+import com.bonusgaming.battleofmindskotlin.core.main.dto.UrlSticker
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import io.reactivex.Single
 import java.io.FileOutputStream
 import javax.inject.Inject
-import javax.inject.Singleton
 
 //Реализуем Model для MVVM, работа с бд и интернетом
-@PerFragment
 class LoadingAssetsRepository @Inject constructor(private val stickersDao: StickerDao,
-                                                  private val webRepo: WebRepo,
+                                                  private val webRepo: WebApi,
                                                   private val picasso: Picasso,
                                                   private val pathProvider: PathProvider) {
 
@@ -29,17 +27,17 @@ class LoadingAssetsRepository @Inject constructor(private val stickersDao: Stick
     val listImageTarget = mutableMapOf<String, ImageTarget>()
 
     //получаем список url через rest api
-    fun getFaceUrls(): Single<List<Item>> {
-        return webRepo.imagesUrlApi.getListUrls(BuildConfig.PREFIX_ALL).map {
-            val resultList = mutableListOf<Item>()
-            it.items.forEach { item ->
+    fun getFaceUrls(): Single<List<UrlSticker>> {
+        return webRepo.provideStickerApi().getStickers("").map {
+            val resultList = mutableListOf<UrlSticker>()
+            it.forEach { item ->
                 if (item.size.toInt() > 0) resultList.add(item)
             }
             resultList
         }
     }
 
-    fun addStickerToDb(sticker: StickerEntry) {
+    fun addStickerToDb(sticker: Sticker) {
         stickersDao.insertAll(sticker)
     }
 

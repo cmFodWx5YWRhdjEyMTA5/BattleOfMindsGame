@@ -3,9 +3,12 @@ package com.bonusgaming.battleofmindskotlin.base_db_impl.di.module
 import android.content.Context
 
 import androidx.room.Room
-import com.bonusgaming.battleofmindskotlin.base_db_impl.AvatarDao
+import com.bonusgaming.battleofmindskotlin.base_db_api.AvatarDao
+import com.bonusgaming.battleofmindskotlin.base_db_api.StickerDao
 import com.bonusgaming.battleofmindskotlin.base_db_impl.Database
-import com.bonusgaming.battleofmindskotlin.base_db_impl.StickerDao
+import com.bonusgaming.battleofmindskotlin.base_db_impl.adapter.ToAvatarDaoAdapter
+import com.bonusgaming.battleofmindskotlin.base_db_impl.adapter.ToStickerDaoAdapter
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,17 +28,17 @@ class DatabaseModule {
             database = Room.databaseBuilder(context, Database::class.java, DB_NAME).build()
     }
 
-    @Singleton
+    @PerFeature
     @Provides
     fun getStickersDao(context: Context): StickerDao {
         initDatabase(context)
-        return database.stickersDao()
+        return ToStickerDaoAdapter(database.stickersDao())
     }
 
-    @Singleton
+    @PerFeature
     @Provides
     fun getAvatarDao(context: Context): AvatarDao {
         initDatabase(context)
-        return database.avatarDao()
+        return ToAvatarDaoAdapter(database.avatarDao())
     }
 }

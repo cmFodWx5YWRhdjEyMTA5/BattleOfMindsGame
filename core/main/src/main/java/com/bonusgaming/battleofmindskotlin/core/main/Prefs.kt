@@ -6,7 +6,7 @@ import javax.inject.Singleton
 
 private const val NAME_PREFS = "app.settings"
 
-@Singleton
+
 class Prefs @Inject constructor(private val context: Context) {
 
     private val prefs = context.getSharedPreferences(NAME_PREFS, Context.MODE_PRIVATE)

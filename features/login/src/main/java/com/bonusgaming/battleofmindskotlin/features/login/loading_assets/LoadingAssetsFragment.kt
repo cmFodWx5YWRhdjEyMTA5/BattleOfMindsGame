@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.login.loading_assets
+package com.bonusgaming.battleofmindskotlin.features.login.loading_assets
 
 
 import android.os.Bundle
@@ -9,16 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.bonusgaming.battleofmindskotlin.App
-import com.bonusgaming.battleofmindskotlin.R
-import com.bonusgaming.battleofmindskotlin.ViewModelFactory
-import com.bonusgaming.battleofmindskotlin.custom_views.LoadingAssetsBar
-import com.bonusgaming.battleofmindskotlin.tools.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
+import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
+import com.bonusgaming.battleofmindskotlin.features.login.R
 import javax.inject.Inject
 
 //фрагмент для отображения состояния загрузки
-class LoadingAssetsFragment : Fragment() {
+class LoadingAssetsFragment @Inject constructor() : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -27,7 +25,7 @@ class LoadingAssetsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //App.appComponent.getLoadingAssetsComponent().inject(this)
-        App.appComponent.getLoadingAssetsComponent().inject(this)
+        // App.appComponent.getLoadingAssetsComponent().inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -40,7 +38,7 @@ class LoadingAssetsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.e("9789","-----------------LoadingAssets onViewCreated $viewModelFactory")
+        Log.e("9789", "-----------------LoadingAssets onViewCreated $viewModelFactory")
         mainViewModel = ViewModelProvider(this, viewModelFactory).get(LoadingAssetsViewModel::class.java)
 
         mainViewModel.onViewCreated()

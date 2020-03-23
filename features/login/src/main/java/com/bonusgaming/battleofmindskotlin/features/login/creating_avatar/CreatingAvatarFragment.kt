@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.login.creating_avatar
+package com.bonusgaming.battleofmindskotlin.features.login.creating_avatar
 
 import android.app.Activity
 import android.content.Intent
@@ -15,7 +15,10 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bonusgaming.battleofmindskotlin.tools.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
+import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
+import com.bonusgaming.battleofmindskotlin.features.login.R
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.textfield.TextInputEditText
@@ -51,7 +54,7 @@ class CreatingAvatarFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
        // App.appComponent.getCreatingAvatarComponent().inject(this)
-        App.appComponent.getCreatingAvatarComponent().inject(this)
+       // App.appComponent.getCreatingAvatarComponent().inject(this)
         super.onCreate(savedInstanceState)
     }
 

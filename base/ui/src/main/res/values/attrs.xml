@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="CustomLoadingValueAnimator">
+        <attr name="onEndText" format="string" />
+    </declare-styleable>
+</resources>

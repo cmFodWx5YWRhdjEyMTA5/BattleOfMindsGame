@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.login.loading_assets
+package com.bonusgaming.battleofmindskotlin.features.login.loading_assets
 
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -7,10 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bonusgaming.battleofmindskotlin.db.StickerEntry
-import com.bonusgaming.battleofmindskotlin.di.scope.PerFragment
-import com.bonusgaming.battleofmindskotlin.login.loading_assets.data.LoadingAssetsRepository
-import com.bonusgaming.battleofmindskotlin.web.Item
+import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
+import com.bonusgaming.battleofmindskotlin.core.main.dto.UrlSticker
+import com.bonusgaming.battleofmindskotlin.features.login.R
+import com.bonusgaming.battleofmindskotlin.features.login.loading_assets.data.LoadingAssetsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -21,7 +23,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.round
 
-@PerFragment
+
 class LoadingAssetsViewModel @Inject constructor(private val modelLoadingAssets: LoadingAssetsRepository,
                                                  val resources: Resources) : ViewModel() {
 
@@ -79,9 +81,9 @@ class LoadingAssetsViewModel @Inject constructor(private val modelLoadingAssets:
         compositeDisposable.add(disposable)
     }
 
-    private fun proceedResult(list: List<Item>) {
+    private fun proceedResult(list: List<UrlSticker>) {
         val perProgress = 100F / list.size
-        fun saveSticker(sticker: StickerEntry, bitmap: Bitmap) {
+        fun saveSticker(sticker: Sticker, bitmap: Bitmap) {
             viewModelScope.launch(Dispatchers.IO) {
                 modelLoadingAssets.addStickerToDb(sticker)
                 modelLoadingAssets.saveBitmapToDisk(sticker.path, bitmap)
@@ -112,7 +114,7 @@ class LoadingAssetsViewModel @Inject constructor(private val modelLoadingAssets:
                 }
                 val name = item.name.replace('/', '_')
                 val onDownload: (fileName: String, bitmap: Bitmap) -> Unit = { fileName, bitmap ->
-                    val sticker = StickerEntry(item.md5Hash, fileName)
+                    val sticker = Sticker(item.md5Hash, fileName)
                     saveSticker(sticker, bitmap)
                     updateProgress()
                 }

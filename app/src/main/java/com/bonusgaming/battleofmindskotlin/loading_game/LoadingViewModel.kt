@@ -1,5 +1,5 @@
 package com.bonusgaming.battleofmindskotlin.loading_game
-
+/*
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,3 +35,6 @@ class LoadingViewModel @Inject constructor(private val model: LoadingModel) : Vi
     }
 
 }
+
+ */
+
