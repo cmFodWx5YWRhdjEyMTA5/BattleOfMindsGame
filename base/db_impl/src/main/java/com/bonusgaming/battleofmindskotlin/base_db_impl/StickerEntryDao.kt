@@ -3,11 +3,10 @@ package com.bonusgaming.battleofmindskotlin.base_db_impl
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import io.reactivex.Observable
 
 internal const val stickers = "stickers"
-internal const val monsters = "monsters"
+internal const val monster = "monster"
 
 @Dao
 interface StickerEntryDao {
@@ -18,7 +17,7 @@ interface StickerEntryDao {
     @Query("SELECT * FROM $stickers")
     fun getListStickers(): List<StickerEntry>
 
-    @Query("SELECT * FROM $stickers where path like '%$monsters%'")
+    @Query("SELECT * FROM $stickers where path like '%$monster%'")
     fun getMonsters(): List<StickerEntry>
 
     @Query("SELECT hashMD5 FROM $stickers")

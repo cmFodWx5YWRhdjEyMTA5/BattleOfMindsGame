@@ -65,6 +65,9 @@ dependencies {
     //picasso
     api 'com.squareup.picasso:picasso:2.71828'
 
+    //ui auth
+    api 'com.firebaseui:firebase-ui-auth:6.2.0'
+
     //firebase
     implementation 'com.google.firebase:firebase-core:17.2.3'
     implementation 'com.google.firebase:firebase-storage:19.1.1'

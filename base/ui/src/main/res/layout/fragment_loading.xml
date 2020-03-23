@@ -65,7 +65,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.bonusgaming.battleofmindskotlin.custom_views.CustomLoadingValueAnimator
+    <com.bonusgaming.battleofmindskotlin.base_ui.CustomLoadingValueAnimator
 
         android:id="@+id/custom_loading"
         app:onEndText="@string/on_end_text_loading"

@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bonusgaming.battleofmindskotlin.FragmentState
-import com.bonusgaming.battleofmindskotlin.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
 import com.bonusgaming.battleofmindskotlin.main.domain.model.ClickType
 import com.bonusgaming.battleofmindskotlin.main.domain.model.AvatarInfo
 import com.bonusgaming.battleofmindskotlin.main.domain.use_cases.GetAvatarInfoUseCase
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@PerFragment
+
 class MenuViewModel @Inject constructor(private val getAvatarUseCase: GetAvatarInfoUseCase,
                                         private val getFragmentStateUseCase: GetFragmentStateUseCase) : ViewModel() {
 

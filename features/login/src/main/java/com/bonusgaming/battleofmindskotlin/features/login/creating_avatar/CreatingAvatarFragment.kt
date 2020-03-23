@@ -18,7 +18,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
 import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
 import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
+import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.features.login.R
+import com.bonusgaming.battleofmindskotlin.features.login.di.component.LoginComponent
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.textfield.TextInputEditText
@@ -27,7 +29,7 @@ import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
 
-class CreatingAvatarFragment : Fragment() {
+class CreatingAvatarFragment @Inject constructor() : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -53,14 +55,15 @@ class CreatingAvatarFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-       // App.appComponent.getCreatingAvatarComponent().inject(this)
-       // App.appComponent.getCreatingAvatarComponent().inject(this)
+        LoginComponent.get((requireActivity().application as AppFacadeProvider)
+                .provideAppFacade()).inject(this)
+
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("9789","-----------------CreatingAvatarFragment onViewCreated $viewModelFactory")
+        Log.e("9789", "-----------------CreatingAvatarFragment onViewCreated $viewModelFactory")
         creatingAvatarViewModel = ViewModelProvider(this, viewModelFactory)[CreatingAvatarViewModel::class.java]
 
         val bodyImageView = view.findViewById<ImageView>(R.id.image_body)

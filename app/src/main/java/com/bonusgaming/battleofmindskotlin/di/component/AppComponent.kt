@@ -26,7 +26,7 @@ interface AppComponent
     interface Builder {
         @BindsInstance
         fun application(application: Application): Builder
-        fun dbComponent(dbAPi: DbApi): Builder
+        fun dbComponent(dbApi: DbApi): Builder
         fun webComponent(webApi: WebApi): Builder
         fun build(): AppComponent
     }

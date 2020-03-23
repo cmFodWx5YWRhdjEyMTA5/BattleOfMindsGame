@@ -62,14 +62,14 @@ class WebModule : WebApi {
     }
 
     //провайдим Picasso на слуйчай изменения конфигурации Picasso, да и классы не должны знать о способе создания Picasso
+    @Singleton
     @Provides
-    @PerFeature
     override fun providePicasso(): Picasso {
         return Picasso.get()
     }
 
+    @Singleton
     @Provides
-    @PerFeature
     override fun provideStickerApi(): StickerApi {
         getRetrofitClient().also {
             val result: StickersApiRetrofit = it.create(StickersApiRetrofit::class.java)

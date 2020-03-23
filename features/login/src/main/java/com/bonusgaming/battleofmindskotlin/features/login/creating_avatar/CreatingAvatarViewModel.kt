@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
 import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
-import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Avatar
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import com.firebase.ui.auth.IdpResponse
@@ -19,7 +18,6 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 /*Класс отвечает за создания аватара*/
-@PerFragment
 class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarModel: CreatingAvatarModel,
                                                   private val pathProvider: PathProvider) : ViewModel() {
 
@@ -58,7 +56,9 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
     private fun loadStickers(onLoad: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             listMonsters.clear()
-            listMonsters.addAll(creatingAvatarModel.getMonsters())
+            val listS=creatingAvatarModel.getMonsters()
+            Log.e("777","listS ${listS.size}")
+            listMonsters.addAll(listS)
             withContext(Dispatchers.Main) {
                 onLoad()
             }

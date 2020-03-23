@@ -10,15 +10,16 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bonusgaming.battleofmindskotlin.*
+import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
+import com.bonusgaming.battleofmindskotlin.features.menu.R
 import com.bonusgaming.battleofmindskotlin.main.vm.MenuViewModel
-import com.bonusgaming.battleofmindskotlin.tools.sendIntentForNextState
 import com.squareup.picasso.Picasso
 import java.io.File
 import javax.inject.Inject
 
 
-class MenuFragment : Fragment() {
+class MenuFragment @Inject constructor(): Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -39,7 +40,7 @@ class MenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
       //  App.appComponent.getMenuComponent().inject(this)
-        App.appComponent.getMenuComponent().inject(this)
+        //App.appComponent.getMenuComponent().inject(this)
         super.onCreate(savedInstanceState)
     }
 

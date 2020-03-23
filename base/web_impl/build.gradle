@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 def apiPropertiesFile = project.file("api.properties")
 
@@ -21,7 +22,7 @@ def apiProperties = new Properties()
 apiProperties.load(new FileInputStream(apiPropertiesFile))
 
 //check google-services.json, чтобы у проверяющих OTUS собирался проект
-def googleServicesFile = rootProject.file("app/google-services.json")
+def googleServicesFile = project.file("google-services.json")
 if (!googleServicesFile.exists()) {
     String info = "{\n" +
             "  \"project_info\": {\n" +
@@ -149,6 +150,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.3'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'

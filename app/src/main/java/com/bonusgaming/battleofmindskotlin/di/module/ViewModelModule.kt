@@ -3,6 +3,7 @@ package com.bonusgaming.battleofmindskotlin.di.module
 import androidx.lifecycle.ViewModel
 import com.bonusgaming.battleofmindskotlin.base_ui.presentation.MainViewModel
 import com.bonusgaming.battleofmindskotlin.core.main.di.ViewModelKey
+import com.bonusgaming.battleofmindskotlin.features.login.creating_avatar.CreatingAvatarViewModel
 import com.bonusgaming.battleofmindskotlin.features.login.loading_assets.LoadingAssetsViewModel
 import dagger.Binds
 import dagger.Module
@@ -20,4 +21,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(LoadingAssetsViewModel::class)
     abstract fun loadingAssetsViewModel(viewModel: LoadingAssetsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreatingAvatarViewModel::class)
+    abstract fun creatingAvatarViewModel(viewModel: CreatingAvatarViewModel): ViewModel
 }
