@@ -1,19 +1,23 @@
 package com.bonusgaming.battleofmindskotlin.features.login.di.component
 
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApi
+import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacade
 import com.bonusgaming.battleofmindskotlin.features.login.creating_avatar.CreatingAvatarFragment
 import dagger.Component
 
-@Component(dependencies = [AppFacade::class, DbApi::class, WebApi::class])
+@PerFeature
+@Component(dependencies = [AppFacade::class, DbApi::class, WebApi::class, UiComponent::class])
 interface LoginComponent {
     companion object {
         private var loginComponent: LoginComponent? = null
 
-        fun get(appFacade: AppFacade): LoginComponent {
-            return loginComponent ?: DaggerLoginComponent.builder().appFacade(appFacade)
-                    .dbApi()
+        fun get(uiComponent: UiComponent, dbApi: DbApi, webApi: WebApi): LoginComponent {
+            return loginComponent ?: DaggerLoginComponent.builder().uiComponent(uiComponent)
+                    .dbApi(dbApi)
+                    .webApi(webApi)
                     .build()
                     .also {
                         loginComponent = it

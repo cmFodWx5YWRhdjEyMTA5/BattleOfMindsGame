@@ -15,9 +15,16 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bonusgaming.battleofmindskotlin.base_db_api.DbApi
+import com.bonusgaming.battleofmindskotlin.base_db_api.DbApiProvider
+import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
 import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
+import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
 import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
 import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.features.login.R
 import com.bonusgaming.battleofmindskotlin.features.login.di.component.LoginComponent
@@ -28,7 +35,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-
+@PerFragment
 class CreatingAvatarFragment @Inject constructor() : Fragment() {
 
     @Inject
@@ -55,8 +62,12 @@ class CreatingAvatarFragment @Inject constructor() : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        LoginComponent.get((requireActivity().application as AppFacadeProvider)
-                .provideAppFacade()).inject(this)
+        val uiComponent = UiComponent.get((requireActivity().application as AppFacadeProvider).provideAppFacade())
+
+        LoginComponent.get(uiComponent,
+                        (requireActivity().application as DbApiProvider).provideDbApi(),
+                        (requireActivity().application as WebApiProvider).provideWebApi())
+                .inject(this)
 
         super.onCreate(savedInstanceState)
     }

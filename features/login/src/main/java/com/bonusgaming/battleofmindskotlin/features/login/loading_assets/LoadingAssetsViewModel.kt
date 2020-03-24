@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.round
 
-
+@PerFragment
 class LoadingAssetsViewModel @Inject constructor(private val modelLoadingAssets: LoadingAssetsRepository,
                                                  val resources: Resources) : ViewModel() {
 

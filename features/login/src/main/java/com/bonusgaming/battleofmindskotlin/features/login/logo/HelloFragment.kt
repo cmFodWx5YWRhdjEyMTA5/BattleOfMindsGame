@@ -10,7 +10,7 @@ import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
 import com.bonusgaming.battleofmindskotlin.features.login.R
 import javax.inject.Inject
 
-
+@PerFragment
 class HelloFragment @Inject constructor() : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

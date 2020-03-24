@@ -3,12 +3,13 @@ package com.bonusgaming.battleofmindskotlin.base_db_impl.di.component
 import android.content.Context
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApi
 import com.bonusgaming.battleofmindskotlin.base_db_impl.di.module.DatabaseModule
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
-@PerFeature
+@PerFacade
 @Component(modules = [DatabaseModule::class])
 abstract class DbComponent : DbApi {
     companion object {

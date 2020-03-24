@@ -5,6 +5,7 @@ import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
 import com.bonusgaming.battleofmindskotlin.base_web_impl.BuildConfig
 import com.bonusgaming.battleofmindskotlin.base_web_impl.StickersApiRetrofit
 import com.bonusgaming.battleofmindskotlin.base_web_impl.adapter.ToUrlStickerAdapter
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
@@ -62,13 +63,13 @@ class WebModule : WebApi {
     }
 
     //провайдим Picasso на слуйчай изменения конфигурации Picasso, да и классы не должны знать о способе создания Picasso
-    @Singleton
+    @PerFacade
     @Provides
     override fun providePicasso(): Picasso {
         return Picasso.get()
     }
 
-    @Singleton
+    @PerFacade
     @Provides
     override fun provideStickerApi(): StickerApi {
         getRetrofitClient().also {

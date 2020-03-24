@@ -8,6 +8,7 @@ import com.bonusgaming.battleofmindskotlin.base_db_api.StickerDao
 import com.bonusgaming.battleofmindskotlin.base_db_impl.Database
 import com.bonusgaming.battleofmindskotlin.base_db_impl.adapter.ToAvatarDaoAdapter
 import com.bonusgaming.battleofmindskotlin.base_db_impl.adapter.ToStickerDaoAdapter
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import dagger.Module
 import dagger.Provides
@@ -28,14 +29,14 @@ class DatabaseModule {
             database = Room.databaseBuilder(context, Database::class.java, DB_NAME).build()
     }
 
-    @PerFeature
+    @PerFacade
     @Provides
     fun getStickersDao(context: Context): StickerDao {
         initDatabase(context)
         return ToStickerDaoAdapter(database.stickersDao())
     }
 
-    @PerFeature
+    @PerFacade
     @Provides
     fun getAvatarDao(context: Context): AvatarDao {
         initDatabase(context)

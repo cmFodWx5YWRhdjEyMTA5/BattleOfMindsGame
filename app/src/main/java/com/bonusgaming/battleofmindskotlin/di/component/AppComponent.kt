@@ -15,19 +15,16 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
-
+@Singleton
 @Component(
-        dependencies = [DbApi::class, WebApi::class],
-        modules = [ViewModelModule::class, ApplicationModule::class, AndroidInjectionModule::class, ResourcesModule::class, FragmentModule::class])
+        modules = [ApplicationModule::class, AndroidInjectionModule::class, ResourcesModule::class])
 interface AppComponent
-    : AndroidInjector<App>, AppFacade {
+    : AndroidInjector<App>, AppProvider {
 
     @Component.Builder
     interface Builder {
         @BindsInstance
         fun application(application: Application): Builder
-        fun dbComponent(dbApi: DbApi): Builder
-        fun webComponent(webApi: WebApi): Builder
         fun build(): AppComponent
     }
 }

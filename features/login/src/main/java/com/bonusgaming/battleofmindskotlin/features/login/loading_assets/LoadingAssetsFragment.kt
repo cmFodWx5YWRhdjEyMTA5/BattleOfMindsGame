@@ -12,10 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
 import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
 import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
 import com.bonusgaming.battleofmindskotlin.features.login.R
 import javax.inject.Inject
 
 //фрагмент для отображения состояния загрузки
+@PerFragment
 class LoadingAssetsFragment @Inject constructor() : Fragment() {
 
     @Inject

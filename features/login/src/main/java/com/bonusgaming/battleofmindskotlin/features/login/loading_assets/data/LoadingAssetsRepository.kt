@@ -18,6 +18,7 @@ import java.io.FileOutputStream
 import javax.inject.Inject
 
 //Реализуем Model для MVVM, работа с бд и интернетом
+@PerFragment
 class LoadingAssetsRepository @Inject constructor(private val stickersDao: StickerDao,
                                                   private val webRepo: WebApi,
                                                   private val picasso: Picasso,
