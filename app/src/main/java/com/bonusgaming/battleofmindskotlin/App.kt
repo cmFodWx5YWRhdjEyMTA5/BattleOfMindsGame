@@ -1,6 +1,5 @@
 package com.bonusgaming.battleofmindskotlin
 
-import android.content.Context
 import android.util.Log
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApi
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApiProvider
@@ -10,9 +9,9 @@ import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.base_web_impl.di.component.WebComponent
 import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacade
 import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacadeProvider
-import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppProvider
 import com.bonusgaming.battleofmindskotlin.di.component.AppComponent
 import com.bonusgaming.battleofmindskotlin.di.component.DaggerAppComponent
+import com.bonusgaming.battleofmindskotlin.di.component.DaggerFacadeComponent
 import com.bonusgaming.battleofmindskotlin.di.component.FacadeComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -33,6 +32,9 @@ class App : DaggerApplication(), AppFacadeProvider, WebApiProvider, DbApiProvide
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         appComponent = DaggerAppComponent.builder().application(this).build()
+        facadeComponent = DaggerFacadeComponent.builder().appProvider(appComponent)
+                .dbApi(DbComponent.get(this))
+                .webApi(WebComponent.getWebComponent()).build()
 //        facadeComponent=DaggFa
 //        facadeComponent = DaggerFacadeComponent.builder(). DaggerAppComponent.builder().application(this)
 //                .dbComponent(DbComponent.get(this))
