@@ -5,13 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-
+@PerFacade
 class MainViewModel @Inject constructor(mainModel: MainModel) : ViewModel() {
     companion object {
         const val TAG: String = "MainViewModel"

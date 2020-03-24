@@ -5,5 +5,4 @@ import android.content.res.Resources
 
 interface AppProvider {
     fun provideAppContext(): Context
-    fun provideResources():Resources
 }

@@ -11,13 +11,14 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bonusgaming.battleofmindskotlin.base_ui.ACTION_CHANGE_FRAGMENT_STATE
 import com.bonusgaming.battleofmindskotlin.base_ui.R
 import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
+@PerFacade
 class MainModel @Inject constructor(private val appContext: Context) {
 
     private lateinit var emitter: ObservableEmitter<FragmentState>

@@ -27,6 +27,7 @@ import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
 import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.features.login.R
+import com.bonusgaming.battleofmindskotlin.features.login.di.component.CreatingAvatarComponent
 import com.bonusgaming.battleofmindskotlin.features.login.di.component.LoginComponent
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -63,6 +64,8 @@ class CreatingAvatarFragment @Inject constructor() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val uiComponent = UiComponent.get((requireActivity().application as AppFacadeProvider).provideAppFacade())
+
+//        CreatingAvatarComponent
 
         LoginComponent.get(uiComponent,
                         (requireActivity().application as DbApiProvider).provideDbApi(),

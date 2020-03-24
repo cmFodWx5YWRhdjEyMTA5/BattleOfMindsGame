@@ -1,3 +1,3 @@
 package com.bonusgaming.battleofmindskotlin.core.main.mediator
 
-interface AppFacade : AppProvider, FragmentMediator,ViewModelFactoryProvider
+interface AppFacade : AppProvider, FragmentMediator

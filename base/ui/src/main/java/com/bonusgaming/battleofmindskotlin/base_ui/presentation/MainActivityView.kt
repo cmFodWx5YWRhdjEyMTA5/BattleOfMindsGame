@@ -9,10 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.R
 import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
+import com.bonusgaming.battleofmindskotlin.base_ui.di.module.MainViewModelFactory
 import com.bonusgaming.battleofmindskotlin.base_ui.presentation.mediator.StateMediator
 import com.bonusgaming.battleofmindskotlin.core.main.ActivityUtils
 import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
-import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
 import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacadeProvider
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class MainActivityView : AppCompatActivity(), StateMediator {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: MainViewModelFactory
 
     @Inject
     lateinit var activityUtils: ActivityUtils
@@ -28,7 +28,7 @@ class MainActivityView : AppCompatActivity(), StateMediator {
     @Inject
     lateinit var mapFragment: Map<FragmentState, @JvmSuppressWildcards Fragment>
 
-    lateinit var mainViewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
 
 
     override fun onDestroy() {

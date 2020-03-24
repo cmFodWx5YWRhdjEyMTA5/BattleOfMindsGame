@@ -5,5 +5,11 @@ import dagger.Component
 
 @PerFragment
 @Component(dependencies = [LoginComponent::class])
-interface LoadingComponent {
+interface CreatingAvatarComponent{
+    companion object{
+//        fun get(loginComponent:LoginComponent):CreatingAvatarComponent{
+//          //  val crate
+//        }
+    }
+
 }
