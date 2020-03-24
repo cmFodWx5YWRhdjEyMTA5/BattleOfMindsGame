@@ -3,12 +3,14 @@ package com.bonusgaming.battleofmindskotlin.features.logo.di.components
 import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.bonusgaming.battleofmindskotlin.core.main.mediator.ViewModelFactoryProvider
+import com.bonusgaming.battleofmindskotlin.features.logo.di.module.LogoViewModelFactory
 import com.bonusgaming.battleofmindskotlin.features.logo.di.module.LogoViewModelModule
 import com.bonusgaming.battleofmindskotlin.features.logo.presentation.HelloFragment
 import dagger.Component
 
 @PerFeature
-@Component(dependencies = [UiComponent::class], modules = [LogoViewModelModule::class])
+@Component(dependencies = [UiComponent::class],
+        modules = [LogoViewModelModule::class])
 interface LogoComponent  {
     companion object {
         fun get(ui: UiComponent): LogoComponent {

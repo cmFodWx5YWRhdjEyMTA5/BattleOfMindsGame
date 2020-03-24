@@ -21,7 +21,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/main" />
             <option value="$PROJECT_DIR$/features" />
-            <option value="$PROJECT_DIR$/features/login" />
+            <option value="$PROJECT_DIR$/features/loading" />
             <option value="$PROJECT_DIR$/features/logo" />
             <option value="$PROJECT_DIR$/features/menu" />
           </set>

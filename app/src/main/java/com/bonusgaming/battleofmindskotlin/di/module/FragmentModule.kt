@@ -18,8 +18,7 @@ class FragmentModule {
 //    fun provideLogo(fragment: HelloFragment): Fragment
 
     @Provides
-   // @FragmentStateKey(FragmentState.LOGO)
-    fun provideLogo()=HelloFragment()
+    fun provideLogo() = HelloFragment()
 //
 //    @Binds
 //    @IntoMap

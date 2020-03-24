@@ -6,4 +6,5 @@ import com.squareup.picasso.Picasso
 interface WebApi {
     fun providePicasso(): Picasso
     fun provideStickerApi(): StickerApi
+    fun provideFirebaseAuth():FirebaseAuth.getInstance()
 }
