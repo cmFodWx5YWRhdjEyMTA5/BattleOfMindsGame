@@ -5,7 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Avatar
 
-@Entity(tableName = "avatar")
+
+@Entity(tableName = AVATAR_TABLE_NAME)
 data class AvatarEntry(
         @Embedded val avatar: Avatar
 ) {

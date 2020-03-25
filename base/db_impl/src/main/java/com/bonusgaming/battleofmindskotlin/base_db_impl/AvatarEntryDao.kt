@@ -10,7 +10,7 @@ internal const val avatarTable = "avatar"
 @Dao
 interface AvatarEntryDao {
 
-    @Insert
+    @Insert()
     fun insert(avatar: AvatarEntry)
 
 

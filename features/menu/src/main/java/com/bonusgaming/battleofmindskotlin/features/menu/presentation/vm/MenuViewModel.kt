@@ -31,6 +31,8 @@ class MenuViewModel @Inject constructor(private val getAvatarUseCase: GetAvatarI
         Log.e("9977","init MenuViewModel")
         viewModelScope.launch(Dispatchers.IO) {
             avatarInfo = getAvatarUseCase.execute()
+            Log.e("5454","avatarinfo ${avatarInfo.imageFullPath}")
+            Log.e("5454","avatarinfo ${avatarInfo.avatarNickname}")
             withContext(Dispatchers.Main) {
                 _avatarChanged.value = avatarInfo
             }

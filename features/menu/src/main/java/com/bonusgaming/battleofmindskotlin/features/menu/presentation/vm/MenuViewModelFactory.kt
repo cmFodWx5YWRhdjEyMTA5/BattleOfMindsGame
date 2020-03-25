@@ -9,6 +9,6 @@ import javax.inject.Provider
 @PerFeature
 class MenuViewModelFactory
 @Inject constructor(
-        private val viewModels: Map<Class<out ViewModel>,
+        viewModels: Map<Class<out ViewModel>,
                 @JvmSuppressWildcards Provider<ViewModel>>)
     : ViewModelFactory(viewModels)
