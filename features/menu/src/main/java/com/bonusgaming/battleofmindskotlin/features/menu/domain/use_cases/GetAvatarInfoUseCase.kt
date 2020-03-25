@@ -1,11 +1,14 @@
-package com.bonusgaming.battleofmindskotlin.main.domain.use_cases
+package com.bonusgaming.battleofmindskotlin.features.menu.domain.use_cases
 
-import com.bonusgaming.battleofmindskotlin.main.data.MenuRepository
-import com.bonusgaming.battleofmindskotlin.main.domain.model.AvatarInfo
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
+import com.bonusgaming.battleofmindskotlin.features.menu.data.MenuRepository
+import com.bonusgaming.battleofmindskotlin.features.menu.domain.model.AvatarInfo
+import dagger.Reusable
 
 import javax.inject.Inject
 
 
+@Reusable
 class GetAvatarInfoUseCase @Inject constructor(private val menuRepository: MenuRepository) {
 
     fun execute(): AvatarInfo {

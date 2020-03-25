@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @PerFeature
-class LogoViewModelFactory
+class LoadingViewModelFactory
 @Inject constructor(
         private val viewModels: Map<Class<out ViewModel>,
                 @JvmSuppressWildcards Provider<ViewModel>>)

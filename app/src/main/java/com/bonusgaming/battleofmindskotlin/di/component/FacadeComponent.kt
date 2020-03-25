@@ -3,8 +3,8 @@ package com.bonusgaming.battleofmindskotlin.di.component
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApi
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
-import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacade
-import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppProvider
+import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacade
+import com.bonusgaming.battleofmindskotlin.core.main.contract.AppProvider
 import com.bonusgaming.battleofmindskotlin.di.module.FragmentBinding
 import com.bonusgaming.battleofmindskotlin.di.module.FragmentModule
 import dagger.Component

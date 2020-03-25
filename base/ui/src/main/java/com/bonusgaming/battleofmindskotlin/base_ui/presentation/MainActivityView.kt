@@ -13,7 +13,7 @@ import com.bonusgaming.battleofmindskotlin.base_ui.di.module.MainViewModelFactor
 import com.bonusgaming.battleofmindskotlin.base_ui.presentation.mediator.StateMediator
 import com.bonusgaming.battleofmindskotlin.core.main.ActivityUtils
 import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
-import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacadeProvider
+import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
 import javax.inject.Inject
 
 
@@ -74,7 +74,9 @@ class MainActivityView : AppCompatActivity(), StateMediator {
 //    }
 
     override fun nextState(state: FragmentState) {
+        Log.e("1212","state is $state")
         val fragment = mapFragment[state]
+        Log.e("1212","fragment is $fragment")
         fragment?.let {
             activityUtils.replaceFragment(R.id.fragment_container, supportFragmentManager, it)
         }

@@ -1,13 +1,12 @@
 package com.bonusgaming.battleofmindskotlin.features.loading.data
 
-import android.content.ClipData
 import android.graphics.Bitmap
 import android.os.Handler
 import com.bonusgaming.battleofmindskotlin.base_db_api.StickerDao
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
 import com.bonusgaming.battleofmindskotlin.base_web_api.dto.ImageTarget
 import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
-import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import com.bonusgaming.battleofmindskotlin.core.main.dto.UrlSticker
 import com.squareup.picasso.NetworkPolicy
@@ -16,8 +15,8 @@ import io.reactivex.Single
 import java.io.FileOutputStream
 import javax.inject.Inject
 
-//Реализуем Model для MVVM, работа с бд и интернетом
-@PerFragment
+
+@PerFeature
 class LoadingAssetsRepository @Inject constructor(private val stickersDao: StickerDao,
                                                   private val webRepo: WebApi,
                                                   private val picasso: Picasso,
@@ -77,5 +76,5 @@ class LoadingAssetsRepository @Inject constructor(private val stickersDao: Stick
         }, afterMilliseconds)
     }
 
-    fun isAvatarCreated() = webRepo.firebaseAuth.currentUser != null
+    fun isAvatarCreated() = webRepo.provideFirebaseAuth().currentUser != null
 }

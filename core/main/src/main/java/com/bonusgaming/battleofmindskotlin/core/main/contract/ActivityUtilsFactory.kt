@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.core.main.mediator
+package com.bonusgaming.battleofmindskotlin.core.main.contract
 
 import com.bonusgaming.battleofmindskotlin.core.main.ActivityUtils
 

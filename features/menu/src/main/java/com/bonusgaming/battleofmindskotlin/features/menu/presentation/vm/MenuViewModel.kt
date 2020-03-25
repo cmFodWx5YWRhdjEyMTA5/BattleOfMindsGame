@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.main.vm
+package com.bonusgaming.battleofmindskotlin.features.menu.presentation.vm
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
-import com.bonusgaming.battleofmindskotlin.main.domain.model.ClickType
-import com.bonusgaming.battleofmindskotlin.main.domain.model.AvatarInfo
-import com.bonusgaming.battleofmindskotlin.main.domain.use_cases.GetAvatarInfoUseCase
-import com.bonusgaming.battleofmindskotlin.main.domain.use_cases.GetFragmentStateUseCase
+import com.bonusgaming.battleofmindskotlin.features.menu.domain.model.ClickType
+import com.bonusgaming.battleofmindskotlin.features.menu.domain.model.AvatarInfo
+import com.bonusgaming.battleofmindskotlin.features.menu.domain.use_cases.GetAvatarInfoUseCase
+import com.bonusgaming.battleofmindskotlin.features.menu.domain.use_cases.GetFragmentStateUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

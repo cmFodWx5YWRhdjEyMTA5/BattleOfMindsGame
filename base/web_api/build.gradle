@@ -34,7 +34,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    //firebase
+    //TODO убрать зависимсть от firebase через интерфейсы и core модуль
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
+
     //picasso
+    //TODO убрать зависимсть от picasso через интерфейсы и core модуль
     api 'com.squareup.picasso:picasso:2.71828'
 
     // RxJava

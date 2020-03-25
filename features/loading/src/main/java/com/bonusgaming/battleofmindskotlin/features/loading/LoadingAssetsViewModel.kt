@@ -8,11 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
-import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
+import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import com.bonusgaming.battleofmindskotlin.core.main.dto.UrlSticker
-import com.bonusgaming.battleofmindskotlin.features.login.R
-import com.bonusgaming.battleofmindskotlin.features.login.loading_assets.data.LoadingAssetsRepository
+import com.bonusgaming.battleofmindskotlin.features.loading.data.LoadingAssetsRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -23,9 +22,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.round
 
-@PerFragment
-class LoadingAssetsViewModel @Inject constructor(private val modelLoadingAssets: LoadingAssetsRepository,
-                                                 val resources: Resources) : ViewModel() {
+@PerFeature
+class LoadingAssetsViewModel
+@Inject constructor
+(private val modelLoadingAssets: LoadingAssetsRepository,
+ private val resources: Resources) : ViewModel() {
 
     private var currentProgress = 0f
     private val compositeDisposable = CompositeDisposable()
@@ -43,7 +44,7 @@ class LoadingAssetsViewModel @Inject constructor(private val modelLoadingAssets:
     val progressLiveData = MutableLiveData<Int>()
 
     init {
-        Log.e("9977","init LoadingAsstestVM")
+        Log.e("9977", "init LoadingAsstestVM")
     }
 
     fun onViewCreated() {
@@ -153,7 +154,7 @@ class LoadingAssetsViewModel @Inject constructor(private val modelLoadingAssets:
     }
 
     private fun getNextFragmentState() = when (modelLoadingAssets.isAvatarCreated()) {
-        true -> FragmentState.MAIN
+        true -> FragmentState.MENU
         false -> FragmentState.AVATAR
     }
 }

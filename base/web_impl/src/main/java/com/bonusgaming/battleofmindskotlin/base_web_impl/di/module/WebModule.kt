@@ -6,7 +6,7 @@ import com.bonusgaming.battleofmindskotlin.base_web_impl.BuildConfig
 import com.bonusgaming.battleofmindskotlin.base_web_impl.StickersApiRetrofit
 import com.bonusgaming.battleofmindskotlin.base_web_impl.adapter.ToUrlStickerAdapter
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
-import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import dagger.Module
@@ -17,7 +17,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 class WebModule : WebApi {
@@ -77,4 +76,11 @@ class WebModule : WebApi {
             return ToUrlStickerAdapter(result)
         }
     }
+
+    @PerFacade
+    @Provides
+    override fun provideFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
+
 }

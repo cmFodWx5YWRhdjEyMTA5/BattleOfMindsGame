@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.main.domain.model
+package com.bonusgaming.battleofmindskotlin.features.menu.domain.model
 
 enum class ClickType {
     START, STATISTICS

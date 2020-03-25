@@ -10,16 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
 import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
-import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacadeProvider
+import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.features.logo.R
 import com.bonusgaming.battleofmindskotlin.features.logo.di.components.LogoComponent
-import com.bonusgaming.battleofmindskotlin.features.logo.di.module.LogoViewModelFactory
 import javax.inject.Inject
 
 class HelloFragment : Fragment() {
 
     @Inject
-    lateinit var viewmodelFactory: LogoViewModelFactory
+    lateinit var viewModelFactory: LogoViewModelFactory
 
     lateinit var viewModel: HelloViewModel
 
@@ -31,7 +30,7 @@ class HelloFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.e("123", "Hello Fr created")
-        viewModel = ViewModelProvider(this, viewmodelFactory)[HelloViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[HelloViewModel::class.java]
 
         viewModel.stateLiveData.observe(viewLifecycleOwner,
                 Observer {

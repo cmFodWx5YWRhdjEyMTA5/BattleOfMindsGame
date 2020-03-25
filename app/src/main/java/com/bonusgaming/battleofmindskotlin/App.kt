@@ -7,8 +7,8 @@ import com.bonusgaming.battleofmindskotlin.base_db_impl.di.component.DbComponent
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.base_web_impl.di.component.WebComponent
-import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacade
-import com.bonusgaming.battleofmindskotlin.core.main.mediator.AppFacadeProvider
+import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacade
+import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.di.component.AppComponent
 import com.bonusgaming.battleofmindskotlin.di.component.DaggerAppComponent
 import com.bonusgaming.battleofmindskotlin.di.component.DaggerFacadeComponent

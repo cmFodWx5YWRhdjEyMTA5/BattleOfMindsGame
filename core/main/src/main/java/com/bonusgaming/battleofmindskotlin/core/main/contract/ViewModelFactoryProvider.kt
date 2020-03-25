@@ -1,7 +1,6 @@
-package com.bonusgaming.battleofmindskotlin.core.main.mediator
+package com.bonusgaming.battleofmindskotlin.core.main.contract
 
 import androidx.lifecycle.ViewModel
-import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
 import javax.inject.Provider
 
 interface ViewModelFactoryProvider {

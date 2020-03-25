@@ -65,8 +65,12 @@ dependencies {
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
     //module
-    //implementation project(":features:login")
     implementation project(":features:logo")
+    implementation project(":features:loading")
+    implementation project(":features:creating_avatar")
+    implementation project(":features:menu")
+
+
     implementation project(":core:main")
     implementation project(":base:ui")
     implementation project(":base:web_impl")

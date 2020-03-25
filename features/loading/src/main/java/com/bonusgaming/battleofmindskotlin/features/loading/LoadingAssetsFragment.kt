@@ -9,25 +9,35 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bonusgaming.battleofmindskotlin.base_db_api.DbApiProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
+import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
 import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
-import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory
-import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFragment
-import com.bonusgaming.battleofmindskotlin.features.login.R
+import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
+import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
+import com.bonusgaming.battleofmindskotlin.features.loading.di.component.LoadingAssetsComponent
+import com.bonusgaming.battleofmindskotlin.features.logo.di.module.LoadingViewModelFactory
 import javax.inject.Inject
 
-//фрагмент для отображения состояния загрузки
-@PerFragment
-class LoadingAssetsFragment @Inject constructor() : Fragment() {
+/**
+ * фрагмент для отображения состояния загрузки
+ */
+class LoadingAssetsFragment : Fragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: LoadingViewModelFactory
 
     private lateinit var mainViewModel: LoadingAssetsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //App.appComponent.getLoadingAssetsComponent().inject(this)
-        // App.appComponent.getLoadingAssetsComponent().inject(this)
+        val appFacade = (requireActivity().application as AppFacadeProvider).provideAppFacade()
+        val web = (requireActivity().application as WebApiProvider).provideWebApi()
+        val db = (requireActivity().application as DbApiProvider).provideDbApi()
+        LoadingAssetsComponent.get(
+                appFacade,
+                UiComponent.get(appFacade),
+                web, db).inject(this)
+
         super.onCreate(savedInstanceState)
     }
 
