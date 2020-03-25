@@ -61,7 +61,7 @@ features:loading -  фича загрузка контента
 
 features:creating_avatar -  фича создание игрока
 
-features:menu  фича главное меню
+features:menu - фича главное меню
 
 [Код в ветке multimodule](https://github.com/bonusdev/BattleOfMindsGame/tree/multimodule)
 
