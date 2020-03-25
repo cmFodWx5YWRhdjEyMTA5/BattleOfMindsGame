@@ -5,7 +5,7 @@ import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
 import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacade
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
-import com.bonusgaming.battleofmindskotlin.features.creating_avatar.creating_avatar.CreatingAvatarFragment
+import com.bonusgaming.battleofmindskotlin.features.creating_avatar.CreatingAvatarFragment
 import com.bonusgaming.battleofmindskotlin.features.creating_avatar.di.module.CreatingAvatarViewModelModule
 import dagger.Component
 

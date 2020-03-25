@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.features.creating_avatar.creating_avatar
+package com.bonusgaming.battleofmindskotlin.features.creating_avatar
 
 import android.app.Activity
 import android.content.Intent
@@ -15,15 +15,12 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bonusgaming.battleofmindskotlin.base_db_api.DbApi
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApiProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
 import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
-import com.bonusgaming.battleofmindskotlin.base_web_api.WebApi
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
 import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
-import com.bonusgaming.battleofmindskotlin.features.creating_avatar.R
 import com.bonusgaming.battleofmindskotlin.features.creating_avatar.di.component.CreatingAvatarComponent
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse

@@ -1,6 +1,6 @@
 package com.bonusgaming.battleofmindskotlin.core.main.contract
 
-interface UseInfoContract {
+interface UserInfoContract {
     val nickName: String
     val idSticker: Int
     val idFirebase: String

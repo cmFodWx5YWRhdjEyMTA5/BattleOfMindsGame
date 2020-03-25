@@ -8,15 +8,15 @@ import io.reactivex.Observable
 
 class ToStickerDaoAdapter(private val stickerEntryDao: StickerEntryDao) : StickerDao {
     override fun insertAll(vararg stickers: Sticker) {
-        stickerEntryDao.insertAll(*stickers.map { StickerEntry(it) }.toTypedArray())
+        stickerEntryDao.insertAll(*stickers.map { StickerEntry(it.hashMD5, it.path) }.toTypedArray())
     }
 
     override fun getListStickers(): List<Sticker> {
-        return stickerEntryDao.getListStickers().map { it.sticker }
+        return stickerEntryDao.getListStickers().map {it.toSticker() }
     }
 
     override fun getMonsters(): List<Sticker> {
-        return stickerEntryDao.getMonsters().map { it.sticker }
+        return stickerEntryDao.getMonsters().map { it.toSticker() }
     }
 
     override fun getHashStickersList(): List<String> {
@@ -28,11 +28,14 @@ class ToStickerDaoAdapter(private val stickerEntryDao: StickerEntryDao) : Sticke
     }
 
     override fun getStickersByHash(hashMD5: String): Observable<List<Sticker>> {
-        return stickerEntryDao.getStickersByHash(hashMD5).map { observable -> observable.map { it.sticker } }
+        return stickerEntryDao.getStickersByHash(hashMD5).map { observable -> observable.map { it.toSticker()} }
     }
 
     override fun getStickersById(id: Int): Sticker {
-        return stickerEntryDao.getStickersById(id).sticker
+        return stickerEntryDao.getStickersById(id).toSticker()
     }
 
+    private fun StickerEntry.toSticker(): Sticker {
+        return Sticker(hashMD5, path).also { it.id = id }
+    }
 }

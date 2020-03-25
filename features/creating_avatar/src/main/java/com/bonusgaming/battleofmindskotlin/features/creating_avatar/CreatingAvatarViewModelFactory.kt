@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.features.creating_avatar.creating_avatar
+package com.bonusgaming.battleofmindskotlin.features.creating_avatar
 
 import androidx.lifecycle.ViewModel
 import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory

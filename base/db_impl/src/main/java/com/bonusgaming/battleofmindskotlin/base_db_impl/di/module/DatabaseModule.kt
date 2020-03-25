@@ -5,14 +5,14 @@ import android.content.Context
 import androidx.room.Room
 import com.bonusgaming.battleofmindskotlin.base_db_api.AvatarDao
 import com.bonusgaming.battleofmindskotlin.base_db_api.StickerDao
+import com.bonusgaming.battleofmindskotlin.base_db_impl.AvatarEntryDao
 import com.bonusgaming.battleofmindskotlin.base_db_impl.Database
+import com.bonusgaming.battleofmindskotlin.base_db_impl.StickerEntryDao
 import com.bonusgaming.battleofmindskotlin.base_db_impl.adapter.ToAvatarDaoAdapter
 import com.bonusgaming.battleofmindskotlin.base_db_impl.adapter.ToStickerDaoAdapter
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
-import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 
 @Module

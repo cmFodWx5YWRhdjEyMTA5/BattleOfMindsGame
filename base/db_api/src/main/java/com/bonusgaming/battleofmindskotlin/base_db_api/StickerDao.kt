@@ -1,6 +1,5 @@
 package com.bonusgaming.battleofmindskotlin.base_db_api
 
-
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import io.reactivex.Observable
 

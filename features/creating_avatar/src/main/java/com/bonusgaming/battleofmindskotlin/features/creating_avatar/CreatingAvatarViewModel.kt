@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.features.creating_avatar.creating_avatar
+package com.bonusgaming.battleofmindskotlin.features.creating_avatar
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -24,7 +24,7 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
 
     private lateinit var currentAvatarPath: String
     private var nickName = generateRandomNickName()
-    private val listMonsters = mutableListOf<Sticker>()
+    private val listStickersMonsters = mutableListOf<Sticker>()
     private var monsterPointer = 0
 
     private val _initState = MutableLiveData<Boolean>()
@@ -56,10 +56,10 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
 
     private fun loadStickers(onLoad: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            listMonsters.clear()
+            listStickersMonsters.clear()
             val listS=creatingAvatarModel.getMonsters()
             Log.e("777","listS ${listS.size}")
-            listMonsters.addAll(listS)
+            listStickersMonsters.addAll(listS)
             withContext(Dispatchers.Main) {
                 onLoad()
             }
@@ -67,19 +67,19 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
     }
 
     private fun inflateByPointer() {
-        currentAvatarPath = listMonsters[monsterPointer].path
+        currentAvatarPath = listStickersMonsters[monsterPointer].path
         _inflateAvatar.value = File(pathProvider.getImagesPath() + currentAvatarPath)
     }
 
     private fun fillAvatarPrevious() {
         monsterPointer--
-        if (monsterPointer <= 0) monsterPointer = listMonsters.size - 1
+        if (monsterPointer <= 0) monsterPointer = listStickersMonsters.size - 1
         inflateByPointer()
     }
 
     private fun fillAvatarNext() {
         monsterPointer++
-        if (monsterPointer > listMonsters.size - 1) monsterPointer = 0
+        if (monsterPointer > listStickersMonsters.size - 1) monsterPointer = 0
         inflateByPointer()
     }
 
@@ -116,7 +116,7 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
     }
 
     fun onRandomButton() {
-        _inflateAvatar.value = File(pathProvider.getImagesPath() + getRandomFrom(listMonsters))
+        _inflateAvatar.value = File(pathProvider.getImagesPath() + getRandomFrom(listStickersMonsters))
     }
 
     fun onRightButton() {
@@ -132,7 +132,7 @@ class CreatingAvatarViewModel @Inject constructor(private val creatingAvatarMode
         viewModelScope.launch(Dispatchers.IO) {
             val uid = creatingAvatarModel.getUserUid()
             uid?.let {
-                val avatarEntry = Avatar(nickName, listMonsters[monsterPointer].id, uid)
+                val avatarEntry = Avatar(nickName, listStickersMonsters[monsterPointer].id, uid)
                 creatingAvatarModel.saveAvatar(avatarEntry)
                 val savedAvatar = creatingAvatarModel.getAvatar()
 
