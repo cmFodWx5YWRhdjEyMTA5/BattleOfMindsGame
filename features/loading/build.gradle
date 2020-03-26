@@ -71,4 +71,6 @@ dependencies {
     //firebase
     implementation 'com.google.firebase:firebase-auth:19.3.0'
 
+    //testing
+    testImplementation 'org.mockito:mockito-core:3.1.0'
 }

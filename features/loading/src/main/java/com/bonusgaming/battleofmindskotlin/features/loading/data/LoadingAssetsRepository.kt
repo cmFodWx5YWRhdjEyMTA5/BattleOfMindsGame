@@ -48,15 +48,14 @@ class LoadingAssetsRepository @Inject constructor(private val stickersDao: Stick
     fun getHashStickersList() = stickersDao.getHashStickersList()
 
     //скачиваем картинку через Picasso
-    fun downloadBitmapToDisk(
-            url: String,
-            fileName: String,
+    fun downloadUrlStickerToDisk(
+            urlSticker: UrlSticker,
             onDownload: (fileName: String, bitmap: Bitmap) -> Unit,
             onException: (url: String) -> Unit
     ) {
-        val imageTarget = ImageTarget(fileName, onDownload, onException)
-        listImageTarget[url] = imageTarget
-        picasso.load(url)
+        val imageTarget = ImageTarget(urlSticker.name, onDownload, onException)
+        listImageTarget[urlSticker.mediaLink] = imageTarget
+        picasso.load(urlSticker.mediaLink)
                 .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .into(imageTarget)
     }
@@ -65,11 +64,11 @@ class LoadingAssetsRepository @Inject constructor(private val stickersDao: Stick
     повторить загрузку через afterMilliseconds
     миллисекунд для url, для задержки используется Handler
     */
-    fun retryDownload(url: String, afterMilliseconds: Long) {
+    fun retryDownload(sticker:UrlSticker, afterMilliseconds: Long) {
         val handler = Handler()
         handler.postDelayed({
-            listImageTarget[url]?.let {
-                picasso.load(url)
+            listImageTarget[sticker.mediaLink]?.let {
+                picasso.load(sticker.mediaLink)
                         .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                         .into(it)
             }

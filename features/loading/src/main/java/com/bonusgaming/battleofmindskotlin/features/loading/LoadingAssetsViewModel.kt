@@ -12,7 +12,7 @@ import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import com.bonusgaming.battleofmindskotlin.core.main.dto.UrlSticker
 import com.bonusgaming.battleofmindskotlin.features.loading.data.LoadingAssetsRepository
-import com.bonusgaming.battleofmindskotlin.features.loading.domain.use_cases.DownloadUrlsUseCase
+import com.bonusgaming.battleofmindskotlin.features.loading.domain.use_cases.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +24,11 @@ import kotlin.math.round
 class LoadingAssetsViewModel
 @Inject constructor
 (private val downloadUrlsUseCase: DownloadUrlsUseCase,
- private val modelLoadingAssets: LoadingAssetsRepository,
+ private val downloadStickerUseCase: DownloadStickerUseCase,
+ private val getNextFragmentStateUseCase: GetNextFragmentStateUseCase,
+ private val saveStickerToDbUseCase: SaveStickerToDbUseCase,
+ private val saveStickerToDiskUseCase: SaveStickerToDiskUseCase,
+ private val getSavedStickersList: GetSavedStickersList,
  private val resources: Resources) : ViewModel() {
 
     private var currentProgress = 0f
@@ -54,7 +58,7 @@ class LoadingAssetsViewModel
         viewModelScope.launch(Dispatchers.IO) {
             Thread.sleep(2000)
             withContext(Dispatchers.Main) {
-                _loadSceneLiveData.value = getNextFragmentState()
+                _loadSceneLiveData.value = getNextFragmentStateUseCase.execute()
             }
         }
     }
@@ -79,8 +83,8 @@ class LoadingAssetsViewModel
         val perProgress = 100F / list.size
         fun saveSticker(sticker: Sticker, bitmap: Bitmap) {
             viewModelScope.launch(Dispatchers.IO) {
-                modelLoadingAssets.addStickerToDb(sticker)
-                modelLoadingAssets.saveBitmapToDisk(sticker.path, bitmap)
+                saveStickerToDbUseCase.execute(sticker)
+                saveStickerToDiskUseCase.execute(sticker, bitmap)
             }
         }
 
@@ -100,14 +104,17 @@ class LoadingAssetsViewModel
         }
 
         fun checkItem(databaseHashList: List<String>) {
-            for (item in list) {
-                if (item.md5Hash in databaseHashList) {
+            for (urlSticker in list) {
+                if (urlSticker.md5Hash in databaseHashList) {
                     updateProgress()
                     continue
                 }
-                val name = item.name.replace('/', '_')
+
+                val name = urlSticker.name.replace('/', '_')
+                val namedUrlSticker = UrlSticker(urlSticker.mediaLink, name, urlSticker.size, urlSticker.md5Hash)
+
                 val onDownload: (fileName: String, bitmap: Bitmap) -> Unit = { fileName, bitmap ->
-                    val sticker = Sticker(item.md5Hash, fileName)
+                    val sticker = Sticker(namedUrlSticker.md5Hash, fileName)
                     saveSticker(sticker, bitmap)
                     updateProgress()
                 }
@@ -117,11 +124,10 @@ class LoadingAssetsViewModel
                             resources.getString(R.string.desire_emotion_bad_connection_status)
                     _textStatusLine2LiveData.value =
                             resources.getString(R.string.desire_emotion_bad_connection_action)
-                    modelLoadingAssets.retryDownload(item.mediaLink, 5000)
+                    downloadStickerUseCase.retryDownloadWithDelay(namedUrlSticker)
                 }
-                modelLoadingAssets.downloadBitmapToDisk(
-                        item.mediaLink,
-                        name,
+                downloadStickerUseCase.download(
+                        namedUrlSticker,
                         onDownload,
                         onException
                 )
@@ -129,7 +135,7 @@ class LoadingAssetsViewModel
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            val databaseHashList = modelLoadingAssets.getHashStickersList()
+            val databaseHashList = getSavedStickersList.execute()
             withContext(Dispatchers.Main) {
                 checkItem(databaseHashList)
             }
@@ -138,16 +144,8 @@ class LoadingAssetsViewModel
 
     override fun onCleared() {
         super.onCleared()
-        modelLoadingAssets.listImageTarget.clear()
         compositeDisposable.dispose()
-
         Log.e("9977", "loading assets onCleared }")
-
-    }
-
-    private fun getNextFragmentState() = when (modelLoadingAssets.isAvatarCreated()) {
-        true -> FragmentState.MENU
-        false -> FragmentState.AVATAR
     }
 }
 
