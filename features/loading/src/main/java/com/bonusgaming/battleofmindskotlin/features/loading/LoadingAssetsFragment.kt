@@ -19,9 +19,7 @@ import com.bonusgaming.battleofmindskotlin.features.loading.di.component.Loading
 import com.bonusgaming.battleofmindskotlin.features.logo.di.module.LoadingViewModelFactory
 import javax.inject.Inject
 
-/**
- * фрагмент для отображения состояния загрузки
- */
+
 class LoadingAssetsFragment : Fragment() {
 
     @Inject

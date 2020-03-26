@@ -12,20 +12,19 @@ import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import com.bonusgaming.battleofmindskotlin.core.main.dto.UrlSticker
 import com.bonusgaming.battleofmindskotlin.features.loading.data.LoadingAssetsRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.bonusgaming.battleofmindskotlin.features.loading.domain.use_cases.DownloadUrlsUseCase
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.round
 
 @PerFeature
 class LoadingAssetsViewModel
 @Inject constructor
-(private val modelLoadingAssets: LoadingAssetsRepository,
+(private val downloadUrlsUseCase: DownloadUrlsUseCase,
+ private val modelLoadingAssets: LoadingAssetsRepository,
  private val resources: Resources) : ViewModel() {
 
     private var currentProgress = 0f
@@ -61,24 +60,18 @@ class LoadingAssetsViewModel
     }
 
     private fun startDownloadUrls() {
-        val disposable = modelLoadingAssets.getFaceUrls()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError {
-                    Log.e("startDownloadUrls", "error ${it.printStackTrace()}")
-                    _textStatusLine1LiveData.value =
-                            resources.getString(R.string.desire_emotion_bad_connection_status)
-                    _textStatusLine2LiveData.value =
-                            resources.getString(R.string.desire_emotion_bad_connection_action)
-                    throw it
-                }
-                .doOnSuccess {
-                    _textStatusLine1LiveData.value = ""
-                    _textStatusLine2LiveData.value = resources.getString(R.string.download)
-                    proceedResult(it)
-                }
-                .retryWhen { t -> t.delay(5, TimeUnit.SECONDS) }
-                .subscribe()
+        val disposable = downloadUrlsUseCase.execute({
+            _textStatusLine1LiveData.value = ""
+            _textStatusLine2LiveData.value = resources.getString(R.string.download)
+            proceedResult(it)
+        }, {
+            Log.e("startDownloadUrls", "error ${it.printStackTrace()}")
+            _textStatusLine1LiveData.value =
+                    resources.getString(R.string.desire_emotion_bad_connection_status)
+            _textStatusLine2LiveData.value =
+                    resources.getString(R.string.desire_emotion_bad_connection_action)
+            throw it
+        })
         compositeDisposable.add(disposable)
     }
 
@@ -90,7 +83,6 @@ class LoadingAssetsViewModel
                 modelLoadingAssets.saveBitmapToDisk(sticker.path, bitmap)
             }
         }
-
 
         fun updateProgress() {
             currentProgress += perProgress
