@@ -11,13 +11,23 @@ import javax.inject.Inject
 
 @Reusable
 class DownloadUrlsUseCase @Inject constructor(private val repository: LoadingAssetsRepository) {
+
+    var isRetryWhenEnabled = true
+
     fun execute(doOnSuccess: (list: List<UrlSticker>) -> Unit, doOnError: (error: Throwable) -> Unit): Disposable {
-        return repository.getFaceUrls()
+        return repository.getStickerUrls()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { doOnError(it) }
                 .doOnSuccess { doOnSuccess(it) }
-                .retryWhen { t -> t.delay(5, TimeUnit.SECONDS) }
+                .retryWhen { t ->
+                    t.delay(5, TimeUnit.SECONDS).filter { isRetryWhenEnabled }
+                }
                 .subscribe()
     }
+
+    fun setretryPolicy() {
+
+    }
+
 }

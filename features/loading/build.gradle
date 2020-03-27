@@ -73,4 +73,6 @@ dependencies {
 
     //testing
     testImplementation 'org.mockito:mockito-core:3.1.0'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
 }

@@ -20,10 +20,6 @@ class LoadingAssetsViewModelTest {
     fun setUp() {
     }
 
-    @After
-    fun tearDown() {
-    }
-
     @Test
     fun onViewCreated() {
 

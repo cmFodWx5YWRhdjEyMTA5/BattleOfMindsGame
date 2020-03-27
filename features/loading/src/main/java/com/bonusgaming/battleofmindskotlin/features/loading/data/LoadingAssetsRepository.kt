@@ -23,10 +23,10 @@ class LoadingAssetsRepository @Inject constructor(private val stickersDao: Stick
                                                   private val pathProvider: PathProvider) {
 
     //strong reference for ImageTarget
-    val listImageTarget = mutableMapOf<String, ImageTarget>()
+    private val listImageTarget = mutableMapOf<String, ImageTarget>()
 
     //получаем список url через rest api
-    fun getFaceUrls(): Single<List<UrlSticker>> {
+    fun getStickerUrls(): Single<List<UrlSticker>> {
         return webRepo.provideStickerApi().getStickers("").map {
             val resultList = mutableListOf<UrlSticker>()
             it.forEach { item ->

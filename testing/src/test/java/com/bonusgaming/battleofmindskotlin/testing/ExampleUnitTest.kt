@@ -1,4 +1,4 @@
-package com.example.dto
+package com.bonusgaming.battleofmindskotlin.testing
 
 import org.junit.Test
 

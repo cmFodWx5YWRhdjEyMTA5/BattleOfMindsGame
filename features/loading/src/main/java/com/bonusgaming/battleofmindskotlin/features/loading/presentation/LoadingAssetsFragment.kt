@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.features.loading
+package com.bonusgaming.battleofmindskotlin.features.loading.presentation
 
 
 import android.os.Bundle
@@ -15,6 +15,7 @@ import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
 import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
+import com.bonusgaming.battleofmindskotlin.features.loading.R
 import com.bonusgaming.battleofmindskotlin.features.loading.di.component.LoadingAssetsComponent
 import com.bonusgaming.battleofmindskotlin.features.logo.di.module.LoadingViewModelFactory
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.features.loading
+package com.bonusgaming.battleofmindskotlin.features.loading.presentation
 
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -11,7 +11,7 @@ import com.bonusgaming.battleofmindskotlin.core.main.FragmentState
 import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFeature
 import com.bonusgaming.battleofmindskotlin.core.main.dto.Sticker
 import com.bonusgaming.battleofmindskotlin.core.main.dto.UrlSticker
-import com.bonusgaming.battleofmindskotlin.features.loading.data.LoadingAssetsRepository
+import com.bonusgaming.battleofmindskotlin.features.loading.R
 import com.bonusgaming.battleofmindskotlin.features.loading.domain.use_cases.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers

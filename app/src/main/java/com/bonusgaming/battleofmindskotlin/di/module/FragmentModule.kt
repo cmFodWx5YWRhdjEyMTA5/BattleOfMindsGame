@@ -1,7 +1,7 @@
 package com.bonusgaming.battleofmindskotlin.di.module
 
 import com.bonusgaming.battleofmindskotlin.features.creating_avatar.CreatingAvatarFragment
-import com.bonusgaming.battleofmindskotlin.features.loading.LoadingAssetsFragment
+import com.bonusgaming.battleofmindskotlin.features.loading.presentation.LoadingAssetsFragment
 import com.bonusgaming.battleofmindskotlin.features.logo.presentation.HelloFragment
 import com.bonusgaming.battleofmindskotlin.features.menu.presentation.ui.MenuFragment
 import dagger.Module

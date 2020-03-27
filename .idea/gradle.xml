@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/features/loading" />
             <option value="$PROJECT_DIR$/features/logo" />
             <option value="$PROJECT_DIR$/features/menu" />
+            <option value="$PROJECT_DIR$/testing" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
