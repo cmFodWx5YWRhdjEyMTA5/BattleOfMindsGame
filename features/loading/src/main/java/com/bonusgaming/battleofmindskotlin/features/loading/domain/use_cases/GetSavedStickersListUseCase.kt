@@ -5,7 +5,7 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class GetSavedStickersList @Inject constructor(private val repository: LoadingAssetsRepository) {
+class GetSavedStickersListUseCase @Inject constructor(private val repository: LoadingAssetsRepository) {
     fun execute(): List<String> {
         return repository.getHashStickersList()
     }

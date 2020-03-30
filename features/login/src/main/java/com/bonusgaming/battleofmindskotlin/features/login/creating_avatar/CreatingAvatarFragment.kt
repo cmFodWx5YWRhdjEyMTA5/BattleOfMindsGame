@@ -55,7 +55,7 @@ class CreatingAvatarFragment @Inject constructor() : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_creating_avatar, null)
+        return inflater.inflate(R.layout.fragment_creating_avatar, container,false)
     }
 
     companion object {

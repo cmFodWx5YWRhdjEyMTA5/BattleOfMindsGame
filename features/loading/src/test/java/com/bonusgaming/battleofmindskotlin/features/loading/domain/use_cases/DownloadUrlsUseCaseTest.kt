@@ -1,10 +1,13 @@
-package com.bonusgaming.battleofmindskotlin.features.loading
+package com.bonusgaming.battleofmindskotlin.features.loading.domain.use_cases
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.bonusgaming.battleofmindskotlin.features.loading.RxRule
 import com.bonusgaming.battleofmindskotlin.features.loading.data.LoadingAssetsRepository
-import com.bonusgaming.battleofmindskotlin.features.loading.domain.use_cases.DownloadUrlsUseCase
+import com.bonusgaming.battleofmindskotlin.features.loading.getRandomUrlStickerList
 import io.reactivex.Single
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
@@ -16,7 +19,7 @@ class DownloadUrlsUseCaseTest {
 
     @Rule
     @JvmField
-    val rule: RxRule = RxRule()
+    val rxRule:RxRule=RxRule()
 
     @Rule
     @JvmField
@@ -25,7 +28,7 @@ class DownloadUrlsUseCaseTest {
     @Mock
     lateinit var loadingAssetsRepository: LoadingAssetsRepository
 
-    lateinit var downloadUrlsUseCase: DownloadUrlsUseCase
+    private lateinit var downloadUrlsUseCase: DownloadUrlsUseCase
 
     @Before
     fun setUp() {
@@ -47,7 +50,7 @@ class DownloadUrlsUseCaseTest {
         }, { throw it })
     }
 
-    @Test(timeout = 15000)
+    @Test(timeout = 5000)
     fun `should throw error`() {
         //given
         val expectedMessage = "Some message error"
@@ -60,9 +63,7 @@ class DownloadUrlsUseCaseTest {
         //then
         downloadUrlsUseCase.execute({ throw Exception("Should throw error instead doSuccess") },
                 {
-                    println("error lalala dsfvbj")
                     assertEquals(expectedMessage, it.message)
                 })
-
     }
 }

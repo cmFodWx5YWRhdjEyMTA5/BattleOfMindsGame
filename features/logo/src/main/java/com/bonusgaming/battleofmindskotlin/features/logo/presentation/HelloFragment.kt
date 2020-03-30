@@ -37,6 +37,6 @@ class HelloFragment : Fragment() {
                     sendIntentForNextState(it)
                 })
 
-        return inflater.inflate(R.layout.fragment_hello, null)
+        return inflater.inflate(R.layout.fragment_hello, container,false)
     }
 }

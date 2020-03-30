@@ -36,7 +36,7 @@ class LoadingAssetsFragment @Inject constructor() : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_download_assets, null)
+        return inflater.inflate(R.layout.fragment_download_assets, container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

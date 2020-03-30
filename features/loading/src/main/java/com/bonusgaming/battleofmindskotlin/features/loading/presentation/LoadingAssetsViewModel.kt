@@ -28,8 +28,12 @@ class LoadingAssetsViewModel
  private val getNextFragmentStateUseCase: GetNextFragmentStateUseCase,
  private val saveStickerToDbUseCase: SaveStickerToDbUseCase,
  private val saveStickerToDiskUseCase: SaveStickerToDiskUseCase,
- private val getSavedStickersList: GetSavedStickersList,
+ private val getSavedStickersList: GetSavedStickersListUseCase,
  private val resources: Resources) : ViewModel() {
+
+    var isAllDisposablesClosed = false
+        get() = compositeDisposable.isDisposed
+        private set
 
     private var currentProgress = 0f
     private val compositeDisposable = CompositeDisposable()
@@ -43,8 +47,8 @@ class LoadingAssetsViewModel
     private val _textStatusLine1LiveData = MutableLiveData<String>()
     val textStatusLine1LiveData: LiveData<String> get() = _textStatusLine1LiveData
 
-
-    val progressLiveData = MutableLiveData<Int>()
+    private val _progressLiveData = MutableLiveData<Int>()
+    val progressLiveData: LiveData<Int> get() = _progressLiveData
 
     init {
         Log.e("9977", "init LoadingAsstestVM")
@@ -69,7 +73,6 @@ class LoadingAssetsViewModel
             _textStatusLine2LiveData.value = resources.getString(R.string.download)
             proceedResult(it)
         }, {
-            Log.e("startDownloadUrls", "error ${it.printStackTrace()}")
             _textStatusLine1LiveData.value =
                     resources.getString(R.string.desire_emotion_bad_connection_status)
             _textStatusLine2LiveData.value =
@@ -87,11 +90,10 @@ class LoadingAssetsViewModel
                 saveStickerToDiskUseCase.execute(sticker, bitmap)
             }
         }
-
         fun updateProgress() {
             currentProgress += perProgress
             val progressRounded = round(currentProgress).toInt()
-            progressLiveData.value = progressRounded
+            _progressLiveData.value = progressRounded
             if (progressRounded == 100) {
                 _textStatusLine1LiveData.value = ""
                 _textStatusLine2LiveData.value = resources.getString(R.string.download_complete)
@@ -109,12 +111,11 @@ class LoadingAssetsViewModel
                     updateProgress()
                     continue
                 }
-
                 val name = urlSticker.name.replace('/', '_')
                 val namedUrlSticker = UrlSticker(urlSticker.mediaLink, name, urlSticker.size, urlSticker.md5Hash)
 
-                val onDownload: (fileName: String, bitmap: Bitmap) -> Unit = { fileName, bitmap ->
-                    val sticker = Sticker(namedUrlSticker.md5Hash, fileName)
+                val onDownload: (bitmap: Bitmap) -> Unit = { bitmap ->
+                    val sticker = Sticker(namedUrlSticker.md5Hash, namedUrlSticker.name)
                     saveSticker(sticker, bitmap)
                     updateProgress()
                 }

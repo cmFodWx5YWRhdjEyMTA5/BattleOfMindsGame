@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 class SaveStickerToDiskUseCase @Inject constructor(private val modelLoadingAssets: LoadingAssetsRepository) {
     fun execute(sticker: Sticker, bitmap: Bitmap) {
-        modelLoadingAssets.saveBitmapToDisk(sticker.path, bitmap)
+        modelLoadingAssets.saveBitmapToDisk(sticker, bitmap)
     }
 }

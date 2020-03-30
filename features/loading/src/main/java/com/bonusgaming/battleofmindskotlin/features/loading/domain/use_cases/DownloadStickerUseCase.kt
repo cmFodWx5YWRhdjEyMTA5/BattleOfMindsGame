@@ -11,7 +11,7 @@ private const val DELAY = 5000L
 @Reusable
 class DownloadStickerUseCase @Inject constructor(private val repository: LoadingAssetsRepository) {
     fun download(urlSticker: UrlSticker,
-                 onDownload: (fileName: String, bitmap: Bitmap) -> Unit,
+                 onDownload: (bitmap: Bitmap) -> Unit,
                  onException: (url: String) -> Unit) {
         repository.downloadUrlStickerToDisk(
                 urlSticker,

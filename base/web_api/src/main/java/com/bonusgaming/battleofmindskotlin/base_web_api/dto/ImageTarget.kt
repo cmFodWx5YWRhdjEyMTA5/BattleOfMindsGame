@@ -14,7 +14,7 @@ doOnException() и doOnDownload()
  */
 class ImageTarget(
         private val fileName: String,
-        private val doOnDownload: (fileName: String, bitmap: Bitmap) -> Unit,
+        private val doOnDownload: (bitmap: Bitmap) -> Unit,
         private val doOnException: (fileName: String) -> Unit
 ) : Target {
 
@@ -30,7 +30,7 @@ class ImageTarget(
     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
         Log.e("ImageTarget", "onBitmapLoaded")
         bitmap?.let {
-            doOnDownload(fileName, it)
+            doOnDownload(it)
         }
     }
 }
