@@ -17,7 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApiProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
-import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.base_ui.nextState
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.core.main.PathProvider
 import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
@@ -140,7 +140,7 @@ class CreatingAvatarFragment : Fragment() {
             })
 
             creatingAvatarViewModel.fragmentIntentLiveData.observe(viewLifecycleOwner, Observer {
-                sendIntentForNextState(it)
+                nextState(it)
             })
 
             creatingAvatarViewModel.allowCreateAvatar.observe(viewLifecycleOwner, Observer {

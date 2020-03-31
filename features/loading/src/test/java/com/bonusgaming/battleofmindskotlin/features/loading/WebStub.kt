@@ -18,11 +18,7 @@ class WebStub : WebApi {
     override fun provideStickerApi(): StickerApi {
         val stickerApi = Mockito.mock(StickerApi::class.java)
         `when`(stickerApi.getStickers(anyString()))
-                .thenReturn(Single.just(mutableListOf<UrlSticker>().apply {
-                    for (i in 0..10)
-                        add(getRandomUrlSticker())
-                }))
-
+                .thenReturn(Single.just(getSameUrlStickerListWithSize(100)))
         return stickerApi
     }
 

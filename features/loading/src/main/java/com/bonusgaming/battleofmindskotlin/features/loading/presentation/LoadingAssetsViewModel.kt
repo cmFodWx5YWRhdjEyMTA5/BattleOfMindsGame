@@ -73,8 +73,7 @@ class LoadingAssetsViewModel
         val disposable = downloadUrlsUseCase.execute({
             println("startDownloadUrls real")
             println("startDownloadUrls ${_textStatusLine2LiveData.value}")
-            setStatusText(line2 = " JOPA S RUCHKOI")
-//            setStatusText(line2 = resources.getString(R.string.download))
+            setStatusText(line2 = resources.getString(R.string.download))
             proceedResult(it)
         }, {
             setStatusText(
@@ -92,7 +91,12 @@ class LoadingAssetsViewModel
     }
 
     private fun proceedResult(list: List<UrlSticker>) {
-        val perProgress = 100F / list.size
+
+        val perProgress = when (list.size) {
+            0 -> 100F
+            else -> 100F / list.size
+        }
+
         println("per $perProgress")
         fun saveSticker(sticker: Sticker, bitmap: Bitmap) {
             viewModelScope.launch(Dispatchers.IO) {
@@ -107,18 +111,21 @@ class LoadingAssetsViewModel
             println("updateProgress now $currentProgress")
             val progressRounded = round(currentProgress).toInt()
             _progressLiveData.value = progressRounded
+            println("else +")
+            setStatusText(line2 = resources.getString(R.string.download) + " $progressRounded%")
             if (progressRounded == 100) {
-                println("updateProgress 100")
                 setStatusText(line2 = resources.getString(R.string.download_complete))
                 nextFragmentState()
-            } else {
-                println("else +")
-                setStatusText(line2 = resources.getString(R.string.download) + " $progressRounded%")
             }
         }
 
         fun checkItem(databaseHashList: List<String>) {
             for (urlSticker in list) {
+//                println("current ${urlSticker.md5Hash}")
+//
+//
+//             //   println("all:")
+//                databaseHashList.forEach { println(" $it ") }
                 if (urlSticker.md5Hash in databaseHashList) {
                     updateProgress()
                     continue
@@ -147,7 +154,8 @@ class LoadingAssetsViewModel
             }
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO)
+        {
             val databaseHashList = getSavedStickersList.execute()
             withContext(Dispatchers.Main) {
                 checkItem(databaseHashList)

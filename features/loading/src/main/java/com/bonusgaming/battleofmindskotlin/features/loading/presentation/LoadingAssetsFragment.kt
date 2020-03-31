@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApiProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
 import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
-import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.base_ui.nextState
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.features.loading.R
@@ -59,18 +59,21 @@ class LoadingAssetsFragment : Fragment() {
         val progressBar = createdView.findViewById<LoadingAssetsBar>(R.id.loading_assets_bar)
 
         mainViewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
-            progressBar.progress = it
+            println("fr live $it")
+            progressBar.setProgress(it)
         })
 
         mainViewModel.textStatusLine1LiveData.observe(viewLifecycleOwner, Observer {
+            println("fr live 1 $it")
             progressBar.textStatusLine1 = it
         })
 
         mainViewModel.loadSceneLiveData.observe(viewLifecycleOwner, Observer {
-            sendIntentForNextState(it)
+            nextState(it)
         })
 
         mainViewModel.textStatusLine2LiveData.observe(viewLifecycleOwner, Observer {
+            println("fr live 2 $it")
             progressBar.textStatusLine2 = it
         })
     }

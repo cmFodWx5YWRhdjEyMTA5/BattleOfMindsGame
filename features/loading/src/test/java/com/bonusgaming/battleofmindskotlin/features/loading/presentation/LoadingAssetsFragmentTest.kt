@@ -3,6 +3,7 @@ package com.bonusgaming.battleofmindskotlin.features.loading.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -11,17 +12,19 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
 import com.bonusgaming.battleofmindskotlin.features.loading.R
 import com.bonusgaming.battleofmindskotlin.features.loading.TestApp
-import com.bonusgaming.battleofmindskotlin.features.loading.shadows.LoadingAssetsViewModelShadow
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
+import com.bonusgaming.battleofmindskotlin.features.loading.shadows.LoadingAssetsBarShadow
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
+import org.robolectric.shadow.api.Shadow
 
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApp::class)
+@Config(application = TestApp::class, shadows = [LoadingAssetsBarShadow::class])
 class LoadingAssetsFragmentTest {
 
     @Test
@@ -46,7 +49,7 @@ class LoadingAssetsFragmentTest {
         }
 
         //when
-        scenario.moveToState(Lifecycle.State.RESUMED)
+        scenario.moveToState(Lifecycle.State.CREATED)
 
         //then
         assertNotNull(loadingAssetsBar)
@@ -54,19 +57,49 @@ class LoadingAssetsFragmentTest {
     }
 
     @Test
-    fun `should use right layout`() {
+    fun `should show download complete`() {
         //given
-        var expectedIdLayout = R.layout.fragment_download_assets
         val scenario = launchFragmentInContainer<LoadingAssetsFragment>(Bundle.EMPTY, R.style.AppTheme)
+        var expectedText: String? = null
+        var loadingAssetsBar: LoadingAssetsBar? = null
         scenario.onFragment {
-            fragment ->fragment.layoutI
+            expectedText = it.requireActivity().application.resources.getString(R.string.download_complete)
+            loadingAssetsBar = it.requireActivity().findViewById<LoadingAssetsBar>(R.id.loading_assets_bar)
         }
+
         //when
-        scenario.moveToState(Lifecycle.State.STARTED)
+        scenario.moveToState(Lifecycle.State.CREATED)
 
         //then
+        assertNotNull(expectedText)
         assertNotNull(loadingAssetsBar)
-        assertEquals(expectedString, loadingAssetsBar!!.textStatusLine2)
+        assertEquals(expectedText, loadingAssetsBar!!.textStatusLine2)
+    }
+
+    /**
+     * DbStub и WebStub возвращают одинаковые списки с размером в 100, чтобы не лезть в интернет
+     * и вызывать метод updateProgress в ViewModel.
+     * `perProgress == 1` так как 100F/list.size
+     */
+    @Test
+    fun `should call update progress method with perProgress=1`() {
+        //given
+        val scenario = launchFragmentInContainer<LoadingAssetsFragment>(Bundle.EMPTY, R.style.AppTheme)
+        val expectedPerProgress = 1
+        val expectedEndProgress = 100
+        var loadingAssetsBarShadow: LoadingAssetsBarShadow? = null
+        scenario.onFragment {
+            loadingAssetsBarShadow = Shadow.extract(it.requireActivity()
+                    .findViewById<LoadingAssetsBar>(R.id.loading_assets_bar)) as LoadingAssetsBarShadow
+        }
+
+        //when
+        scenario.moveToState(Lifecycle.State.CREATED)
+
+        //then
+        assertNotNull(loadingAssetsBarShadow)
+        assertEquals(expectedPerProgress, loadingAssetsBarShadow!!.perProgress)
+        assertEquals(expectedEndProgress, loadingAssetsBarShadow!!.lastProgress)
     }
 
 }

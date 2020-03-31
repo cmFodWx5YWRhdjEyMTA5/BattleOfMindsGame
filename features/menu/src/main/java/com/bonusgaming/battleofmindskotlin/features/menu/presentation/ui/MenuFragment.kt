@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.base_db_api.DbApiProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
-import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.base_ui.nextState
 import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.features.menu.R
@@ -64,7 +64,7 @@ class MenuFragment : Fragment() {
         statisticsButton.setOnClickListener { menuViewModel.onStatisticsClick() }
 
         menuViewModel.liveFragmentState.observe(viewLifecycleOwner, Observer {
-            sendIntentForNextState(it)
+            nextState(it)
         })
 
         menuViewModel.avatarChanged.observe(viewLifecycleOwner, Observer {

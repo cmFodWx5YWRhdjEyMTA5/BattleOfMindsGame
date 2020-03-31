@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bonusgaming.battleofmindskotlin.base_ui.di.component.UiComponent
-import com.bonusgaming.battleofmindskotlin.base_ui.sendIntentForNextState
+import com.bonusgaming.battleofmindskotlin.base_ui.nextState
 import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.features.logo.R
 import com.bonusgaming.battleofmindskotlin.features.logo.di.components.LogoComponent
@@ -34,7 +34,7 @@ class HelloFragment : Fragment() {
 
         viewModel.stateLiveData.observe(viewLifecycleOwner,
                 Observer {
-                    sendIntentForNextState(it)
+                    nextState(it)
                 })
 
         return inflater.inflate(R.layout.fragment_hello, container,false)

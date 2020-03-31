@@ -76,6 +76,20 @@ fun getRandomMD5(): String {
     return digest.toHexString()
 }
 
+fun getSameHashListWithSize(size: Int): List<String> {
+    return mutableListOf<String>().apply {
+        for (i in 0..size)
+            add("somehash$i")
+    }
+}
+
+fun getSameUrlStickerListWithSize(size: Int): List<UrlSticker> {
+    return mutableListOf<UrlSticker>().apply {
+        for (i in 0..size)
+            add(UrlSticker("someline$i", "somename$i", "$i", "somehash$i"))
+    }
+}
+
 fun getRandomUrlSticker() =
         UrlSticker(getRandomUrl(),
                 getRandomName(),

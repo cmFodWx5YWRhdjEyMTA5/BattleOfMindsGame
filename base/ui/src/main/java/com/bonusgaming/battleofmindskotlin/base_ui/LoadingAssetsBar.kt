@@ -10,12 +10,17 @@ import android.view.animation.LinearInterpolator
 import androidx.annotation.Size
 import androidx.core.animation.doOnEnd
 
-class LoadingAssetsBar @JvmOverloads constructor(
-        context: Context,
-        attributeSet: AttributeSet? = null,
-        defAttrStyle: Int = 0,
-        defResStyle: Int = 0
-) : View(context, attributeSet, defAttrStyle, defResStyle) {
+class LoadingAssetsBar : View {
+    constructor(context: Context) : super(context) {
+    }
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    }
+
+
 
     @Size(max = 23)
     var textStatusLine2: String = ""
@@ -65,7 +70,15 @@ class LoadingAssetsBar @JvmOverloads constructor(
     }
 
     private var lastProgressInterpolation = 0f
-    var progress = 0
+
+    /**
+     * private - чтобы нельзя было
+     * опираться на состояние progress,
+     * так как нельзя строить логику относительно
+     * состояния данного параметра, он отвечает только
+     * за отображение прогресса
+     */
+    private var _progress = 0
         set(newValue) {
             field = newValue
             if (valueAnimator.isRunning) valueAnimator.cancel()
@@ -74,6 +87,11 @@ class LoadingAssetsBar @JvmOverloads constructor(
                 valueAnimator.start()
             }
         }
+
+    public fun setProgress(value: Int) {
+        println("setprogress real")
+        _progress = value
+    }
 
     private var lengthWay: Float = -1f
     private val paintProgress = Paint().apply {
@@ -105,8 +123,8 @@ class LoadingAssetsBar @JvmOverloads constructor(
             when (lastProgressInterpolation) {
                 100f -> if (::downloadListener.isInitialized) downloadListener.onDownload()
                 else -> {
-                    valueAnimator.setFloatValues(lastProgressInterpolation, progress.toFloat())
-                    if (lastProgressInterpolation != progress.toFloat())
+                    valueAnimator.setFloatValues(lastProgressInterpolation, _progress.toFloat())
+                    if (lastProgressInterpolation != _progress.toFloat())
                         valueAnimator.start()
                 }
             }
