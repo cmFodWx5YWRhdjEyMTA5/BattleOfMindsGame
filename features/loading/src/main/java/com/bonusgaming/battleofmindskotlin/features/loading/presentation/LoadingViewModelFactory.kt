@@ -1,4 +1,4 @@
-package com.bonusgaming.battleofmindskotlin.features.logo.di.module
+package com.bonusgaming.battleofmindskotlin.features.loading.presentation
 
 import androidx.lifecycle.ViewModel
 import com.bonusgaming.battleofmindskotlin.core.main.ViewModelFactory

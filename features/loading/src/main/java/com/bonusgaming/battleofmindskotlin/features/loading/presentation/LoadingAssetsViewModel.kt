@@ -55,6 +55,8 @@ class LoadingAssetsViewModel
     }
 
     fun onViewCreated() {
+        println("onViewCreated real")
+        setStatusText(line2 = resources.getString(R.string.download_start))
         startDownloadUrls()
     }
 
@@ -69,39 +71,49 @@ class LoadingAssetsViewModel
 
     private fun startDownloadUrls() {
         val disposable = downloadUrlsUseCase.execute({
-            _textStatusLine1LiveData.value = ""
-            _textStatusLine2LiveData.value = resources.getString(R.string.download)
+            println("startDownloadUrls real")
+            println("startDownloadUrls ${_textStatusLine2LiveData.value}")
+            setStatusText(line2 = " JOPA S RUCHKOI")
+//            setStatusText(line2 = resources.getString(R.string.download))
             proceedResult(it)
         }, {
-            _textStatusLine1LiveData.value =
-                    resources.getString(R.string.desire_emotion_bad_connection_status)
-            _textStatusLine2LiveData.value =
-                    resources.getString(R.string.desire_emotion_bad_connection_action)
+            setStatusText(
+                    resources.getString(R.string.desire_emotion_bad_connection_status),
+                    resources.getString(R.string.desire_emotion_bad_connection_action))
             throw it
         })
         compositeDisposable.add(disposable)
     }
 
+    private fun setStatusText(line1: String = "", line2: String = "") {
+        println("real $line1 $line2")
+        _textStatusLine1LiveData.value = line1
+        _textStatusLine2LiveData.value = line2
+    }
+
     private fun proceedResult(list: List<UrlSticker>) {
         val perProgress = 100F / list.size
+        println("per $perProgress")
         fun saveSticker(sticker: Sticker, bitmap: Bitmap) {
             viewModelScope.launch(Dispatchers.IO) {
                 saveStickerToDbUseCase.execute(sticker)
                 saveStickerToDiskUseCase.execute(sticker, bitmap)
             }
         }
+
         fun updateProgress() {
+            println("updateProgress was $currentProgress")
             currentProgress += perProgress
+            println("updateProgress now $currentProgress")
             val progressRounded = round(currentProgress).toInt()
             _progressLiveData.value = progressRounded
             if (progressRounded == 100) {
-                _textStatusLine1LiveData.value = ""
-                _textStatusLine2LiveData.value = resources.getString(R.string.download_complete)
+                println("updateProgress 100")
+                setStatusText(line2 = resources.getString(R.string.download_complete))
                 nextFragmentState()
             } else {
-                _textStatusLine1LiveData.value = ""
-                _textStatusLine2LiveData.value =
-                        resources.getString(R.string.download) + " $progressRounded%"
+                println("else +")
+                setStatusText(line2 = resources.getString(R.string.download) + " $progressRounded%")
             }
         }
 
@@ -121,10 +133,10 @@ class LoadingAssetsViewModel
                 }
                 val onException: (url: String) -> Unit = {
                     Log.e("retry", "retry download")
-                    _textStatusLine1LiveData.value =
-                            resources.getString(R.string.desire_emotion_bad_connection_status)
-                    _textStatusLine2LiveData.value =
-                            resources.getString(R.string.desire_emotion_bad_connection_action)
+                    setStatusText(
+                            resources.getString(R.string.desire_emotion_bad_connection_status),
+                            resources.getString(R.string.desire_emotion_bad_connection_action))
+
                     downloadStickerUseCase.retryDownloadWithDelay(namedUrlSticker)
                 }
                 downloadStickerUseCase.download(

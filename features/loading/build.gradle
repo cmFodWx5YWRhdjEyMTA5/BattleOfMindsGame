@@ -88,10 +88,6 @@ dependencies {
     implementation project(":core:main")
     implementation project(":base:ui")
 
-    //module testing
-    testImplementation project(":base:web_impl")
-    testImplementation project(":base:db_impl")
-
     //picasso
     api 'com.squareup.picasso:picasso:2.71828'
 

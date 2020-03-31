@@ -2,7 +2,6 @@ package com.bonusgaming.battleofmindskotlin.features.loading.presentation
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.bonusgaming.battleofmindskotlin.base_web_api.WebApiProvider
 import com.bonusgaming.battleofmindskotlin.core.main.contract.AppFacadeProvider
 import com.bonusgaming.battleofmindskotlin.features.loading.R
 import com.bonusgaming.battleofmindskotlin.features.loading.di.component.LoadingAssetsComponent
-import com.bonusgaming.battleofmindskotlin.features.logo.di.module.LoadingViewModelFactory
 import javax.inject.Inject
 
 
@@ -36,7 +34,6 @@ class LoadingAssetsFragment : Fragment() {
                 appFacade,
                 UiComponent.get(appFacade),
                 web, db).inject(this)
-
         super.onCreate(savedInstanceState)
     }
 
@@ -48,12 +45,18 @@ class LoadingAssetsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_download_assets, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.e("9789", "-----------------LoadingAssets onViewCreated $viewModelFactory")
+    private fun setViewModel() {
         mainViewModel = ViewModelProvider(this, viewModelFactory).get(LoadingAssetsViewModel::class.java)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setViewModel()
         mainViewModel.onViewCreated()
-        val progressBar = view.findViewById<LoadingAssetsBar>(R.id.loading_assets_bar)
+        setObservers(view)
+    }
+
+    private fun setObservers(createdView: View) {
+        val progressBar = createdView.findViewById<LoadingAssetsBar>(R.id.loading_assets_bar)
 
         mainViewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
             progressBar.progress = it

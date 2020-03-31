@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+
+    //Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //androidx
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+
+    // Dagger dependencies
+    kapt "com.google.dagger:dagger-compiler:2.25.2"
+    implementation "com.google.dagger:dagger:2.26"
+    implementation "com.google.dagger:dagger-android:2.22.1"
+    kapt "com.google.dagger:dagger-android-processor:2.22.1"
+
+    //fix some bug
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+
+    //module
+    implementation project(":features:logo")
+    implementation project(":features:loading")
+    implementation project(":features:creating_avatar")
+    implementation project(":features:menu")
+
+
+    implementation project(":core:main")
+    implementation project(":base:ui")
+    implementation project(":base:web_impl")
+    implementation project(":base:web_api")
+    implementation project(":base:db_impl")
+    implementation project(":base:db_api")
+}

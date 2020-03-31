@@ -8,13 +8,13 @@
     android:animateLayoutChanges="true">
 
     <com.bonusgaming.battleofmindskotlin.base_ui.GradientText
-        android:id="@+id/name_game"
+        android:id="@+id/title_name_game"
         style="@style/TextLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/modak"
         android:gravity="center"
-        android:text="@string/name_game"
+        android:text="@string/title_name_game"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/sizeNameGameDownloadingFragment"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/barrier_right"
         app:layout_constraintStart_toStartOf="@id/barrier_left"
-        app:layout_constraintTop_toBottomOf="@+id/name_game">
+        app:layout_constraintTop_toBottomOf="@+id/title_name_game">
 
     </com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar>
 
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="left"
-        app:constraint_referenced_ids="name_game"
+        app:constraint_referenced_ids="title_name_game"
         tools:layout_editor_absoluteX="411dp" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="right"
-        app:constraint_referenced_ids="name_game" />
+        app:constraint_referenced_ids="title_name_game" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

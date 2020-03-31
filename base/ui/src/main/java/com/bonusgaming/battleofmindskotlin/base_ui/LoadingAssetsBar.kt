@@ -11,18 +11,19 @@ import androidx.annotation.Size
 import androidx.core.animation.doOnEnd
 
 class LoadingAssetsBar @JvmOverloads constructor(
-    context: Context,
-    attributeSet: AttributeSet? = null,
-    defAttrStyle: Int = 0,
-    defResStyle: Int = 0
+        context: Context,
+        attributeSet: AttributeSet? = null,
+        defAttrStyle: Int = 0,
+        defResStyle: Int = 0
 ) : View(context, attributeSet, defAttrStyle, defResStyle) {
 
     @Size(max = 23)
-    var textStatusLine2: String = "загрузка"
+    var textStatusLine2: String = ""
         set(value) {
             field = value
             invalidate()
         }
+
     @Size(max = 23)
     var textStatusLine1: String = ""
         set(value) {
@@ -30,14 +31,12 @@ class LoadingAssetsBar @JvmOverloads constructor(
             invalidate()
         }
 
-
     private val paintText = Paint().apply {
         color = Color.GRAY
         strokeWidth = 3f
         style = Paint.Style.FILL
         textAlign = Paint.Align.CENTER
     }
-
 
     private var textLine2X = 0f
     private var textLine2Y = 0f
@@ -76,21 +75,18 @@ class LoadingAssetsBar @JvmOverloads constructor(
             }
         }
 
-
     private var lengthWay: Float = -1f
     private val paintProgress = Paint().apply {
         style = Paint.Style.FILL
-//        color = Color.YELLOW
         shader = LinearGradient(
-            0f,
-            0f,
-            dpToPx(100), dpToPx(100),
-            Color.parseColor(COLOR_LIGHT_TEXT),
-            Color.parseColor(COLOR_DARK_TEXT),
-            Shader.TileMode.MIRROR
+                0f,
+                0f,
+                dpToPx(100), dpToPx(100),
+                Color.parseColor(COLOR_LIGHT_TEXT),
+                Color.parseColor(COLOR_DARK_TEXT),
+                Shader.TileMode.MIRROR
         )
     }
-
 
     private val sizeHeightProgress = dpToPx(5)
     private val sizeWidthDesire = dpToPx(50)
@@ -104,7 +100,6 @@ class LoadingAssetsBar @JvmOverloads constructor(
     }
 
     init {
-        // valueAnimator.removeAllListeners()
         valueAnimator.doOnEnd {
             Log.e("init block", "doOnEnd")
             when (lastProgressInterpolation) {
@@ -113,7 +108,6 @@ class LoadingAssetsBar @JvmOverloads constructor(
                     valueAnimator.setFloatValues(lastProgressInterpolation, progress.toFloat())
                     if (lastProgressInterpolation != progress.toFloat())
                         valueAnimator.start()
-
                 }
             }
         }
@@ -137,7 +131,6 @@ class LoadingAssetsBar @JvmOverloads constructor(
         rectF.left = sizeMargin
         rectF.right = sizeMargin
 
-
         lengthWay = measuredWidth - rectF.left - rectF.right
 
         percentPx = lengthWay / 100F
@@ -146,7 +139,6 @@ class LoadingAssetsBar @JvmOverloads constructor(
         textLine1X = measuredWidth / 2f
         textLine1Y = rectF.top - 3 * sizeMargin
         paintText.textSize = dpToPx(15)
-
     }
 
     override fun onDraw(canvas: Canvas) {
