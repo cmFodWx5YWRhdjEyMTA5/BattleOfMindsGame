@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true">
 
     <TextView
-        android:id="@+id/id_gaming"
+        android:id="@+id/id_logo_gaming_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextLogo"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/id_bonus"
+        android:id="@+id/id_logo_bonus_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

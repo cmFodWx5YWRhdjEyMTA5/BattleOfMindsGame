@@ -17,7 +17,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 
 
-class App : DaggerApplication(), AppFacadeProvider, WebApiProvider, DbApiProvider {
+open class App : DaggerApplication(), AppFacadeProvider, WebApiProvider, DbApiProvider {
     companion object {
         lateinit var facadeComponent: FacadeComponent
     }
@@ -34,18 +34,19 @@ class App : DaggerApplication(), AppFacadeProvider, WebApiProvider, DbApiProvide
         facadeComponent = DaggerFacadeComponent.builder().appProvider(appComponent)
                 .dbApi(DbComponent.get(this))
                 .webApi(WebComponent.getWebComponent()).build()
+        println("facade in app ${facadeComponent.hashCode()}")
         return appComponent
     }
 
-    override fun provideAppFacade(): AppFacade {
+    open override fun provideAppFacade(): AppFacade {
         return facadeComponent
     }
 
-    override fun provideWebApi(): WebApi {
+    open override fun provideWebApi(): WebApi {
         return facadeComponent
     }
 
-    override fun provideDbApi(): DbApi {
+    open override fun provideDbApi(): DbApi {
         return facadeComponent
     }
 

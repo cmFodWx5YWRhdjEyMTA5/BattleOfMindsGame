@@ -20,6 +20,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+//    testOptions{
+//        execution 'ANDROID_TEST_ORCHESTRATOR'
+//    }
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -29,7 +32,8 @@ android {
         applicationId "com.bonusgaming.battleofmindskotlin"
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.bonusgaming.battleofmindskotlin.MockTestRunner"
+        //  testInstrumentationRunnerArguments clearPackageData: 'true'
 
     }
     buildTypes {
@@ -62,6 +66,10 @@ dependencies {
     implementation "com.google.dagger:dagger-android:2.22.1"
     kapt "com.google.dagger:dagger-android-processor:2.22.1"
 
+    //dagger test
+    kaptAndroidTest "com.google.dagger:dagger-compiler:2.25.2"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:2.22.1"
+
     //fix some bug
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
@@ -71,7 +79,6 @@ dependencies {
     implementation project(":features:creating_avatar")
     implementation project(":features:menu")
 
-
     implementation project(":core:main")
     implementation project(":base:ui")
     implementation project(":base:web_impl")
@@ -79,4 +86,16 @@ dependencies {
     implementation project(":base:db_impl")
     implementation project(":base:db_api")
 
+    //testing
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.4.1'
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.3'
+
+    //androidTestImplementation 'com.squareup.okhttp3:okhttp:4.4.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.4.1'
+
+    //  androidTestUtil 'android.test:orchestrator:1.1.0'
 }

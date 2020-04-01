@@ -3,7 +3,6 @@ package com.bonusgaming.battleofmindskotlin.features.loading.shadows
 import android.content.Context
 import android.util.AttributeSet
 import com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
-import org.robolectric.Robolectric
 import org.robolectric.annotation.Implementation
 import org.robolectric.annotation.Implements
 import org.robolectric.annotation.RealObject
@@ -26,8 +25,11 @@ class LoadingAssetsBarShadow : ShadowView() {
         super.__constructor__(context, attributeSet, defStyle)
     }
 
+
+
     @Implementation
     protected fun setProgress(value: Int) {
+        println("---------- - CALL------------ - ")
         if (perProgress == -1) perProgress = value
         lastProgress = value
         directlyOn(loadingAssetsBar, LoadingAssetsBar::class.java).setProgress(value)

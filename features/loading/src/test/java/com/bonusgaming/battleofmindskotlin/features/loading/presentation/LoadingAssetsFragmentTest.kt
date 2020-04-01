@@ -2,8 +2,8 @@ package com.bonusgaming.battleofmindskotlin.features.loading.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -11,14 +11,23 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
 import com.bonusgaming.battleofmindskotlin.features.loading.R
+import com.bonusgaming.battleofmindskotlin.features.loading.RxRule
 import com.bonusgaming.battleofmindskotlin.features.loading.TestApp
 import com.bonusgaming.battleofmindskotlin.features.loading.shadows.LoadingAssetsBarShadow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadow.api.Shadow
 
@@ -26,6 +35,14 @@ import org.robolectric.shadow.api.Shadow
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApp::class, shadows = [LoadingAssetsBarShadow::class])
 class LoadingAssetsFragmentTest {
+
+    @Rule
+    @JvmField
+    val rule: InstantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Rule
+    @JvmField
+    val rxRule: RxRule = RxRule()
 
     @Test
     fun `should show title name game`() {
@@ -88,13 +105,13 @@ class LoadingAssetsFragmentTest {
         val expectedPerProgress = 1
         val expectedEndProgress = 100
         var loadingAssetsBarShadow: LoadingAssetsBarShadow? = null
+
+        //when
+        scenario.moveToState(Lifecycle.State.STARTED)
         scenario.onFragment {
             loadingAssetsBarShadow = Shadow.extract(it.requireActivity()
                     .findViewById<LoadingAssetsBar>(R.id.loading_assets_bar)) as LoadingAssetsBarShadow
         }
-
-        //when
-        scenario.moveToState(Lifecycle.State.CREATED)
 
         //then
         assertNotNull(loadingAssetsBarShadow)

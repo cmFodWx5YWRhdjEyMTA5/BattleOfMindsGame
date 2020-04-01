@@ -19,7 +19,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-class WebModule : WebApi {
+open class WebModule : WebApi {
 
     private lateinit var retrofit: Retrofit
 
@@ -28,6 +28,11 @@ class WebModule : WebApi {
         val loggInterceptor = HttpLoggingInterceptor()
         loggInterceptor.level = HttpLoggingInterceptor.Level.BODY
         clientBuilder.addInterceptor(loggInterceptor)
+    }
+
+    //open for test
+    open fun getBaseUrlApi(): String {
+        return BuildConfig.STORAGE_BASE_URL
     }
 
     private fun getRetrofitClient(): Retrofit {
@@ -52,7 +57,7 @@ class WebModule : WebApi {
         val okHttpClientClient = okHttpClientClientBuilder.build()
 
         return Retrofit.Builder()
-                .baseUrl(BuildConfig.STORAGE_BASE_URL)
+                .baseUrl(getBaseUrlApi())
                 .client(okHttpClientClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))

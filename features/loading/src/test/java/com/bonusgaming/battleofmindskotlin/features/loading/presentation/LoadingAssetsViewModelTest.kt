@@ -69,6 +69,10 @@ class LoadingAssetsViewModelTest {
     @ObsoleteCoroutinesApi
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
+    private val excpectedDownloadStart="start"
+    private val excpectedDownloadEnd="end"
+    private val excpectedDownload="download"
+
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     @Before
@@ -82,6 +86,10 @@ class LoadingAssetsViewModelTest {
                 saveStickerToDiskUseCase,
                 getSavedStickersListUseCase,
                 resources)
+        `when`(resources.getString(R.string.download)).thenReturn(excpectedDownload)
+        `when`(resources.getString(R.string.download_start)).thenReturn(excpectedDownloadStart)
+        `when`(resources.getString(R.string.download_complete)).thenReturn(excpectedDownloadEnd)
+
     }
 
     @ObsoleteCoroutinesApi
@@ -127,43 +135,6 @@ class LoadingAssetsViewModelTest {
         //then
         val result = loadingAssetsViewModel.isAllDisposablesClosed
         assertTrue("isAllDisposablesClosed should be true", result)
-    }
-
-    @Test
-    fun `should changed live data normal connection`() {
-        //given
-        val expectedString1 = ""
-        val expectedString2 = "some string"
-        val downloadUrlsUseCaseReal = DownloadUrlsUseCase(loadingAssetsRepository)
-        val loadingAssetsViewModelReal = LoadingAssetsViewModel(
-                downloadUrlsUseCaseReal,
-                downloadStickerUseCase,
-                getNextFragmentStateUseCase,
-                saveStickerToDbUseCase,
-                saveStickerToDiskUseCase,
-                getSavedStickersListUseCase, resources)
-
-        //when
-        `when`(loadingAssetsRepository.getStickerUrls())
-                .then {
-                    Single.just(getRandomUrlStickerList(10))
-                }
-
-        @Suppress("UNCHECKED_CAST")
-        val mockObserver1: Observer<String> = mock(Observer::class.java) as (Observer<String>)
-
-        @Suppress("UNCHECKED_CAST")
-        val mockObserver2: Observer<String> = mock(Observer::class.java) as (Observer<String>)
-
-        `when`(resources.getString(R.string.download)).thenReturn(expectedString2)
-
-        loadingAssetsViewModelReal.textStatusLine1LiveData.observeForever(mockObserver1)
-        loadingAssetsViewModelReal.textStatusLine2LiveData.observeForever(mockObserver2)
-        loadingAssetsViewModelReal.onViewCreated()
-
-        //then
-        verify(mockObserver1).onChanged(expectedString1)
-        verify(mockObserver2).onChanged(expectedString2)
     }
 
     @Test

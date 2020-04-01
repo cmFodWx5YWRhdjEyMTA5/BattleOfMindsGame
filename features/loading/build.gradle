@@ -78,10 +78,6 @@ dependencies {
     testImplementation "com.google.dagger:dagger:2.25.2"
     testImplementation "com.google.dagger:dagger-android:2.22.1"
 
-
-    //dagger testing
-
-
     //module
     implementation project(":base:web_api")
     implementation project(":base:db_api")
