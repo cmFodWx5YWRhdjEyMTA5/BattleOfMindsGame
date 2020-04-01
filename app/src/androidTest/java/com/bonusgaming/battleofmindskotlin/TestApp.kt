@@ -15,7 +15,6 @@ class TestApp : App() {
         facadeComponent = DaggerFacadeComponent.builder().appProvider(appComponent)
                 .dbApi(DbComponent.get(this))
                 .webApi(TestWebComponent.getWebComponent()).build()
-        println("facade in test ${facadeComponent.hashCode()}")
     }
 
     override fun provideAppFacade(): AppFacade {

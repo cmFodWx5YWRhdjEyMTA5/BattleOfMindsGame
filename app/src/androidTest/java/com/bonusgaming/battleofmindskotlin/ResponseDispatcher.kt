@@ -7,6 +7,5 @@ import okhttp3.mockwebserver.RecordedRequest
 class ResponseDispatcher : Dispatcher() {
     override fun dispatch(request: RecordedRequest): MockResponse {
         return MockResponse().setResponseCode(404)
-
     }
 }

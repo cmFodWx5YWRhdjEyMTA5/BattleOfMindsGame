@@ -1,7 +1,6 @@
 package com.bonusgaming.battleofmindskotlin.di.module
 
 import com.bonusgaming.battleofmindskotlin.base_web_impl.di.module.WebModule
-import com.bonusgaming.battleofmindskotlin.core.main.di.scope.PerFacade
 import dagger.Module
 
 

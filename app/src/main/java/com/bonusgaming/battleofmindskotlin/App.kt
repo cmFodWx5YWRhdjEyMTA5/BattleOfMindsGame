@@ -38,17 +38,15 @@ open class App : DaggerApplication(), AppFacadeProvider, WebApiProvider, DbApiPr
         return appComponent
     }
 
-    open override fun provideAppFacade(): AppFacade {
+    override fun provideAppFacade(): AppFacade {
         return facadeComponent
     }
 
-    open override fun provideWebApi(): WebApi {
+    override fun provideWebApi(): WebApi {
         return facadeComponent
     }
 
-    open override fun provideDbApi(): DbApi {
+    override fun provideDbApi(): DbApi {
         return facadeComponent
     }
-
-
 }
