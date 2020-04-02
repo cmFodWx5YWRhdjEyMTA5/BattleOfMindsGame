@@ -84,7 +84,7 @@ dependencies {
     implementation project(":base:web_impl")
     implementation project(":base:web_api")
     implementation project(":base:db_impl")
-    implementation project(":base:db_api")
+    implementation project(':base:db_api')
 
     //testing
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

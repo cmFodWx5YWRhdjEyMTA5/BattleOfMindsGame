@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <com.bonusgaming.battleofmindskotlin.base_ui.GradientText
+    <com.bonusgaming.battleofmindskotlin.ui.GradientText
         android:id="@+id/title_name_game"
         style="@style/TextLogo"
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar
+    <com.bonusgaming.battleofmindskotlin.ui.LoadingAssetsBar
         android:id="@+id/loading_assets_bar"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="@id/barrier_left"
         app:layout_constraintTop_toBottomOf="@+id/title_name_game">
 
-    </com.bonusgaming.battleofmindskotlin.base_ui.LoadingAssetsBar>
+    </com.bonusgaming.battleofmindskotlin.ui.LoadingAssetsBar>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_left"

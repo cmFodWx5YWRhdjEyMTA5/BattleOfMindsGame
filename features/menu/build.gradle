@@ -50,6 +50,6 @@ dependencies {
     //module
     implementation project(":core:main")
     implementation project(":base:ui")
-    implementation project(":base:db_api")
+    implementation project(':base:db_api')
     implementation project(":base:web_api")
 }

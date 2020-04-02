@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.bonusgaming.battleofmindskotlin.base_ui.presentation.MainActivityView"
+            android:name="com.bonusgaming.battleofmindskotlin.ui.presentation.MainActivityView"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

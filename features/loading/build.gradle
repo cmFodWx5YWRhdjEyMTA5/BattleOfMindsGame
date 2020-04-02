@@ -80,7 +80,7 @@ dependencies {
 
     //module
     implementation project(":base:web_api")
-    implementation project(":base:db_api")
+    implementation project(':base:db_api')
     implementation project(":core:main")
     implementation project(":base:ui")
 

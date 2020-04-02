@@ -131,7 +131,7 @@
             android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
 
-    <com.bonusgaming.battleofmindskotlin.base_ui.GradientText
+    <com.bonusgaming.battleofmindskotlin.ui.GradientText
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -307,7 +307,7 @@
     </androidx.cardview.widget.CardView>
 
 
-    <com.bonusgaming.battleofmindskotlin.base_ui.ProgressRoundBar
+    <com.bonusgaming.battleofmindskotlin.ui.ProgressRoundBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
