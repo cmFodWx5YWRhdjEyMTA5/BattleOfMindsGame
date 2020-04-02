@@ -68,4 +68,22 @@ POJO классы [CloudStorageItem и Item](https://github.com/bonusdev/BattleO
 
 ![](dz8example.png)
 
+# ДЗ №9. Юнит тесты.
+Покрыл юнит тестами фичу загрузки ресурсов при входе в приложение [Use cases](https://github.com/bonusdev/BattleOfMindsGame/tree/testing/features/loading/src/test/java/com/bonusgaming/battleofmindskotlin/features/loading/domain/usecases)
+и [ViewModel](https://github.com/bonusdev/BattleOfMindsGame/blob/testing/features/loading/src/test/java/com/bonusgaming/battleofmindskotlin/features/loading/presentation/LoadingAssetsViewModelTest.kt)
+
+# ДЗ №10. Интеграционное тестирование.
+Через Robolectric тестировал взаимодействие Fragment с ViewModel [(Test)](https://github.com/bonusdev/BattleOfMindsGame/blob/testing/features/loading/src/test/java/com/bonusgaming/battleofmindskotlin/features/loading/presentation/LoadingAssetsFragmentTest.kt).
+Написал свой Shadow класс для тестирование custom view [(LoadingAssetsBarShadow)](https://github.com/bonusdev/BattleOfMindsGame/blob/testing/features/loading/src/test/java/com/bonusgaming/battleofmindskotlin/features/loading/shadows/LoadingAssetsBarShadow.kt)
+
+# ДЗ №11. Automated UI Testing.
+Написал UI тест для фичи приветствия и неагтивного сценария фичи загнрузки ресурсов. Использовал mockwebserver для симуляции ошибки 404. [(UI Tests)](https://github.com/bonusdev/BattleOfMindsGame/tree/testing/app/src/androidTest/java/com/bonusgaming/battleofmindskotlin)
+
+Написал свой матчер для custom view [(LoadingAssetsMatcher)](https://github.com/bonusdev/BattleOfMindsGame/blob/testing/app/src/androidTest/java/com/bonusgaming/battleofmindskotlin/LoadingAssetsMatcher.kt)
+
+# ДЗ №12. Инструменты для проверки качества кода .
+Добавил detekt в проект. Исправил все issues выданные им. Из настроек поправил только exclude для классов TODO, остальное пока не требуется. [(detekt)](https://github.com/bonusdev/BattleOfMindsGame/tree/testing)
+
+
+
 
