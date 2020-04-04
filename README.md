@@ -84,6 +84,11 @@ POJO классы [CloudStorageItem и Item](https://github.com/bonusdev/BattleO
 # ДЗ №12. Инструменты для проверки качества кода .
 Добавил detekt в проект. Исправил все issues выданные им. Из настроек поправил только exclude для классов TODO, остальное пока не требуется. [(detekt)](https://github.com/bonusdev/BattleOfMindsGame/tree/testing)
 
+# ДЗ №13. Gradle.
+Написал 2 плагина для gradle:
+1) делает detekt, test и assemble[(PluginPipeline)](https://github.com/bonusdev/BattleOfMindsGame/blob/testing/pipeline.gradle.kts)
+2) создает фейковые файлы api.properties и google-services.json для успешной сборки проекта, если они отсутствуют [(LoadPropertiesPlugin)](https://github.com/bonusdev/BattleOfMindsGame/blob/testing/load_properties.gradle.kts)
+
 
 
 
