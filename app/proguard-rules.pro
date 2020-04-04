@@ -27,5 +27,5 @@
 -printmapping obfuscation/mapping.txt
 
 # The variable names are POJO key values and should not be obfuscated
--keepclassmembers class com.bonusgaming.battleofmindskotlin.web.CloudStorageItem { <fields>; }
--keepclassmembers class com.bonusgaming.battleofmindskotlin.web.Item { <fields>; }
+-keepclassmembers class com.bonusgaming.battleofmindskotlin.webimpl.CloudStorageItem { <fields>; }
+-keepclassmembers class com.bonusgaming.battleofmindskotlin.webimpl.Item { <fields>; }
