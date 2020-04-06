@@ -87,6 +87,14 @@ POJO классы [CloudStorageItem и Item](https://github.com/bonusdev/BattleO
 # ДЗ №14. Docker.
 [Dockerfile](https://github.com/bonusdev/BattleOfMindsGame/blob/testing/Dockerfile)
 
+# ДЗ №15. Jenkins.
+Запускаю Jenkins в докере с доступом к локальному docker daemon:
+
+`docker run -u  0 -it -p 8080:8080 -p 50000:50000 -v $HOME/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean`
+
+Запускаю [Pipeline](https://github.com/bonusdev/BattleOfMindsGame/blob/testing/Jenkinsfile)
+
+
 
 
 
